@@ -1,0 +1,59 @@
+body{
+background-color: #222831;
+display: flex;
+flex-direction: column;
+}
+.title{
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    color: white;
+    text-align: center;
+    margin-top: 8rem;
+    margin-bottom: 1rem;
+    font-size: larger;
+}
+.form{
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    
+}
+.text{
+    font-family:Verdana, Geneva, Tahoma, sans-serif;
+    color: white;
+    font-size: small;
+}
+form{
+    max-width: 40%;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    display: flex;
+    gap: 0.1rem;
+    flex-direction: column;
+}
+.navbar{
+background-color:#ACADAC;
+}
+.continueWith {
+    max-width: 100%;
+    width: 400px;
+    height: 77px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.continueText {
+    color: #ACADAC;
+    font-size: 14px;
+    font-family: Inter;
+    font-weight: 500;
+    line-height: 77px;
+    letter-spacing: 1.26px;
+    word-wrap: break-word;
+}
+
+.google-login{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
