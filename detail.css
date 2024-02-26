@@ -18,6 +18,7 @@ body {
   margin: 8px;
 }
 
+/* Change nav link background color on hover */
 .navbar-nav .nav-link {
   border-radius: 20px;
 }
@@ -79,6 +80,7 @@ body {
   padding: 10px 20px;
 }
 
+/* Change opacity on button hover */
 .btn-group button:hover {
   opacity: 0.7;
 }

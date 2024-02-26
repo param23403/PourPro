@@ -13,7 +13,7 @@ flex-direction: column;
     font-size: larger;
 }
 
-.form{
+.form {
     align-items: center;
     justify-content: center;
     display: flex;
@@ -80,3 +80,14 @@ form{
     width: 100%;
     height: fit-content;
 }
+
+h1 {
+    font-size: larger;
+}
+
+/* Media query to hide footer on screen width change */
+@media (max-width: 768px) {
+    .footer {
+      display: none;
+    }
+  }
