@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <meta name="author" content="Dan Biondolillo & Param Patel" />
@@ -20,69 +19,70 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="inventory.css" />
-    <style>
-
-    </style>
+    <link rel="stylesheet" href="detail.css" />
 </head>
-<nav class="navbar navbar-expand-lg navbar-light bg-light rounded-5">
-  <div class="container">
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light rounded-5">
+    <div class="container">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
+        <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                  <a class="nav-link" href="#">Dashboard</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="inventory.html">Inventory</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="#">Order</a>
-              </li>
-          </ul>
-          <a class="navbar-brand" href="#">PourPro</a>
-          <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                  <a class="nav-link" href="#">Our Story</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="#">@PourPro</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link" href="#">Profile</a>
-              </li>
-          </ul>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="#">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Inventory</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Order</a>
+          </li>
+        </ul>
+        <a class="navbar-brand" href="#">PourPro</a>
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="#">Our Story</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">@PourPro</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Profile</a>
+          </li>
+        </ul>
       </div>
-  </div>
-</nav>
-<body>
-    <div class="title mt-5 mb-4">
-        <h1 class="display-4">Product XYZ Detail</h1>
     </div>
-    <div class="container-fluid m-2 pb-10">
-        <div class="row border border-light m-2">
-            <div class="col-md-6 p-2 d-flex justify-content-center align-items-center border">
-                <!-- Sales chart -->
-                <div class="img-container">
-                    <img src="https://exceldashboardschool.com/wp-content/uploads/2013/10/sales-forecast-chart.png" class="img-fluid" alt="Sales Chart">
-                </div>
+  </nav>
+
+  <div class="title">
+      <h1 class="display-4">Product XYZ Detail</h1>
+  </div>
+
+  <div class="container-fluid">
+    <div class="row product-container d-flex">
+        <div class="col-md-6 d-flex align-items-end">
+          <div class="card">
+            <div class="img-container">
+                <img src="https://exceldashboardschool.com/wp-content/uploads/2013/10/sales-forecast-chart.png" class="product-img" alt="Sales Chart">
             </div>
-            <div class="col-md-6 p-2 d-flex justify-content-center align-items-center border">
-                <!-- Product Image -->
-                <div class="card">
-                    <img src="https://media.istockphoto.com/id/940975334/photo/crate-full-of-beer-bottles-isolated-on-white-background.jpg?s=612x612&w=0&k=20&c=gf32SnHpdTiyj8rfyot_z1QFcylLIt3HHy_0RZ2K9Zw=" class="card-img-top img-fluid" alt="Product Image">
-                    <div class="card-body">
-                        <h5 class="card-title">Product XYZ</h5>
-                        <p class="card-text">$24.99</p>
-                    </div>
+            <div class="card-body">
+              <h5 class="card-title">Product XYZ Sales Analytics</h5>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+            <div class="card">
+                <img src="https://media.istockphoto.com/id/940975334/photo/crate-full-of-beer-bottles-isolated-on-white-background.jpg?s=612x612&w=0&k=20&c=gf32SnHpdTiyj8rfyot_z1QFcylLIt3HHy_0RZ2K9Zw=" class="card-img-top product-img" alt="Product Image">
+                <div class="card-body">
+                    <h5 class="card-title">Product XYZ - $24.99</h5>
                 </div>
             </div>
         </div>
-        <div class="row m-2">
-            <div class="col">
-                <!-- Product Table Row Details-->
+    </div>
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <div class="table-responsive">
                 <table class="table table-bordered">
                     <thead>
                         <tr>
@@ -117,30 +117,31 @@
             </div>
         </div>
     </div>
-    <footer class=footer mt-auto py-2 bg-light>
-      <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container">
-          <div class="collapse navbar-collapse" id="navbarNav">
-  
-  
-            <a class="navbar-brand" href="#">PourPro Admin</a>
-            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <a class="nav-link" href="#">Dashboard</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Inventory</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Order</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Profile</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-    </footer>
+  </div>
 </body>
+<footer class="footer">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <span class="copyright">&copy; 2024 PourPro. All rights reserved.</span>
+          </li>
+        </ul>
+        <a class="navbar-brand" href="#">Admin</a>
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="#">Dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Inventory</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#">Order</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</footer>
 </html>

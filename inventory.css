@@ -8,7 +8,7 @@ body {
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   color: white;
   text-align: center;
-  margin-top: 8rem;
+  margin-top: 2rem;
   margin-bottom: 1rem;
   font-size: larger;
 }
@@ -28,7 +28,6 @@ body {
 
 .table {
   width: 100%;
-  max-width: 100%;
   background-color: #fff;
   border-radius: 5px;
 }
@@ -36,18 +35,33 @@ body {
 .img-container {
   display: flex;
   align-items: flex-end;
-  max-height: 100%;
+  max-height: 50vh;
 }
 
 .img-container img {
   max-width: 100%;
-  height: auto;
+  max-height: auto;
   display: block;
   border-radius: 5px;
 }
 
 .card-body {
   text-align: center;
+}
+
+td.low {
+  color: #dc3545;
+  background-color: #f8d7da;
+}
+
+td.good {
+  color: #198754;
+  background-color: #d1e7dd;
+}
+
+td.pending {
+  color: #efb300;
+  background-color: #fff8e1;
 }
 
 .btn-group {
@@ -68,10 +82,13 @@ body {
 }
 
 .footer {
-  margin: 0;
-  position: fixed;
-  left: 0;
-  bottom: 0;
   width: 100%;
-  height: fit-content;
+  position: fixed;
+  bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .footer {
+    display: none;
+  }
 }
