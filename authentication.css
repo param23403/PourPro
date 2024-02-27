@@ -43,11 +43,12 @@ form{
 
 .navbar-nav .nav-link {
     border-radius: 20px;
-}
-
-.navbar-nav .nav-link:hover {
-    background-color: rgb(165, 233, 253); 
-}
+  }
+  
+  /* Change nav link background color on hover */
+  .navbar-nav .nav-link:hover {
+    background-color: rgb(165, 233, 253);
+  }
 
 .continueWith {
     max-width: 100%;
