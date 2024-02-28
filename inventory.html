@@ -20,6 +20,7 @@
     integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
     crossorigin="anonymous"
   >
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="inventory.css" >
 </head>
 <body>
@@ -89,9 +90,12 @@
                 <td class="low">Low</td>
                 <td>5</td>
                 <td>
-                  <div class="btn-group" role="group" aria-label="Basic example">
-                    <button type="button" class="btn btn-success">Order</button>
-                    <button type="button" class="btn btn-info">View</button>
+                  <div class="btn-group" role="group">
+                    <!-- Button trigger modal -->
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                      Order
+                    </button>
+                    <button type="button" class="btn btn-info" onclick="redirectToDetail()">View</button>
                     <button type="button" class="btn btn-primary">Edit</button>
                     <button type="button" class="btn btn-danger">Delete</button>
                   </div>
@@ -106,8 +110,10 @@
                 <td>20</td>
                 <td>
                     <div class="btn-group" role="group" aria-label="Basic example">
-                        <button type="button" class="btn btn-success">Order</button>
-                        <button type="button" class="btn btn-info">View</button>
+                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                          Order
+                        </button>
+                        <button type="button" class="btn btn-info" onclick="redirectToDetail()">View</button>
                         <button type="button" class="btn btn-primary">Edit</button>
                         <button type="button" class="btn btn-danger">Delete</button>
                     </div>
@@ -122,8 +128,10 @@
                 <td>0</td>
                 <td>
                     <div class="btn-group" role="group" aria-label="Basic example">
-                        <button type="button" class="btn btn-success">Order</button>
-                        <button type="button" class="btn btn-info">View</button>
+                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                          Order
+                        </button>
+                        <button type="button" class="btn btn-info" onclick="redirectToDetail()">View</button>
                         <button type="button" class="btn btn-primary">Edit</button>
                         <button type="button" class="btn btn-danger">Delete</button>
                     </div>
@@ -138,8 +146,10 @@
                 <td>0</td>
                 <td>
                     <div class="btn-group" role="group" aria-label="Basic example">
-                        <button type="button" class="btn btn-success">Order</button>
-                        <button type="button" class="btn btn-info">View</button>
+                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                          Order
+                        </button>
+                        <button type="button" class="btn btn-info" onclick="redirectToDetail()">View</button>
                         <button type="button" class="btn btn-primary">Edit</button>
                         <button type="button" class="btn btn-danger">Delete</button>
                     </div>
@@ -154,8 +164,10 @@
                 <td>10</td>
                 <td>
                     <div class="btn-group" role="group" aria-label="Basic example">
-                        <button type="button" class="btn btn-success">Order</button>
-                        <button type="button" class="btn btn-info">View</button>
+                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                          Order
+                        </button>
+                        <button type="button" class="btn btn-info" onclick="redirectToDetail()">View</button>
                         <button type="button" class="btn btn-primary">Edit</button>
                         <button type="button" class="btn btn-danger">Delete</button>
                     </div>
@@ -163,6 +175,25 @@
             </tr>
             </tbody>
           </table>
+        </div>
+      </div>
+    </div>
+    <!--Example Modal Taken From Bootstrap5.3 Documentation @https://getbootstrap.com/docs/5.3/components/modal/-->
+    <!-- Modal -->
+    <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="staticBackdropLabel">Order Creation Modal</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            This modal dialogue will be used to create and place orders
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Exit</button>
+            <button type="button" class="btn btn-primary">Complete</button>
+          </div>
         </div>
       </div>
     </div>
@@ -193,6 +224,11 @@
       </div>
     </nav>
   </footer>
+  <script>
+    function redirectToDetail() {
+      window.location.href = "detail.html";
+    }
+  </script>
 </body>
 
 </html>
