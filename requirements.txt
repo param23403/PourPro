@@ -1,0 +1,17 @@
+For Sprint 3:
+presteps: setup DB
+- Login
+- Signup
+
+- Inventory page with add item button and delete item button
+
+- Customer view page where they see all products
+
+Extension:
+- Home Page
+- Detail page with analytics
+
+Things to keep in mind:
+
+- code for mobile first and then web (responsive)
+- ANDI and valid html both are good for all pages
