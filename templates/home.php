@@ -20,10 +20,10 @@
 </head>
 <body>
   <ul>
-    <li><a href="login.php">Login</a></li>
-    <li><a href="signup.php">Sign Up</a></li>
-    <li><a href="inventory.php">Inventory</a></li>
-    <li><a href="detail.php">Detail</a></li>
+    <li><a href="index.php?command=login">Login</a></li>
+    <li><a href="index.php?command=signUp">Sign Up</a></li>
+    <li><a href="index.php?command=inventory">Inventory</a></li>
+    <li><a href="index.php?command=detail">Detail</a></li>
   </ul>  
 </body>
 </html>
