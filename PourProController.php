@@ -3,11 +3,11 @@
 class PourProController {
 
     private $input;
-    // private $db;
+    private $db;
     public function __construct($input) {
         session_start();
         $this->input = $input;
-        // $this->db = new Database();
+        $this->db = new Database();
     }
 
     public function run() {
