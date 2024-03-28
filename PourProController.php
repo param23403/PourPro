@@ -3,10 +3,11 @@
 class PourProController {
 
     private $input;
-
+    // private $db;
     public function __construct($input) {
         session_start();
         $this->input = $input;
+        // $this->db = new Database();
     }
 
     public function run() {
@@ -14,10 +15,17 @@ class PourProController {
         $command = isset($this->input['command'])
             ? $this->input['command']
             : 'default';
-
+        if (!isset($_SESSION["email"]))
+            $command = "login";
         switch ($command) {
             case 'login':
                 $this->showLogin();
+                break;
+            case 'checkCreds':
+                $this-> checkCreds();
+                break;
+            case 'logout':
+                $this->logout();
                 break;
             case 'signUp':
                 $this->showSignUp();
@@ -59,5 +67,19 @@ class PourProController {
         include '/opt/src/pourpro/templates/detail.php';
         // include '/students/jpg5wq/students/jpg5wq/private/pourpro/templates/detail.php';
         // include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/detail.php';
+    }
+    public function checkCreds(){
+        if (isset($_POST['email']) && isset($_POST['password'])&& !empty($_POST['email']) && !empty($_POST['password'])){
+            $_SESSION['email'] = $_POST['email'];
+            $_SESSION['password'] = $_POST['password'];
+            $this->message= "<div class=\"alert alert-success\">You successfully logged in</div>";
+        }
+        else{
+        $this->message = "<div class=\"alert alert-danger\">Error Logging in- Please Enter the correct email and password</div>";
+        }
+        $this->showLogin();
+    }
+    public function logout(){
+        session_destroy();
     }
 }

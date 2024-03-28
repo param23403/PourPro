@@ -1,6 +1,8 @@
 For Sprint 3:
 presteps: setup DB
+
 - Login
+
 - Signup
 
 - Inventory page with add item button and delete item button

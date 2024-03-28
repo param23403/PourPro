@@ -40,8 +40,9 @@
       <b>Login</b>
     </div>
     <!--Sign In Form-->
+    <?php if(!empty($_SESSION['email'])){$message;}?>
     <div class="form">
-      <form>
+      <form method="post" action="?command=checkCreds">
         <div class="form-group">
           <!-- <label for="exampleInputEmail1" class="text">Email address</label> -->
           <input
@@ -49,6 +50,7 @@
             class="form-control"
             id="exampleInputEmail1"
             placeholder="Enter email"
+            name="email"
           >
         </div>
         <br>
@@ -59,6 +61,7 @@
             class="form-control"
             id="exampleInputPassword1"
             placeholder="Password"
+            name="password"
           >
         </div>
         <br >
