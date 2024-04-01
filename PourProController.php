@@ -4,6 +4,7 @@ class PourProController {
 
     private $input;
     private $db;
+    private $errorMessage = "";
     public function __construct($input) {
         session_start();
         $this->input = $input;
@@ -44,6 +45,10 @@ class PourProController {
    
 
     public function showHome() {
+        $message = "";
+        if (!empty($this->errorMessage)) {
+            $message = "<div class='alert alert-danger'>{$this->errorMessage}</div>";
+        }
         include '/opt/src/pourpro/templates/home.php';
         // include '/students/jpg5wq/students/jpg5wq/private/pourpro/templates/home.php';
         // include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/home.php';
@@ -68,18 +73,61 @@ class PourProController {
         // include '/students/jpg5wq/students/jpg5wq/private/pourpro/templates/detail.php';
         // include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/detail.php';
     }
-    public function checkCreds(){
-        if (isset($_POST['email']) && isset($_POST['password'])&& !empty($_POST['email']) && !empty($_POST['password'])){
-            $_SESSION['email'] = $_POST['email'];
-            $_SESSION['password'] = $_POST['password'];
-            $this->message= "<div class=\"alert alert-success\">You successfully logged in</div>";
+    public function loginDatabase() {
+        // User must provide a non-empty name, email, and password to attempt a login
+        if(isset($_POST["fullname"]) && !empty($_POST["fullname"]) &&
+            isset($_POST["email"]) && !empty($_POST["email"]) &&
+            isset($_POST["passwd"]) && !empty($_POST["passwd"])) {
+
+                // Check if user is in database, by email
+                $res = $this->db->query("select * from users where email = $1;", $_POST["email"]);
+                if (empty($res)) {
+                    // User was not there (empty result), so insert them
+                    $this->db->query("insert into users (name, email, password, score) values ($1, $2, $3, $4);",
+                        $_POST["fullname"], $_POST["email"],
+                        // Use the hashed password!
+                        password_hash($_POST["passwd"], PASSWORD_DEFAULT), 0);
+                    $_SESSION["name"] = $_POST["fullname"];
+                    $_SESSION["email"] = $_POST["email"];
+                    $_SESSION["score"] = 0;
+                    // Send user to the appropriate page (question)
+                    header("Location: ?command=detail");
+                    return;
+                } else {
+                    // User was in the database, verify password is correct
+                    // Note: Since we used a 1-way hash, we must use password_verify()
+                    // to check that the passwords match.
+                    if (password_verify($_POST["passwd"], $res[0]["password"])) {
+                        // Password was correct, save their information to the
+                        // session and send them to the question page
+                        $_SESSION["name"] = $res[0]["name"];
+                        $_SESSION["email"] = $res[0]["email"];
+                        $_SESSION["score"] = $res[0]["score"];
+                        header("Location: ?command=detail");
+                        return;
+                    } else {
+                        // Password was incorrect
+                        $this->errorMessage = "Incorrect password.";
+                    }
+                }
+        } else {
+            $this->errorMessage = "Name, email, and password are required.";
         }
-        else{
-        $this->message = "<div class=\"alert alert-danger\">Error Logging in- Please Enter the correct email and password</div>";
-        }
-        $this->showLogin();
+        // If something went wrong, show the welcome page again
+        $this->showHome();
     }
+    // public function checkCreds(){
+    //     if (isset($_POST['email']) && isset($_POST['password'])&& !empty($_POST['email']) && !empty($_POST['password'])){
+    //         $_SESSION['email'] = $_POST['email'];
+    //         $_SESSION['password'] = $_POST['password'];
+    //         header("Location: ?command=detail");  
+    //         return;              
+    //     }
+    //     $this->errorMessage = "Error Logging in- Please Enter the correct email and password";
+    //     $this->showHome();
+    // }
     public function logout(){
         session_destroy();
+        session_start();
     }
 }

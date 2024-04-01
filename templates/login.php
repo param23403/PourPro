@@ -43,6 +43,17 @@
     <?php if(!empty($_SESSION['email'])){$message;}?>
     <div class="form">
       <form method="post" action="?command=checkCreds">
+      <div class="form-group">
+          <!-- <label for="exampleInputName1" class="text">Name</label> -->
+          <input
+            type="name"
+            class="form-control"
+            id="exampleInputName1"
+            placeholder="Enter Full Name"
+            name="fullname"
+          >
+        </div>
+        <br>
         <div class="form-group">
           <!-- <label for="exampleInputEmail1" class="text">Email address</label> -->
           <input
@@ -61,7 +72,7 @@
             class="form-control"
             id="exampleInputPassword1"
             placeholder="Password"
-            name="password"
+            name="passwd"
           >
         </div>
         <br >
