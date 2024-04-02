@@ -61,7 +61,6 @@
   <div class="title">
       <h1 class="display-4">Product XYZ Detail</h1>
   </div>
-
   <!--Main Container-->
   <div class="container-fluid">
     <!--Product Container-->

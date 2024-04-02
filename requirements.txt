@@ -1,13 +1,13 @@
 For Sprint 3:
 presteps: setup DB
 
-- Login
+- Login (Done)
 
-- Signup
+- Signup (Done with Login right now)
 
-- Inventory page with add item button and delete item button
+- Inventory page with add item button and delete item button (SELECT, INSERT, UPDATE queries)
 
-- Customer view page where they see all products
+- Customer view page where they see all products (SEELCT query)
 
 Extension:
 - Home Page

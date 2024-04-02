@@ -42,7 +42,7 @@
     <!--Sign In Form-->
     <?php if(!empty($_SESSION['email'])){$message;}?>
     <div class="form">
-      <form method="post" action="?command=checkCreds">
+      <form method="post" action="?command=login">
       <div class="form-group">
           <!-- <label for="exampleInputName1" class="text">Name</label> -->
           <input
