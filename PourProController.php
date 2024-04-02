@@ -38,6 +38,8 @@ class PourProController {
             case 'inventory':
                 $this->showInventory();
                 break;
+            case 'addProduct':
+                $this->addProduct();
             default:
                 $this->showLogin();
         }
@@ -93,7 +95,7 @@ class PourProController {
                 $_SESSION["email"] = $_POST["email"];
                 $_SESSION["type"] = $_POST["type"];
                 // Send user to the appropriate page (question)
-                header("Location: ?command=detail");
+                header("Location: ?command=inventory");
                 return;
             } else {
                 // User was in the database, verify password is correct
@@ -104,8 +106,8 @@ class PourProController {
                     // session and send them to the question page
                     $_SESSION["name"] = $res[0]["name"];
                     $_SESSION["email"] = $res[0]["email"];
-                    $_SESSION["score"] = $res[0]["score"];
-                    header("Location: ?command=detail");
+                    $_SESSION["type"] = $res[0]["type"];
+                    header("Location: ?command=inventory");
                     return;
                 } else {
                     // Password was incorrect
@@ -128,7 +130,8 @@ class PourProController {
             isset($_POST["quantity_available"]) && !empty($_POST["quantity_available"])
         ) {
             $this->db->query(
-                "insert into product (product_name, category, brand, volume, unit_price, quantity_available) values ($1, $2, $3, $4, $5,$6);",
+                "insert into products (product_name, category, brand, volume, unit_price, quantity_available) 
+                values ($1, $2, $3, $4, $5,$6);",
                 $_POST["product_name"],
                 $_POST["category"],
                 $_POST["brand"],
