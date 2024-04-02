@@ -13,14 +13,21 @@
 
 class Config {
     public static $db = [
-        "host" => "db",
-        // For docker use db and for 4640 use localhost
+
+        // For Hosted
+
         // "host" => "localhost",
+        // "port" => 5432,
+        // "user" => "jpg5wq",
+        // "pass" => "",
+        // "database" => "jpg5wq"
+
+        // For localHost
+
+        "host" => "db",
         "port" => 5432,
         "user" => "localuser",
-        // "user" => "jpg5wq",
         "pass" => "cs4640LocalUser!",
-        // "pass" => "frompostedfeedback",
         "database" => "example"
     ];
 }

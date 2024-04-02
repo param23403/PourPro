@@ -49,23 +49,23 @@ class PourProController {
         if (!empty($this->errorMessage)) {
             $errorMessage = "<div class='alert alert-danger'>{$this->errorMessage}</div>";
         }
-        include '/opt/src/pourpro/templates/login.php';
-        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/templates/home.php';
+        // include '/opt/src/pourpro/templates/login.php';
+        include '/students/jpg5wq/students/jpg5wq/private/pourpro/templates/home.php';
         // include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/home.php';
     }
     public function showSignUp() {
-        include '/opt/src/pourpro/templates/signup.php';
-        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/templates/signup.php';
+        // include '/opt/src/pourpro/templates/signup.php';
+        include '/students/jpg5wq/students/jpg5wq/private/pourpro/templates/signup.php';
         // include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/signup.php';
     }
     public function showInventory() {
-        include '/opt/src/pourpro/templates/inventory.php';
-        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/templates/inventory.php';
+        // include '/opt/src/pourpro/templates/inventory.php';
+        include '/students/jpg5wq/students/jpg5wq/private/pourpro/templates/inventory.php';
         // include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/inventory.php';
     }
     public function showDetail() {
-        include '/opt/src/pourpro/templates/detail.php';
-        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/templates/detail.php';
+        // include '/opt/src/pourpro/templates/detail.php';
+        include '/students/jpg5wq/students/jpg5wq/private/pourpro/templates/detail.php';
         // include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/detail.php';
     }
     public function loginDatabase() {
