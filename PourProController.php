@@ -62,6 +62,7 @@ class PourProController {
         // include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/signup.php';
     }
     public function showInventory() {
+        $this->getAllProducts();
         // include '/opt/src/pourpro/templates/inventory.php';
         include '/students/jpg5wq/students/jpg5wq/private/pourpro/templates/inventory.php';
         // include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/inventory.php';
@@ -130,7 +131,7 @@ class PourProController {
             isset($_POST["quantity_available"]) && !empty($_POST["quantity_available"])
         ) {
             $this->db->query(
-                "insert into products (product_name, category, brand, volume, unit_price, quantity_available) 
+                "insert into products (product_name, category, brand, volume, unit_price, supply_price,quantity_available) 
                 values ($1, $2, $3, $4, $5,$6,$7);",
                 $_POST["product_name"],
                 $_POST["category"],
@@ -149,6 +150,7 @@ class PourProController {
 
     public function getAllProducts(){
         $products = $this->db->query("select * from products");
+        $_SESSION["products"] = $products;
         return $products;
     }
 

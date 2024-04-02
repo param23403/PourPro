@@ -77,29 +77,37 @@
                   <th scope="col">Category</th>
                   <th scope="col">brand</th>
                   <th scope="col">Quantity</th>
-                  <th scope="col">Quantity</th>
+                  <th scope="col">supply_price</th>
                   <th scope="col">Actions</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>1</td>
-                  <td>Product A</td>
-                  <td>SN123</td>
-                  <td>$10.00</td>
-                  <td>5</td>
-                  <td>
-                    <div class="btn-group" role="group">
-                      <!-- Button trigger modal -->
-                      <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
-                        Order
-                      </button>
-                      <button type="button" class="btn btn-info" onclick="redirectToDetail()">View</button>
-                      <button type="button" class="btn btn-primary">Edit</button>
-                      <button type="button" class="btn btn-danger">Delete</button>
-                    </div>
-                  </td>
-                </tr>
+                <?php
+                $noOfProducts = count($_SESSION['products']);
+                for ($i = 0; $i < $noOfProducts; $i++) : ?>
+                  <tr>
+                    <td><?php echo $_SESSION["products"][$i]["product_id"]?></td>
+                    <td><?php echo $_SESSION["products"][$i]["product_name"]?></td>
+                    <td><?php echo $_SESSION["products"][$i]["category"]?></td>
+                    <td><?php echo $_SESSION["products"][$i]["brand"]?></td>
+                    <td><?php echo $_SESSION["products"][$i]["quantity_available"]?></td>
+                    <td><?php echo $_SESSION["products"][$i]["supply_price"]?></td>
+
+                    <td>
+                      <div class="btn-group" role="group">
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                          Order
+                        </button>
+                        <button type="button" class="btn btn-info" onclick="redirectToDetail()">View</button>
+                        <button type="button" class="btn btn-primary">Edit</button>
+                        <button type="button" class="btn btn-danger">Delete</button>
+                      </div>
+                    </td>
+                  </tr>
+
+                <?php endfor; ?>
+
 
               </tbody>
             </table>
@@ -163,22 +171,19 @@
                     </div>
                   </div>
 
-                  <!-- Field-->
-                  <div class="row">
-                    <div class="col-md-8">
-                      <div class="form-group mb-4">
-                        <label class="form-label" for="id_address">Unit Price</label>
-                        <input type="number" id="unit_price" class="form-control" name="unit_price">
-                      </div>
-                    </div>
-                    <!-- Field-->
-                    <div class="col-md-8">
-                      <div class="form-group mb-4">
-                        <label class="form-label" for="supply_price">Supply Price</label>
-                        <input type="number" id="supply_price" class="form-control" name="supply_price">
-                      </div>
-                    </div>
+
+                  <div class="form-group mb-4">
+                    <label class="form-label" for="id_address">Unit Price</label>
+                    <input type="number" id="unit_price" class="form-control" name="unit_price">
                   </div>
+
+                  <!-- Field-->
+                  <div class="form-group mb-4">
+                    <label class="form-label" for="supply_price">Supply Price</label>
+                    <input type="number" id="supply_price" class="form-control" name="supply_price">
+                  </div>
+
+
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Exit</button>
                     <button type="submit" class="btn btn-primary">Complete</button>
