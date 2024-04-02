@@ -13,17 +13,17 @@ class PourProController {
 
     public function run() {
         // Check if a specific command is set
-        $command = isset($this->input['command'])
-            ? $this->input['command']
-            : 'default';
+        $command = "detail";
+        
+        if(isset($this->input["command"]))
+            $command = $this->input["command"];
+
         if (!isset($_SESSION["email"]))
             $command = "login";
+
         switch ($command) {
             case 'login':
-                $this->showLogin();
-                break;
-            case 'checkCreds':
-                $this-> checkCreds();
+                $this->loginDatabase();
                 break;
             case 'logout':
                 $this->logout();
@@ -38,25 +38,20 @@ class PourProController {
                 $this->showInventory();
                 break;
             default:
-                $this->showHome();
+                $this->showLogin();
         }
     }
 
    
 
-    public function showHome() {
-        $message = "";
+    public function showLogin() {
+        $errorMessage = "";
         if (!empty($this->errorMessage)) {
-            $message = "<div class='alert alert-danger'>{$this->errorMessage}</div>";
+            $errorMessage = "<div class='alert alert-danger'>{$this->errorMessage}</div>";
         }
-        include '/opt/src/pourpro/templates/home.php';
+        include '/opt/src/pourpro/templates/login.php';
         // include '/students/jpg5wq/students/jpg5wq/private/pourpro/templates/home.php';
         // include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/home.php';
-    }
-    public function showLogin() {
-        include '/opt/src/pourpro/templates/login.php';
-        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/templates/login.php';
-        // include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/login.php';
     }
     public function showSignUp() {
         include '/opt/src/pourpro/templates/signup.php';
@@ -114,7 +109,7 @@ class PourProController {
             $this->errorMessage = "Name, email, and password are required.";
         }
         // If something went wrong, show the welcome page again
-        $this->showHome();
+        $this->showLogin();
     }
     // public function checkCreds(){
     //     if (isset($_POST['email']) && isset($_POST['password'])&& !empty($_POST['email']) && !empty($_POST['password'])){
