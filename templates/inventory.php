@@ -74,8 +74,9 @@
                 <tr>
                   <th scope="col">ID</th>
                   <th scope="col">Product Name</th>
-                  <th scope="col">Serial Number</th>
-                  <th scope="col">Unit Price</th>
+                  <th scope="col">Category</th>
+                  <th scope="col">brand</th>
+                  <th scope="col">Quantity</th>
                   <th scope="col">Quantity</th>
                   <th scope="col">Actions</th>
                 </tr>
@@ -99,7 +100,7 @@
                     </div>
                   </td>
                 </tr>
-                
+
               </tbody>
             </table>
           </div>
@@ -117,8 +118,9 @@
               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-              <div class="card-body">
-                <form method="post" action="?command=addProduct">
+              <form method="post" action="?command=addProduct">
+
+                <div class="card-body">
                   <!--Product Name -->
                   <div class="form-group mb-4">
                     <label class="form-label" for="id_photo_link">Product Name</label>
@@ -162,16 +164,28 @@
                   </div>
 
                   <!-- Field-->
-                  <div class="form-group mb-4">
-                    <label class="form-label" for="id_address">Unit Price</label>
-                    <input type="number" id="id_address" class="form-control" name="unit_price">
+                  <div class="row">
+                    <div class="col-md-8">
+                      <div class="form-group mb-4">
+                        <label class="form-label" for="id_address">Unit Price</label>
+                        <input type="number" id="unit_price" class="form-control" name="unit_price">
+                      </div>
+                    </div>
+                    <!-- Field-->
+                    <div class="col-md-8">
+                      <div class="form-group mb-4">
+                        <label class="form-label" for="supply_price">Supply Price</label>
+                        <input type="number" id="supply_price" class="form-control" name="supply_price">
+                      </div>
+                    </div>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Exit</button>
                     <button type="submit" class="btn btn-primary">Complete</button>
                   </div>
-                </form>
-              </div>
+                </div>
+              </form>
+
             </div>
 
 

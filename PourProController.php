@@ -131,12 +131,13 @@ class PourProController {
         ) {
             $this->db->query(
                 "insert into products (product_name, category, brand, volume, unit_price, quantity_available) 
-                values ($1, $2, $3, $4, $5,$6);",
+                values ($1, $2, $3, $4, $5,$6,$7);",
                 $_POST["product_name"],
                 $_POST["category"],
                 $_POST["brand"],
                 $_POST["volume"],
                 floatval($_POST["unit_price"]),
+                floatval($_POST["supply_price"]),
                 floatval($_POST["quantity_available"])
             );
             header("Location: ?command=inventory");

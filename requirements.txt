@@ -2,12 +2,17 @@ For Sprint 3:
 presteps: setup DB
 
 - Login (Done)
+- Look at reqs and make sure it complies and if not make it comply
 
-- Signup (Done with Login right now)
+//- Signup (Done with Login right now)
 
-- Inventory page with add item button and delete item button (SELECT, INSERT, UPDATE queries)
+- Inventory page with update item button and delete item button (UPDATE/DELETE queries)
 
-- Customer view page where they see all products (SEELCT query)
+- COPY IT FOR DETAIL PAGE -- one product
+
+
+Check all reqs-- JSOn
+- (Biggest) Customer view page where they see all products (SELECT query) -- return JSON
 
 Extension:
 - Home Page
