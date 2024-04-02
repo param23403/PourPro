@@ -17,3 +17,7 @@ Things to keep in mind:
 
 - code for mobile first and then web (responsive)
 - ANDI and valid html both are good for all pages
+
+
+Generate order button that queries products which are below threshold and submit button that makes the query to update the quantities(order them) for all
+If this doesn't work then simply show the past order list by dates
