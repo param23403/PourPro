@@ -50,7 +50,7 @@ class PourProController {
             $errorMessage = "<div class='alert alert-danger'>{$this->errorMessage}</div>";
         }
         // include '/opt/src/pourpro/templates/login.php';
-        include '/students/jpg5wq/students/jpg5wq/private/pourpro/templates/home.php';
+        include '/students/jpg5wq/students/jpg5wq/private/pourpro/templates/login.php';
         // include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/home.php';
     }
     public function showSignUp() {
