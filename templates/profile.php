@@ -19,7 +19,10 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     >
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="detail.css">
+
 </head>
 <body>
   <!--Navbar-->
@@ -56,11 +59,12 @@
   <div class="title">
         <b>Profile</b>
         <p><?php echo "Name: "; echo $_SESSION["name"]; ?></p>
+        <p><?php echo "Email: "; echo $_SESSION["email"]; ?></p>
+        <p><?php echo "Type: "; echo $_SESSION["type"]; ?></p>
     </div>
 
   <!--Footer-->
   <footer class="footer">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container">
         <div class="collapse navbar-collapse">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">

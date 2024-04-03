@@ -40,10 +40,13 @@ class PourProController {
                 break;
             case 'addProduct':
                 $this->addProduct();
+                break;
             case 'profile':
                 $this->showProfile();
+                break;
             default:
                 $this->showLogin();
+                break;
         }
     }
 
