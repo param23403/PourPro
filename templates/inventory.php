@@ -42,7 +42,7 @@
             <a class="nav-link" href="#">@PourPro</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Profile</a>
+            <a class="nav-link" href="?command=profile">Profile</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="?command=logout">Logout</a>
