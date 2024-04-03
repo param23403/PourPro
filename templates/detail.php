@@ -44,13 +44,10 @@
         <a class="navbar-brand" href="#">PourPro</a>
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link" href="#">Our Story</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">@PourPro</a>
-          </li>
-          <li class="nav-item">
             <a class="nav-link" href="#">Profile</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="?command=logout">Logout</a>
           </li>
         </ul>
       </div>

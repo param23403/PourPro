@@ -46,32 +46,35 @@ class PourProController {
     }
 
 
-
     public function showLogin() {
         $errorMessage = "";
         if (!empty($this->errorMessage)) {
             $errorMessage = "<div class='alert alert-danger'>{$this->errorMessage}</div>";
         }
-        // include '/opt/src/pourpro/templates/login.php';
-        include '/students/jpg5wq/students/jpg5wq/private/pourpro/templates/login.php';
+        include '/opt/src/pourpro/templates/login.php';
+        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/templates/login.php';
         // include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/home.php';
     }
+
     public function showSignUp() {
-        // include '/opt/src/pourpro/templates/signup.php';
-        include '/students/jpg5wq/students/jpg5wq/private/pourpro/templates/signup.php';
+        include '/opt/src/pourpro/templates/signup.php';
+        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/templates/signup.php';
         // include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/signup.php';
     }
+
     public function showInventory() {
         $this->getAllProducts();
-        // include '/opt/src/pourpro/templates/inventory.php';
-        include '/students/jpg5wq/students/jpg5wq/private/pourpro/templates/inventory.php';
+        include '/opt/src/pourpro/templates/inventory.php';
+        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/templates/inventory.php';
         // include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/inventory.php';
     }
+
     public function showDetail() {
-        // include '/opt/src/pourpro/templates/detail.php';
-        include '/students/jpg5wq/students/jpg5wq/private/pourpro/templates/detail.php';
+        include '/opt/src/pourpro/templates/detail.php';
+        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/templates/detail.php';
         // include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/detail.php';
     }
+
     public function loginDatabase() {
         // User must provide a non-empty name, email, and password to attempt a login
         if (
@@ -121,31 +124,140 @@ class PourProController {
         // If something went wrong, show the welcome page again
         $this->showLogin();
     }
-    public function addProduct() {
-        if (
-            isset($_POST["product_name"]) && !empty($_POST["product_name"]) &&
-            isset($_POST["category"]) && !empty($_POST["category"]) &&
-            isset($_POST["brand"]) && !empty($_POST["brand"]) &&
-            isset($_POST["volume"]) && !empty($_POST["volume"]) &&
-            isset($_POST["unit_price"]) && !empty($_POST["volume"]) &&
-            isset($_POST["quantity_available"]) && !empty($_POST["quantity_available"])
-        ) {
-            $this->db->query(
-                "insert into products (product_name, category, brand, volume, unit_price, supply_price,quantity_available) 
-                values ($1, $2, $3, $4, $5,$6,$7);",
-                $_POST["product_name"],
-                $_POST["category"],
-                $_POST["brand"],
-                $_POST["volume"],
-                floatval($_POST["unit_price"]),
-                floatval($_POST["supply_price"]),
-                floatval($_POST["quantity_available"])
-            );
-            header("Location: ?command=inventory");
-            return;
-        } else {
-            $this->errorModelInfo = "Please Enter all the information correctly";
+    
+    public function isValidAddProductInput($input) {
+        // Clear errors
+        $errors = [];
+    
+        // Check if product_name is set, not empty, and within acceptable length
+        if (!isset($input['product_name']) || empty($input['product_name'])) {
+            $errors['product_name'] = 'Product name is required';
+        } elseif (strlen($input['product_name']) > 255) {
+            $errors['product_name'] = 'Product name must be less than or equal to 255 characters';
         }
+    
+        // Check if category, brand, and volume are set and within acceptable length
+        $fields = ['category', 'brand', 'volume'];
+        foreach ($fields as $field) {
+            if (isset($input[$field]) && !empty($input[$field]) && strlen($input[$field]) > 100) {
+                $errors[$field] = $field . ' must be less than or equal to 100 characters';
+            }
+        }
+
+        // Volume
+        if (!isset($input['volume']) || empty($input['volume'])) {
+            $errors['volume'] = 'Volume is required';
+        } elseif (!is_numeric($input['volume']) || $input['volume'] < 0) {
+            $errors['volume'] = 'Volume must be a positive integer';
+        }
+
+        // Quantity Available
+        if (!isset($input['quantity_available']) || empty($input['quantity_available'])) {
+            $errors['quantity_available'] = 'Quantity is required';
+        } elseif (!is_numeric($input['quantity_available']) || $input['quantity_available'] < 0) {
+            $errors['quantity_available'] = 'Quantity must be a positive integer';
+        }
+
+        // Unit Price
+        if (!isset($input['unit_price']) || empty($input['unit_price'])) {
+            $errors['unit_price'] = 'Unit price is required';
+        } elseif (!is_numeric($input['unit_price']) || !preg_match('/^\d+(\.\d{2})$/', $input['unit_price'])) {
+            $errors['unit_price'] = 'Unit price must be in valid numeric currency format';
+        }
+
+        // Supply Price
+        if (!isset($input['supply_price']) || empty($input['supply_price'])) {
+            $errors['supply_price'] = 'Supply price is required';
+        } elseif (!is_numeric($input['supply_price']) || !preg_match('/^\d+(\.\d{2})$/', $input['supply_price'])) {
+            $errors['supply_price'] = 'Supply price must be in valid numeric currency format';
+        }
+    
+        return $errors;
+    }
+
+    public function addProduct() {
+        // Clear session errors and old input
+        unset($_SESSION['old_input']);
+        unset($_SESSION['errors']);
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+            // Validate Form Input
+            $errors = $this->isValidAddProductInput($_POST);
+
+            // Add form data to db if no errors
+            if (empty($errors)) {
+                $this->db->query(
+                    "insert into products (product_name, category, brand, volume, unit_price, supply_price, quantity_available) 
+                    values ($1, $2, $3, $4, $5,$6,$7);",
+                    $_POST["product_name"],
+                    $_POST["category"],
+                    $_POST["brand"],
+                    $_POST["volume"],
+                    floatval($_POST["unit_price"]),
+                    floatval($_POST["supply_price"]),
+                    floatval($_POST["quantity_available"])
+                );
+
+                unset($_SESSION['old_input']);
+                unset($_SESSION['errors']);
+                header("Location: ?command=inventory");
+                return;
+            } else {
+                // Retain old values in form if they produced errors
+                $_SESSION['old_input'] = $_POST;
+                $_SESSION["errors"] = $errors;
+                header("Location: ?command=inventory");
+            }
+        } else {
+            $this->errorModelInfo = "Please enter all the information correctly";
+        }
+    }
+
+    public function isValidOrderProductInput($input) {
+        $errors = [];
+
+        if (!isset($input['quantity_ordered']) || empty($input['quantity_ordered'])) {
+            $errors['quantity_ordered'] = 'Quantity is required';
+        } elseif (!is_numeric($input['quantity_ordered']) || $input['quantity_ordered'] < 0) {
+            $errors['quantity_ordered'] = 'Quantity ordered must be a positive integer';
+        }
+    }
+
+    public function orderProduct() {
+        // Clear session errors and old input
+        unset($_SESSION['old_input']);
+        unset($_SESSION['errors']);
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+            // Validate Form Input
+            $errors = $this->isValidOrderProductInput($_POST);
+
+            // Add form data to db if no errors
+            if (empty($errors)) {
+                // Update the quantity available for specified product
+                $query = "UPDATE products SET quantity_available = quantity_available + $1 WHERE product_id = $2";
+                $this->db->query(
+                    $query,
+                    intval($_POST["quantity_ordered"]),
+                    intval($_POST["product_id"])
+                );
+
+                unset($_SESSION['old_input']);
+                unset($_SESSION['errors']);
+                header("Location: ?command=inventory");
+                return;
+            } else {
+                // Retain old values in form if they produced errors
+                $_SESSION['old_input'] = $_POST;
+                $_SESSION["errors"] = $errors;
+                header("Location: ?command=inventory");
+            }
+        } else {
+            $this->errorModelInfo = "Please enter all the information correctly";
+        }
+
     }
 
     public function getAllProducts(){

@@ -80,13 +80,6 @@
         </button>
       </form>
     </div>
-    <!--Sign in with Google Option-->
-    <div class="continueWith">
-      <div class="continueText">Or continue with</div>
-    </div>
-    <div class="google-login">
-      <img src="Google.png" alt="Google Signup">
-    </div>
     <!--Footer-->
     <footer class="footer mt-auto py-3 bg-light">
       <div class="container">

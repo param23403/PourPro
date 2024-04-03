@@ -26,11 +26,6 @@
     <!--Navbar-->
     <nav class="navbar bg-light rounded-5">
       <div class="container">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" href="index.html">Index</a>
-          </li>
-        </ul>
         <div class="navbar-brand mb-0 h1">PourPro</div>
         <ul class="navbar-nav"><li class="nav-item">Sign Up</li></ul>
       </div>
@@ -60,7 +55,7 @@
             type="email"
             class="form-control"
             id="exampleInputEmail1"
-            placeholder="Enter email"
+            placeholder="Enter Email"
             name="email"
           >
         </div>
@@ -95,13 +90,6 @@
           Sign In
         </button>
       </form>
-    </div>
-    <!--Continue with Google Option-->
-    <div class="continueWith">
-      <div class="continueText">Or continue with</div>
-    </div>
-    <div class="google-login">
-      <img src="Google.png" alt="Google Login" >
     </div>
     <!--Footer-->
     <footer class="footer mt-auto py-3 bg-light">
