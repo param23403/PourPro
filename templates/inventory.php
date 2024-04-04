@@ -27,13 +27,13 @@
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link" href="?command=dashboard">Dashboard</a>
+            <a class="nav-link" href="?command=navInventory">Dashboard</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="?command=inventory">Inventory</a>
+            <a class="nav-link" href="?command=navInventory">Inventory</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="?command=order">Order</a>
+            <a class="nav-link" href="#">Order</a>
           </li>
         </ul>
         <strong class="navbar-brand">PourPro</strong>
@@ -92,11 +92,10 @@
                     <td><?php echo $_SESSION["products"][$i]["brand"]?></td>
                     <td><?php echo $_SESSION["products"][$i]["quantity_available"]?></td>
                     <td><?php echo $_SESSION["products"][$i]["supply_price"]?></td>
-
                     <td>
                       <div class="d-flex justify-content-evenly">
                         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#orderModal<?php echo $_SESSION["products"][$i]["product_id"] ?>">Order</button>
-                        <a href="?command=detail&product_id=<?php echo $_SESSION["products"][$i]["product_id"] ?>" class="btn btn-primary">View</a>
+                        <a href="?command=navDetail&product_id=<?php echo $_SESSION["products"][$i]["product_id"] ?>" class="btn btn-primary">View</a>
                         <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#updateProductModal<?php echo $_SESSION["products"][$i]["product_id"] ?>">Edit</button>
                         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal<?php echo $_SESSION["products"][$i]["product_id"] ?>">Delete</button>
                       </div>
@@ -415,7 +414,6 @@
         </div>
       </div>
 
-
     </div>
   </div>
 
@@ -435,7 +433,7 @@
               <a class="nav-link" href="#">Dashboard</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Inventory</a>
+              <a class="nav-link" href="?command=navInventory">Inventory</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Order</a>

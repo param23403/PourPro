@@ -33,7 +33,16 @@ class PourProController {
                 $this->showSignUp();
                 break;
             case 'detail':
-                $this->showDetail();
+                $this->showDetail($_GET['product_id']);
+                break;
+            case 'navDetail':
+                $productId = $_GET['product_id'];
+                $this->clearErrorsAndOldInput();
+                header("Location: ?command=detail&product_id=$productId");
+                break;
+            case 'navInventory':
+                $this->clearErrorsAndOldInput();
+                header("Location: ?command=inventory");
                 break;
             case 'inventory':
                 $this->showInventory();
@@ -79,10 +88,19 @@ class PourProController {
         // include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/inventory.php';
     }
 
-    public function showDetail() {
+    public function showDetail($product_id) {
+        $productDetails = $this->getProductDetails($product_id);
+        $_SESSION['product_details'] = $productDetails;
+
         include '/opt/src/pourpro/templates/detail.php';
         // include '/students/jpg5wq/students/jpg5wq/private/pourpro/templates/detail.php';
         // include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/detail.php';
+    }
+
+    private function getProductDetails($product_id) {
+        $details = $this->db->query("SELECT * from products WHERE product_id = $1", $product_id);
+
+        return $details[0];
     }
 
     public function loginDatabase() {
@@ -201,10 +219,11 @@ class PourProController {
 
     public function addProduct() {
         // Clear session errors and old input
-        $this->clearInventoryErrors();
-        $this->clearInventoryOldInput();
+        $this->clearErrorsAndOldInput();
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+            $redirect_url = $_SERVER['HTTP_REFERER'];
 
             // Validate Form Input
             $errors = $this->isValidProductInput($_POST);
@@ -225,13 +244,13 @@ class PourProController {
 
                 $_SESSION['add_product_old_input'] = [];
                 $_SESSION['add_product_errors'] = [];
-                header("Location: ?command=inventory");
+                header("Location: $redirect_url");
                 return;
             } else {
                 // Retain old values in form if they produced errors
                 $_SESSION['add_product_old_input'] = $_POST;
                 $_SESSION["add_product_errors"] = $errors;
-                header("Location: ?command=inventory");
+                header("Location: $redirect_url");
             }
         } else {
             $this->errorModelInfo = "Please enter all the information correctly";
@@ -240,10 +259,11 @@ class PourProController {
 
     public function orderProduct() {
         // Clear session errors and old input
-        $this->clearInventoryErrors();
-        $this->clearInventoryOldInput();
+        $this->clearErrorsAndOldInput();
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+            $redirect_url = $_SERVER['HTTP_REFERER'];
 
             // Validate Form Input
             $errors = $this->isValidOrderProductInput($_POST);
@@ -260,24 +280,25 @@ class PourProController {
 
                 $_SESSION['order_product_old_input'] = [];
                 $_SESSION['order_product_errors'] = [];
-                header("Location: ?command=inventory");
+                header("Location: $redirect_url");
                 return;
             } else {
                 // Retain old values in form if they produced errors
                 $_SESSION['order_product_old_input'] = $_POST;
                 $_SESSION["order_product_errors"] = $errors;
                 $_SESSION["order_product_errors"]["product_id"] = intval($_POST["product_id"]);
-                header("Location: ?command=inventory");
+                header("Location: $redirect_url");
             }
         } 
     }
 
     public function updateProduct() {
         // Clear session errors and old input
-        $this->clearInventoryErrors();
-        $this->clearInventoryOldInput();
+        $this->clearErrorsAndOldInput();
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+            $redirect_url = $_SERVER['HTTP_REFERER'];
 
             // Validate Form Input
             $errors = $this->isValidProductInput($_POST);
@@ -308,14 +329,14 @@ class PourProController {
                 
                 $_SESSION['update_product_old_input'] = [];
                 $_SESSION['add_product_errors'] = [];
-                header("Location: ?command=inventory");
+                header("Location: $redirect_url");
                 return;
             } else {
                 // Retain old values in form if they produced errors
                 $_SESSION['update_product_old_input'] = $_POST;
                 $_SESSION["update_product_errors"] = $errors;
                 $_SESSION["update_product_errors"]["product_id"] = intval($_POST["product_id"]);
-                header("Location: ?command=inventory");
+                header("Location: $redirect_url");
             }
         } else {
             $this->errorModelInfo = "Please enter all the information correctly";
@@ -324,8 +345,7 @@ class PourProController {
 
     public function deleteProduct() {
         // Clear session errors and old input
-        $this->clearInventoryErrors();
-        $this->clearInventoryOldInput();
+        $this->clearErrorsAndOldInput();
         
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["product_id"])) {
             // Execute delete query
@@ -342,14 +362,12 @@ class PourProController {
         }
     }
 
-    public function clearInventoryErrors() {
+    public function clearErrorsAndOldInput() {
         $_SESSION["add_product_errors"] = [];
         $_SESSION["order_product_errors"] = [];
         $_SESSION["update_product_errors"] = [];
         $_SESSION["db_errors"] = [];
-    }
 
-    public function clearInventoryOldInput() {
         $_SESSION["add_product_old_input"] = [];
         $_SESSION["order_product_old_input"] = [];
         $_SESSION["update_product_old_input"] = [];
