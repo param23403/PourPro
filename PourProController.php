@@ -40,6 +40,16 @@ class PourProController {
                 break;
             case 'addProduct':
                 $this->addProduct();
+                break;
+            case 'orderProduct':
+                $this->orderProduct();
+                break;
+            case 'updateProduct':
+                $this->updateProduct();
+                break;
+            case 'deleteProduct':
+                $this->deleteProduct();
+                break;
             default:
                 $this->showLogin();
         }
@@ -125,8 +135,9 @@ class PourProController {
         $this->showLogin();
     }
     
-    public function isValidAddProductInput($input) {
-        // Clear errors
+
+    public function isValidProductInput($input) {
+        
         $errors = [];
     
         // Check if product_name is set, not empty, and within acceptable length
@@ -174,16 +185,29 @@ class PourProController {
     
         return $errors;
     }
+    
+    public function isValidOrderProductInput($input) {
+        $errors = [];
+
+        // Not Empty, Positive Integer
+        if (!isset($input['quantity_ordered'])) {
+            $errors['quantity_ordered'] = 'Quantity is required';
+        } elseif (!is_numeric($input['quantity_ordered']) || $input['quantity_ordered'] <= 0) {
+            $errors['quantity_ordered'] = 'Quantity ordered must be a positive integer';
+        }
+
+        return $errors;
+    }
 
     public function addProduct() {
         // Clear session errors and old input
-        unset($_SESSION['old_input']);
-        unset($_SESSION['errors']);
+        $this->clearInventoryErrors();
+        $this->clearInventoryOldInput();
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Validate Form Input
-            $errors = $this->isValidAddProductInput($_POST);
+            $errors = $this->isValidProductInput($_POST);
 
             // Add form data to db if no errors
             if (empty($errors)) {
@@ -199,14 +223,14 @@ class PourProController {
                     floatval($_POST["quantity_available"])
                 );
 
-                unset($_SESSION['old_input']);
-                unset($_SESSION['errors']);
+                $_SESSION['add_product_old_input'] = [];
+                $_SESSION['add_product_errors'] = [];
                 header("Location: ?command=inventory");
                 return;
             } else {
                 // Retain old values in form if they produced errors
-                $_SESSION['old_input'] = $_POST;
-                $_SESSION["errors"] = $errors;
+                $_SESSION['add_product_old_input'] = $_POST;
+                $_SESSION["add_product_errors"] = $errors;
                 header("Location: ?command=inventory");
             }
         } else {
@@ -214,20 +238,10 @@ class PourProController {
         }
     }
 
-    public function isValidOrderProductInput($input) {
-        $errors = [];
-
-        if (!isset($input['quantity_ordered']) || empty($input['quantity_ordered'])) {
-            $errors['quantity_ordered'] = 'Quantity is required';
-        } elseif (!is_numeric($input['quantity_ordered']) || $input['quantity_ordered'] < 0) {
-            $errors['quantity_ordered'] = 'Quantity ordered must be a positive integer';
-        }
-    }
-
     public function orderProduct() {
         // Clear session errors and old input
-        unset($_SESSION['old_input']);
-        unset($_SESSION['errors']);
+        $this->clearInventoryErrors();
+        $this->clearInventoryOldInput();
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -244,20 +258,101 @@ class PourProController {
                     intval($_POST["product_id"])
                 );
 
-                unset($_SESSION['old_input']);
-                unset($_SESSION['errors']);
+                $_SESSION['order_product_old_input'] = [];
+                $_SESSION['order_product_errors'] = [];
                 header("Location: ?command=inventory");
                 return;
             } else {
                 // Retain old values in form if they produced errors
-                $_SESSION['old_input'] = $_POST;
-                $_SESSION["errors"] = $errors;
+                $_SESSION['order_product_old_input'] = $_POST;
+                $_SESSION["order_product_errors"] = $errors;
+                $_SESSION["order_product_errors"]["product_id"] = intval($_POST["product_id"]);
+                header("Location: ?command=inventory");
+            }
+        } 
+    }
+
+    public function updateProduct() {
+        // Clear session errors and old input
+        $this->clearInventoryErrors();
+        $this->clearInventoryOldInput();
+
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+
+            // Validate Form Input
+            $errors = $this->isValidProductInput($_POST);
+
+            // Add form data to db if no errors
+            if (empty($errors)) {
+                $query = "UPDATE products SET 
+                    product_name = $1,
+                    category = $2,
+                    brand = $3,
+                    volume = $4,
+                    unit_price = $5,
+                    supply_price = $6,
+                    quantity_available = $7
+                    WHERE product_id = $8";
+
+                $this->db->query(
+                    $query,
+                    $_POST["product_name"],
+                    $_POST["category"],
+                    $_POST["brand"],
+                    $_POST["volume"],
+                    floatval($_POST["unit_price"]),
+                    floatval($_POST["supply_price"]),
+                    floatval($_POST["quantity_available"]),
+                    intval($_POST["product_id"])
+                );
+                
+                $_SESSION['update_product_old_input'] = [];
+                $_SESSION['add_product_errors'] = [];
+                header("Location: ?command=inventory");
+                return;
+            } else {
+                // Retain old values in form if they produced errors
+                $_SESSION['update_product_old_input'] = $_POST;
+                $_SESSION["update_product_errors"] = $errors;
+                $_SESSION["update_product_errors"]["product_id"] = intval($_POST["product_id"]);
                 header("Location: ?command=inventory");
             }
         } else {
             $this->errorModelInfo = "Please enter all the information correctly";
         }
+    }
 
+    public function deleteProduct() {
+        // Clear session errors and old input
+        $this->clearInventoryErrors();
+        $this->clearInventoryOldInput();
+        
+        if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["product_id"])) {
+            // Execute delete query
+            $query = "DELETE FROM products WHERE product_id = $1";
+            $res = $this->db->query($query, intval($_POST['product_id']));
+            
+            // Ensure query was executed
+            if ($res !== false) {
+                header("Location: ?command=inventory");
+                exit();
+            } else {
+                $_SESSION['db_errors'] = ['Failed to delete product'];
+            }
+        }
+    }
+
+    public function clearInventoryErrors() {
+        $_SESSION["add_product_errors"] = [];
+        $_SESSION["order_product_errors"] = [];
+        $_SESSION["update_product_errors"] = [];
+        $_SESSION["db_errors"] = [];
+    }
+
+    public function clearInventoryOldInput() {
+        $_SESSION["add_product_old_input"] = [];
+        $_SESSION["order_product_old_input"] = [];
+        $_SESSION["update_product_old_input"] = [];
     }
 
     public function getAllProducts(){
