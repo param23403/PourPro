@@ -50,6 +50,9 @@ class PourProController {
             case 'addProduct':
                 $this->addProduct();
                 break;
+            case 'productListToJson':
+                $this->showProductListJson();
+                break;
             case 'orderProduct':
                 $this->orderProduct();
                 break;
@@ -101,6 +104,17 @@ class PourProController {
         $details = $this->db->query("SELECT * from products WHERE product_id = $1", $product_id);
 
         return $details[0];
+    }
+
+    // Used to output JSON object https://stackoverflow.com/questions/4064444/returning-json-from-a-php-script
+    public function showProductListJson() {
+        $products = $this->getAllProducts();
+        $jsonData = json_encode($products);
+    
+        header('Content-Type: application/json');
+    
+        echo $jsonData;
+        exit();
     }
 
     public function loginDatabase() {

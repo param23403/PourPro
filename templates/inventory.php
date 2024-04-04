@@ -61,9 +61,12 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col d-flex justify-content-end m-2">
-        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#addProductModal">
+        <button type="button" class="btn btn-success m-2" data-bs-toggle="modal" data-bs-target="#addProductModal">
           Add Product to Inventory
         </button>
+        <a href="?command=productListToJson" class="btn btn-info m-2" role="button">
+          Export Product List
+        </a>
       </div>
       <div class="row">
         <div class="col">
