@@ -1,28 +1,10 @@
-For Sprint 3:
-presteps: setup DB
-
-- Login (Done)
-- Look at reqs and make sure it complies and if not make it comply
-
-//- Signup (Done with Login right now)
-
-- Inventory page with update item button and delete item button (UPDATE/DELETE queries)
-
-- COPY IT FOR DETAIL PAGE -- one product
-
-
-Check all reqs-- JSOn
-- (Biggest) Customer view page where they see all products (SELECT query) -- return JSON
-
-Extension:
-- Home Page
-- Detail page with analytics
-
-Things to keep in mind:
-
-- code for mobile first and then web (responsive)
-- ANDI and valid html both are good for all pages
-
-
-Generate order button that queries products which are below threshold and submit button that makes the query to update the quantities(order them) for all
-If this doesn't work then simply show the past order list by dates
+For Sprint 4:
+1) Split out login and signup and check for user types where admin creation requires a password to create it
+2) Create customer view hitting whatever applicable for sprint reqs
+3) Switch out client side form validation to AJAX and jquery
+4) Consume a json for a product that contains following structure and display a line graph for it using chart.js on the product detail page
+JSON structure: [{
+dateofPurchase: date,
+quantitySold: number,
+}]
+//Implementation method: Use a trigger on db side that on every product purchase, adds the quantities for that date of that product, and adds it to a seperate table that we will be requesting info as a json from
