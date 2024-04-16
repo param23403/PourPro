@@ -67,37 +67,37 @@ class PourProController {
         if (!empty($this->errorMessage)) {
             $errorMessage = "<div class='alert alert-danger'>{$this->errorMessage}</div>";
         }
-        include '/opt/src/pourpro/templates/login.php';
-        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/templates/login.php';
-        // include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/login.php';
+        include '/opt/src/pourpro/frontend/templates/login.php';
+        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/login.php';
+        // include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/login.php';
     }
 
     public function showSignUp() {
-        include '/opt/src/pourpro/templates/signup.php';
-        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/templates/signup.php';
-        // include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/signup.php';
+        include '/opt/src/pourpro/frontend/templates/signup.php';
+        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/signup.php';
+        // include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/signup.php';
     }
 
     public function showProfile(){
-        include '/opt/src/pourpro/templates/profile.php';
-        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/templates/profile.php';
-        // include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/profile.php';
+        include '/opt/src/pourpro/frontend/templates/profile.php';
+        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/profile.php';
+        // include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/profile.php';
     }
 
     public function showInventory() {
         $this->getAllProducts();
-        include '/opt/src/pourpro/templates/inventory.php';
-        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/templates/inventory.php';
-        // include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/inventory.php';
+        include '/opt/src/pourpro/frontend/templates/inventory.php';
+        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/inventory.php';
+        // include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/inventory.php';
     }
 
     public function showDetail($product_id) {
         $productDetails = $this->getProductDetails($product_id);
         $_SESSION['product_details'] = $productDetails;
 
-        include '/opt/src/pourpro/templates/detail.php';
-        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/templates/detail.php';
-        // include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/detail.php';
+        include '/opt/src/pourpro/frontend/templates/detail.php';
+        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/detail.php';
+        // include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/detail.php';
     }
 
     private function getProductDetails($product_id) {
