@@ -35,7 +35,7 @@
             <a class="nav-link" href="?command=#">Dashboard</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="?command=navInventory">Inventory</a>
+            <a class="nav-link" href="?command=inventory">Inventory</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">Order</a>
@@ -328,7 +328,7 @@
               <a class="nav-link" href="#">Dashboard</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="?command=navInventory">Inventory</a>
+              <a class="nav-link" href="?command=inventory">Inventory</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#">Order</a>

@@ -3,9 +3,9 @@
 class PourProController {
 
     private $input;
+
     private $db;
-    private $errorMessage = "";
-    private $errorModelInfo = "";
+
     public function __construct($input) {
         session_start();
         $this->input = $input;
@@ -34,15 +34,6 @@ class PourProController {
                 break;
             case 'detail':
                 $this->showDetail($_GET['product_id']);
-                break;
-            case 'navDetail':
-                $productId = $_GET['product_id'];
-                $this->clearErrorsAndOldInput();
-                header("Location: ?command=detail&product_id=$productId");
-                break;
-            case 'navInventory':
-                $this->clearErrorsAndOldInput();
-                header("Location: ?command=inventory");
                 break;
             case 'inventory':
                 $this->showInventory();
@@ -76,37 +67,37 @@ class PourProController {
         if (!empty($this->errorMessage)) {
             $errorMessage = "<div class='alert alert-danger'>{$this->errorMessage}</div>";
         }
-        // include '/opt/src/pourpro/templates/login.php';
+        include '/opt/src/pourpro/templates/login.php';
         // include '/students/jpg5wq/students/jpg5wq/private/pourpro/templates/login.php';
-        include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/login.php';
+        // include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/login.php';
     }
 
     public function showSignUp() {
-        // include '/opt/src/pourpro/templates/signup.php';
+        include '/opt/src/pourpro/templates/signup.php';
         // include '/students/jpg5wq/students/jpg5wq/private/pourpro/templates/signup.php';
-        include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/signup.php';
+        // include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/signup.php';
     }
 
     public function showProfile(){
-        // include '/opt/src/pourpro/templates/profile.php';
+        include '/opt/src/pourpro/templates/profile.php';
         // include '/students/jpg5wq/students/jpg5wq/private/pourpro/templates/profile.php';
-        include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/profile.php';
+        // include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/profile.php';
     }
 
     public function showInventory() {
         $this->getAllProducts();
-        // include '/opt/src/pourpro/templates/inventory.php';
+        include '/opt/src/pourpro/templates/inventory.php';
         // include '/students/jpg5wq/students/jpg5wq/private/pourpro/templates/inventory.php';
-        include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/inventory.php';
+        // include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/inventory.php';
     }
 
     public function showDetail($product_id) {
         $productDetails = $this->getProductDetails($product_id);
         $_SESSION['product_details'] = $productDetails;
 
-        // include '/opt/src/pourpro/templates/detail.php';
+        include '/opt/src/pourpro/templates/detail.php';
         // include '/students/jpg5wq/students/jpg5wq/private/pourpro/templates/detail.php';
-        include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/detail.php';
+        // include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/detail.php';
     }
 
     private function getProductDetails($product_id) {
@@ -192,7 +183,7 @@ class PourProController {
         $fields = ['category', 'brand', 'volume'];
         foreach ($fields as $field) {
             if (isset($input[$field]) && !empty($input[$field]) && strlen($input[$field]) > 100) {
-                $errors[$field] = $field . ' must be less than or equal to 100 characters';
+                $errors[$field] = ucfirst($field) . ' must be less than or equal to 100 characters';
             }
         }
 
@@ -240,19 +231,22 @@ class PourProController {
         return $errors;
     }
 
+
+    // Add new product to database from Inventory View
     public function addProduct() {
-        // Clear session errors and old input
-        $this->clearErrorsAndOldInput();
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-            $redirect_url = $_SERVER['HTTP_REFERER'];
 
             // Validate Form Input
             $errors = $this->isValidProductInput($_POST);
 
             // Add form data to db if no errors
-            if (empty($errors)) {
+            if (!empty($errors)) {
+                // Return validation errors as JSON response
+                http_response_code(200);
+                echo json_encode(array('errors' => $errors));
+                return;
+            } else {
                 $this->db->query(
                     "insert into products (product_name, category, brand, volume, unit_price, supply_price, quantity_available) 
                     values ($1, $2, $3, $4, $5,$6,$7);",
@@ -265,78 +259,81 @@ class PourProController {
                     floatval($_POST["quantity_available"])
                 );
 
-                $_SESSION['add_product_old_input'] = [];
-                $_SESSION['add_product_errors'] = [];
-                header("Location: $redirect_url");
+                // Return success message as JSON response
+                echo json_encode(array('success' => true));
+
                 return;
-            } else {
-                // Retain old values in form if they produced errors
-                $_SESSION['add_product_old_input'] = $_POST;
-                $_SESSION["add_product_errors"] = $errors;
-                header("Location: $redirect_url");
             }
         } else {
-            $this->errorModelInfo = "Please enter all the information correctly";
+            // Invalid request method
+            http_response_code(405);
+            echo json_encode(array('error' => 'Invalid request method'));
+            return;
         }
     }
 
+
+    // Order more of existing product in database from Inventory View
     public function orderProduct() {
-        // Clear session errors and old input
-        $this->clearErrorsAndOldInput();
-
+    
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-            $redirect_url = $_SERVER['HTTP_REFERER'];
-
+    
             // Validate Form Input
             $errors = $this->isValidOrderProductInput($_POST);
-
-            // Add form data to db if no errors
-            if (empty($errors)) {
-                // Update the quantity available for specified product
+    
+            // Check for validation errors
+            if (!empty($errors)) {
+                // Return validation errors as JSON response
+                http_response_code(200);
+                echo json_encode(array('errors' => $errors));
+                return;
+            } else {
+                // Update quantity available for specified product
                 $query = "UPDATE products SET quantity_available = quantity_available + $1 WHERE product_id = $2";
                 $this->db->query(
                     $query,
                     intval($_POST["quantity_ordered"]),
                     intval($_POST["product_id"])
                 );
-
-                $_SESSION['order_product_old_input'] = [];
-                $_SESSION['order_product_errors'] = [];
-                header("Location: $redirect_url");
+    
+                // Return success message as JSON response
+                echo json_encode(array('success' => true));
+                
                 return;
-            } else {
-                // Retain old values in form if they produced errors
-                $_SESSION['order_product_old_input'] = $_POST;
-                $_SESSION["order_product_errors"] = $errors;
-                $_SESSION["order_product_errors"]["product_id"] = intval($_POST["product_id"]);
-                header("Location: $redirect_url");
             }
-        } 
+        } else {
+            // Invalid request method
+            http_response_code(405);
+            echo json_encode(array('error' => 'Invalid request method'));
+            return;
+        }
     }
 
+
+    // Edit existing product in database from Inventory View
     public function updateProduct() {
-        // Clear session errors and old input
-        $this->clearErrorsAndOldInput();
 
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
-            $redirect_url = $_SERVER['HTTP_REFERER'];
 
             // Validate Form Input
             $errors = $this->isValidProductInput($_POST);
 
             // Add form data to db if no errors
-            if (empty($errors)) {
+            if (!empty($errors)) {
+                // Return validation errors as JSON response
+                http_response_code(200);
+                echo json_encode(array('errors' => $errors));
+                return;
+            } else {
                 $query = "UPDATE products SET 
-                    product_name = $1,
-                    category = $2,
-                    brand = $3,
-                    volume = $4,
-                    unit_price = $5,
-                    supply_price = $6,
-                    quantity_available = $7
-                    WHERE product_id = $8";
+                product_name = $1,
+                category = $2,
+                brand = $3,
+                volume = $4,
+                unit_price = $5,
+                supply_price = $6,
+                quantity_available = $7
+                WHERE product_id = $8";
 
                 $this->db->query(
                     $query,
@@ -350,25 +347,21 @@ class PourProController {
                     intval($_POST["product_id"])
                 );
                 
-                $_SESSION['update_product_old_input'] = [];
-                $_SESSION['add_product_errors'] = [];
-                header("Location: $redirect_url");
+                // Return success message as JSON response
+                echo json_encode(array('success' => true));
                 return;
-            } else {
-                // Retain old values in form if they produced errors
-                $_SESSION['update_product_old_input'] = $_POST;
-                $_SESSION["update_product_errors"] = $errors;
-                $_SESSION["update_product_errors"]["product_id"] = intval($_POST["product_id"]);
-                header("Location: $redirect_url");
             }
         } else {
-            $this->errorModelInfo = "Please enter all the information correctly";
+            // Invalid request method
+            http_response_code(405); // Method Not Allowed
+            echo json_encode(array('error' => 'Invalid request method'));
+            return;
         }
     }
 
+
+    // Delete existing product in database from Inventory View
     public function deleteProduct() {
-        // Clear session errors and old input
-        $this->clearErrorsAndOldInput();
         
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["product_id"])) {
             // Execute delete query
@@ -383,17 +376,6 @@ class PourProController {
                 $_SESSION['db_errors'] = ['Failed to delete product'];
             }
         }
-    }
-
-    public function clearErrorsAndOldInput() {
-        $_SESSION["add_product_errors"] = [];
-        $_SESSION["order_product_errors"] = [];
-        $_SESSION["update_product_errors"] = [];
-        $_SESSION["db_errors"] = [];
-
-        $_SESSION["add_product_old_input"] = [];
-        $_SESSION["order_product_old_input"] = [];
-        $_SESSION["update_product_old_input"] = [];
     }
 
     public function getAllProducts(){
