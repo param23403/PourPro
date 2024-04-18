@@ -5,7 +5,6 @@ class PourProController {
     private $input;
     private $db;
     private $errorMessage = "";
-    private $errorModelInfo = "";
     public function __construct($input) {
         session_start();
         $this->input = $input;
@@ -25,6 +24,9 @@ class PourProController {
         switch ($command) {
             case 'login':
                 $this->loginDatabase();
+                break;
+            case 'signupDatabase':
+                $this->signupDatabase();
                 break;
             case 'logout':
                 $this->logout();
@@ -65,6 +67,9 @@ class PourProController {
             case 'deleteProduct':
                 $this->deleteProduct();
                 break;
+            case 'custViewProducts':
+                $this->showCustViewProducts();
+                break;
             default:
                 $this->showLogin();
         }
@@ -82,12 +87,16 @@ class PourProController {
     }
 
     public function showSignUp() {
+        $errorMessage = "";
+        if (!empty($this->errorMessage)) {
+            $errorMessage = "<div class='alert alert-danger'>{$this->errorMessage}</div>";
+        }
         // include '/opt/src/pourpro/templates/signup.php';
         include '/students/jpg5wq/students/jpg5wq/private/pourpro/templates/signup.php';
         // include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/signup.php';
     }
 
-    public function showProfile(){
+    public function showProfile() {
         // include '/opt/src/pourpro/templates/profile.php';
         include '/students/jpg5wq/students/jpg5wq/private/pourpro/templates/profile.php';
         // include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/profile.php';
@@ -109,6 +118,12 @@ class PourProController {
         // include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/detail.php';
     }
 
+    public function showCustViewProducts() {
+        // include '/opt/src/pourpro/templates/custViewProducts.php';
+        include '/students/jpg5wq/students/jpg5wq/private/pourpro/templates/custViewProducts.php';
+        // include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/custViewProducts.php';
+    }
+
     private function getProductDetails($product_id) {
         $details = $this->db->query("SELECT * from products WHERE product_id = $1", $product_id);
 
@@ -119,15 +134,44 @@ class PourProController {
     public function showProductListJson() {
         $products = $this->getAllProducts();
         $jsonData = json_encode($products);
-    
+
         header('Content-Type: application/json');
-    
+
         echo $jsonData;
         exit();
     }
-
     public function loginDatabase() {
-        // User must provide a non-empty name, email, and password to attempt a login
+        if (
+            isset($_POST["email"]) && !empty($_POST["email"]) &&
+            isset($_POST["passwd"]) && !empty($_POST["passwd"])
+        ) {
+            $res = $this->db->query("select * from users where email = $1;", $_POST["email"]);
+            if (!empty($res)) {
+                if (password_verify($_POST["passwd"], $res[0]["password"])) {
+                    // Password was correct, save their information to the
+                    // session and send them to the question page
+                    $_SESSION["name"] = $res[0]["name"];
+                    $_SESSION["email"] = $res[0]["email"];
+                    $_SESSION["type"] = $res[0]["type"];
+                    if ($_SESSION["type"] === "admin") {
+                        header("Location: ?command=inventory");
+                    } else {
+                        header("Location: ?command=custViewProducts");
+                    }
+                    return;
+                } else {
+                    // Password was incorrect
+                    $this->errorMessage = "Incorrect password.";
+                }
+            } else {
+                $this->errorMessage = "Something went wrong with our database. Sorry :(";
+            }
+        } else {
+            $this->errorMessage = "Email, and password are required.";
+        }
+    }
+    public function signupDatabase() {
+        // User must provide a non-empty name, email, and password to attempt to signup
         if (
             isset($_POST["fullname"]) && !empty($_POST["fullname"]) &&
             isset($_POST["email"]) && !empty($_POST["email"]) &&
@@ -149,45 +193,36 @@ class PourProController {
                 $_SESSION["name"] = $_POST["fullname"];
                 $_SESSION["email"] = $_POST["email"];
                 $_SESSION["type"] = $_POST["type"];
-                // Send user to the appropriate page (question)
-                header("Location: ?command=inventory");
+                if ($_SESSION["type"] === "admin") {
+                    header("Location: ?command=inventory");
+                } else {
+                    header("Location: ?command=custViewProducts");
+                }
                 return;
             } else {
-                // User was in the database, verify password is correct
-                // Note: Since we used a 1-way hash, we must use password_verify()
-                // to check that the passwords match.
-                if (password_verify($_POST["passwd"], $res[0]["password"])) {
-                    // Password was correct, save their information to the
-                    // session and send them to the question page
-                    $_SESSION["name"] = $res[0]["name"];
-                    $_SESSION["email"] = $res[0]["email"];
-                    $_SESSION["type"] = $res[0]["type"];
-                    header("Location: ?command=inventory");
-                    return;
-                } else {
-                    // Password was incorrect
-                    $this->errorMessage = "Incorrect password.";
-                }
+                // User was in the database, tell them that user exists and to login
+                $this->errorMessage = "User already exists. Please login instead!";
             }
         } else {
             $this->errorMessage = "Name, email, and password are required.";
         }
-        // If something went wrong, show the welcome page again
-        $this->showLogin();
+
+        // If something went wrong, show the SignUp page again
+        $this->showSignup();
     }
-    
+
 
     public function isValidProductInput($input) {
-        
+
         $errors = [];
-    
+
         // Check if product_name is set, not empty, and within acceptable length
         if (!isset($input['product_name']) || empty($input['product_name'])) {
             $errors['product_name'] = 'Product name is required';
         } elseif (strlen($input['product_name']) > 255) {
             $errors['product_name'] = 'Product name must be less than or equal to 255 characters';
         }
-    
+
         // Check if category, brand, and volume are set and within acceptable length
         $fields = ['category', 'brand', 'volume'];
         foreach ($fields as $field) {
@@ -223,10 +258,10 @@ class PourProController {
         } elseif (!is_numeric($input['supply_price']) || !preg_match('/^\d+(\.\d{2})$/', $input['supply_price'])) {
             $errors['supply_price'] = 'Supply price must be in valid numeric currency format';
         }
-    
+
         return $errors;
     }
-    
+
     public function isValidOrderProductInput($input) {
         $errors = [];
 
@@ -275,8 +310,6 @@ class PourProController {
                 $_SESSION["add_product_errors"] = $errors;
                 header("Location: $redirect_url");
             }
-        } else {
-            $this->errorModelInfo = "Please enter all the information correctly";
         }
     }
 
@@ -312,7 +345,7 @@ class PourProController {
                 $_SESSION["order_product_errors"]["product_id"] = intval($_POST["product_id"]);
                 header("Location: $redirect_url");
             }
-        } 
+        }
     }
 
     public function updateProduct() {
@@ -349,7 +382,7 @@ class PourProController {
                     floatval($_POST["quantity_available"]),
                     intval($_POST["product_id"])
                 );
-                
+
                 $_SESSION['update_product_old_input'] = [];
                 $_SESSION['add_product_errors'] = [];
                 header("Location: $redirect_url");
@@ -361,20 +394,18 @@ class PourProController {
                 $_SESSION["update_product_errors"]["product_id"] = intval($_POST["product_id"]);
                 header("Location: $redirect_url");
             }
-        } else {
-            $this->errorModelInfo = "Please enter all the information correctly";
         }
     }
 
     public function deleteProduct() {
         // Clear session errors and old input
         $this->clearErrorsAndOldInput();
-        
+
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["product_id"])) {
             // Execute delete query
             $query = "DELETE FROM products WHERE product_id = $1";
             $res = $this->db->query($query, intval($_POST['product_id']));
-            
+
             // Ensure query was executed
             if ($res !== false) {
                 header("Location: ?command=inventory");
@@ -396,7 +427,7 @@ class PourProController {
         $_SESSION["update_product_old_input"] = [];
     }
 
-    public function getAllProducts(){
+    public function getAllProducts() {
         $products = $this->db->query("select * from products");
         $_SESSION["products"] = $products;
         return $products;

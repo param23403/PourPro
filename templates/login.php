@@ -38,17 +38,6 @@
     <?php if(!empty($_SESSION['email'])){$message;}?>
     <div class="form">
       <form method="post" action="?command=login">
-      <div class="form-group">
-          <!-- <label for="exampleInputName1" class="text">Name</label> -->
-          <input
-            type="name"
-            class="form-control"
-            id="exampleInputName1"
-            placeholder="Enter Full Name"
-            name="fullname"
-          >
-        </div>
-        <br>
         <div class="form-group">
           <!-- <label for="exampleInputEmail1" class="text">Email address</label> -->
           <input
@@ -71,17 +60,7 @@
           >
         </div>
         <br >
-        <div class="form-group">
-          <!-- <label for="exampleInputPassword1" class="text">Password</label> -->
-          <input
-            type="type"
-            class="form-control"
-            id="exampleInputType1"
-            placeholder="Type"
-            name="type"
-          >
-        </div>
-        <br >
+        
         <button
           type="submit"
           class="btn btn-primary"

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" >
     <meta http-equiv="X-UA-Compatible" content="IE=edge" >
     <meta name="viewport" content="width=device-width, initial-scale=1" >
 
@@ -12,7 +12,7 @@
     >
     <meta name="keywords" content="Liquor Store management software" >
 
-    <title>Sign Up</title>
+    <title>SignUp</title>
 
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -26,32 +26,40 @@
     <!--Navbar-->
     <nav class="navbar bg-light rounded-5">
       <div class="container">
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <a class="nav-link" href="index.html">Index</a>
-          </li>
-        </ul>
         <div class="navbar-brand mb-0 h1">PourPro</div>
         <ul class="navbar-nav"><li class="nav-item">Login</li></ul>
-  
       </div>
     </nav>
     <!--Title-->
     <div class="title">
-      <b>Sign Up</b>
+      <b>SignUp</b>
     </div>
-    <!--Sign Up Form-->
+    <!--Sign In Form-->
+    <?php if(!empty($_SESSION['email'])){$message;}?>
     <div class="form">
-      <form>
+      <form method="post" action="?command=signupDatabase">
+      <div class="form-group">
+          <!-- <label for="exampleInputName1" class="text">Name</label> -->
+          <input
+            type="name"
+            class="form-control"
+            id="exampleInputName1"
+            placeholder="Enter Full Name"
+            name="fullname"
+          >
+        </div>
+        <br>
         <div class="form-group">
           <!-- <label for="exampleInputEmail1" class="text">Email address</label> -->
           <input
             type="email"
             class="form-control"
             id="exampleInputEmail1"
-            placeholder="Enter email"
+            placeholder="Enter Email"
+            name="email"
           >
-        </div><br>
+        </div>
+        <br>
         <div class="form-group">
           <!-- <label for="exampleInputPassword1" class="text">Password</label> -->
           <input
@@ -59,16 +67,19 @@
             class="form-control"
             id="exampleInputPassword1"
             placeholder="Password"
-          ><br>
-          <div class="form-group">
-            <!-- <label for="exampleInputPassword2" class="text">Confirm Password</label> -->
-            <input
-              type="password"
-              class="form-control"
-              id="exampleInputPassword2"
-              placeholder="Password"
-            >
-          </div>
+            name="passwd"
+          >
+        </div>
+        <br >
+        <div class="form-group">
+          <!-- <label for="exampleInputPassword1" class="text">Password</label> -->
+          <input
+            type="type"
+            class="form-control"
+            id="exampleInputType1"
+            placeholder="Type"
+            name="type"
+          >
         </div>
         <br >
         <button
@@ -122,8 +133,5 @@
           </div>
       </div>
   </footer>
-  </body>
-
-  
+</body>
 </html>
-
