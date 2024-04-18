@@ -153,11 +153,11 @@ class PourProController {
                     $_SESSION["name"] = $res[0]["name"];
                     $_SESSION["email"] = $res[0]["email"];
                     $_SESSION["type"] = $res[0]["type"];
-                    if ($_SESSION["type"] === "admin") {
+                    // if ($_SESSION["type"] === "admin") {
                         header("Location: ?command=inventory");
-                    } else {
-                        header("Location: ?command=custViewProducts");
-                    }
+                    // } else {
+                    //     header("Location: ?command=custViewProducts");
+                    // }
                     return;
                 } else {
                     // Password was incorrect
@@ -193,11 +193,11 @@ class PourProController {
                 $_SESSION["name"] = $_POST["fullname"];
                 $_SESSION["email"] = $_POST["email"];
                 $_SESSION["type"] = $_POST["type"];
-                if ($_SESSION["type"] === "admin") {
+                // if ($_SESSION["type"] === "admin") {
                     header("Location: ?command=inventory");
-                } else {
-                    header("Location: ?command=custViewProducts");
-                }
+                // } else {
+                //     header("Location: ?command=custViewProducts");
+                // }
                 return;
             } else {
                 // User was in the database, tell them that user exists and to login
