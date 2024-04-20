@@ -9,16 +9,10 @@
               <span class="copyright">&copy; 2024 PourPro. All rights reserved.</span>
             </li>
           </ul>
-          <strong class="navbar-brand">Admin</strong>
+          <strong class="navbar-brand">Customer</strong>
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link" href="#">Dashboard</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="?command=inventory">Inventory</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Past Order</a>
+              <a class="nav-link" href="?command=custViewProducts">View Products</a>
             </li>
           </ul>
         </div>

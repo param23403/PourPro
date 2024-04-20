@@ -25,7 +25,8 @@
 
 </head>
 <body>
-  <?php include __DIR__ . '/components/admin_navbar.php'; ?>
+  <?php if ($_SESSION["type"]==="admin"){include __DIR__ . '/components/admin_navbar.php'; }
+        else{include __DIR__ . '/components/customer_navbar.php';}?>
 
   <div class="title">
         <b>Profile</b>
@@ -34,6 +35,6 @@
         <p><?php echo "Type: "; echo $_SESSION["type"]; ?></p>
     </div>
 
-  <?php include __DIR__ . '/components/admin_footer.php'; ?>
-</body>
+    <?php if ($_SESSION["type"]==="admin"){include __DIR__ . '/components/admin_footer.php'; }
+        else{include __DIR__ . '/components/customer_footer.php';}?></body>
 </html>

@@ -21,7 +21,7 @@ $products = $_SESSION['CustProducts'];
     }
   </style>
 <body>
-<?php include __DIR__ . '/components/admin_navbar.php'; ?>
+<?php include __DIR__ . '/components/customer_navbar.php'; ?>
 
   <div class="container">
     <h1 class="my-4">View Products</h1>
@@ -53,7 +53,7 @@ $products = $_SESSION['CustProducts'];
   <br>
   <br>
 
-  <?php include __DIR__ . '/components/admin_footer.php'; ?>
+  <?php include __DIR__ . '/components/customer_footer.php'; ?>
 
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
