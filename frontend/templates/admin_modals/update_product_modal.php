@@ -76,7 +76,11 @@
               <input type="text" id="id_supply_price" class="form-control modal-input" name="supply_price" data-default-value="">
               <span class="text-danger supply_price_error"></span>
             </div>
-
+            <div class="form-group mb-4">
+              <label class="form-label" for="id_supply_price">Image link</label>
+              <input type="text" id="id_image_link" class="form-control modal-input" name="image_link" data-default-value="">
+              <span class="text-danger image_link_error"></span>
+            </div>
             <!-- Hidden Product Id -->
             <input type="hidden" class="form-control" id="product_id" name="product_id" value="">
 

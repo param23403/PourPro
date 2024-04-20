@@ -362,6 +362,9 @@ class PourProController {
         } elseif (!is_numeric($input['supply_price']) || !preg_match('/^\d+(\.\d{2})$/', $input['supply_price'])) {
             $errors['supply_price'] = 'Supply price must be in valid numeric currency format';
         }
+        if(!isset($input['image_link'])||empty($input['image_link'])){
+            $errors['image_link'] = 'Image link is required';
+        }
 
         return $errors;
     }
