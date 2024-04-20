@@ -1,33 +1,42 @@
+<?php
+$products = $_SESSION['CustProducts'];
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <meta name="author" content="Param Patel and Daniel Biondolillo">
-  <meta name="description" content="This software allows you to manage your liquor business better">
-  <meta name="keywords" content="Liquor Store management software">
-
   <title>View Products</title>
-
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
 </head>
-
 <body>
-  <h1>View Products</h1>
-  <?php
-  $noOfProducts = count($_SESSION['CustProducts']);
-  for ($i = 0; $i < $noOfProducts; $i++) : ?>
-    <p>
-      <?php echo $_SESSION["CustProducts"][$i]["product_name"] ?><br>
-      <?php echo $_SESSION["CustProducts"][$i]["category"] ?><br>
-      <?php echo $_SESSION["CustProducts"][$i]["brand"] ?><br>
-      <?php echo $_SESSION["CustProducts"][$i]["unit_price"] ?><br>
-      <?php echo $_SESSION["CustProducts"][$i]["image_link"] ?><br>
-    </p>
-  <?php endfor; ?>
-</body>
+  <div class="container">
+    <h1 class="my-4">View Products</h1>
+    <div class="row">
+      <?php foreach ($products as $product): ?>
+      <div class="col-md-3 mb-4">
+        <div class="card">
+          <?php if (!empty($product["image_link"])): ?>
+          <img src="<?php echo htmlspecialchars($product["image_link"]); ?>" class="card-img-top" alt="<?php echo htmlspecialchars($product["product_name"]); ?>">
+          <?php endif; ?>
+          <div class="card-body">
+            <h5 class="card-title"><?php echo htmlspecialchars($product["product_name"]); ?></h5>
+            <p class="card-text">
+              Category: <?php echo htmlspecialchars($product["category"]); ?><br>
+              Brand: <?php echo htmlspecialchars($product["brand"]); ?><br>
+              Price: $<?php echo htmlspecialchars(number_format($product["unit_price"], 2)); ?>
+            </p>
+          </div>
+        </div>
+      </div>
+      <?php endforeach; ?>
+    </div>
 
+   
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+</body>
 </html>
