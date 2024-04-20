@@ -222,6 +222,7 @@ class PourProController {
     }
 
     public function showCustViewProducts() {
+        $this->getAllProductsForCustomer();
         // include '/opt/src/pourpro/templates/custViewProducts.php';
         include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/custViewProducts.php';
         // include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/custViewProducts.php';
@@ -530,7 +531,11 @@ class PourProController {
         $_SESSION["products"] = $products;
         return $products;
     }
-
+    public function getAllProductsForCustomer(){
+        $Custproducts = $this->db->query("SELECT * from products WHERE quantity_available > 0");
+        $_SESSION["CustProducts"] = $Custproducts;
+        return $Custproducts;
+    }
     public function logout() {
         session_destroy();
         session_start();
