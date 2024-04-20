@@ -30,12 +30,13 @@ class PourProController {
                 $this->signupDatabase();
                 break;
             case 'logout':
-                if (!isset($_SESSION["email"])){
+                if (!isset($_SESSION["email"])) {
                     $this->showLogin();
-                    break;}
-                else{
-                $this->logout();
-                break;}
+                    break;
+                } else {
+                    $this->logout();
+                    break;
+                }
             case 'signUp':
                 $this->showSignUp();
                 break;
@@ -44,10 +45,10 @@ class PourProController {
                     $this->showLogin();
                     break;
                 } else {
-                    if ($_SESSION["type"] === "admin"){
-                    $this->showDetail($_GET['product_id']);
-                    break;}
-                    else{
+                    if ($_SESSION["type"] === "admin") {
+                        $this->showDetail($_GET['product_id']);
+                        break;
+                    } else {
                         $this->showCustViewProducts();
                         break;
                     }
@@ -57,11 +58,11 @@ class PourProController {
                     $this->showLogin();
                     break;
                 } else {
-                    if ($_SESSION["type"] === "admin"){
-                    $productId = $_GET['product_id'];
-                    header("Location: ?command=detail&product_id=$productId");
-                    break;}
-                    else{
+                    if ($_SESSION["type"] === "admin") {
+                        $productId = $_GET['product_id'];
+                        header("Location: ?command=detail&product_id=$productId");
+                        break;
+                    } else {
                         $this->showCustViewProducts();
                         break;
                     }
@@ -71,10 +72,10 @@ class PourProController {
                     $this->showLogin();
                     break;
                 } else {
-                    if ($_SESSION["type"] === "admin"){
-                    header("Location: ?command=inventory");
-                    break;}
-                    else{
+                    if ($_SESSION["type"] === "admin") {
+                        header("Location: ?command=inventory");
+                        break;
+                    } else {
                         $this->showCustViewProducts();
                         break;
                     }
@@ -84,10 +85,10 @@ class PourProController {
                     $this->showLogin();
                     break;
                 } else {
-                    if ($_SESSION["type"] === "admin"){
-                    $this->showInventory();
-                    break;}
-                    else{
+                    if ($_SESSION["type"] === "admin") {
+                        $this->showInventory();
+                        break;
+                    } else {
                         $this->showCustViewProducts();
                         break;
                     }
@@ -97,10 +98,10 @@ class PourProController {
                     $this->showLogin();
                     break;
                 } else {
-                    if ($_SESSION["type"] === "admin"){
-                    $this->addProduct();
-                    break;}
-                    else{
+                    if ($_SESSION["type"] === "admin") {
+                        $this->addProduct();
+                        break;
+                    } else {
                         $this->showCustViewProducts();
                         break;
                     }
@@ -118,10 +119,10 @@ class PourProController {
                     $this->showLogin();
                     break;
                 } else {
-                    if ($_SESSION["type"] === "admin"){
-                    $this->showProductListJson();
-                    break;}
-                    else{
+                    if ($_SESSION["type"] === "admin") {
+                        $this->showProductListJson();
+                        break;
+                    } else {
                         $this->showCustViewProducts();
                         break;
                     }
@@ -131,10 +132,10 @@ class PourProController {
                     $this->showLogin();
                     break;
                 } else {
-                    if ($_SESSION["type"] === "admin"){
-                    $this->orderProduct();
-                    break;}
-                    else{
+                    if ($_SESSION["type"] === "admin") {
+                        $this->orderProduct();
+                        break;
+                    } else {
                         $this->showCustViewProducts();
                         break;
                     }
@@ -144,10 +145,10 @@ class PourProController {
                     $this->showLogin();
                     break;
                 } else {
-                    if ($_SESSION["type"] === "admin"){
-                    $this->updateProduct();
-                    break;}
-                    else{
+                    if ($_SESSION["type"] === "admin") {
+                        $this->updateProduct();
+                        break;
+                    } else {
                         $this->showCustViewProducts();
                         break;
                     }
@@ -157,10 +158,10 @@ class PourProController {
                     $this->showLogin();
                     break;
                 } else {
-                    if ($_SESSION["type"] === "admin"){
-                    $this->deleteProduct();
-                    break;}
-                    else{
+                    if ($_SESSION["type"] === "admin") {
+                        $this->deleteProduct();
+                        break;
+                    } else {
                         $this->showCustViewProducts();
                         break;
                     }
@@ -171,6 +172,22 @@ class PourProController {
                     break;
                 } else {
                     $this->showCustViewProducts();
+                    break;
+                }
+            case 'cart':
+                if (!isset($_SESSION["email"])) {
+                    $this->showLogin();
+                    break;
+                } else {
+                    $this->showCart();
+                    break;
+                }
+            case 'checkout':
+                if (!isset($_SESSION["email"])) {
+                    $this->showLogin();
+                    break;
+                } else {
+                    $this->showCheckout();
                     break;
                 }
             default:
@@ -223,11 +240,21 @@ class PourProController {
 
     public function showCustViewProducts() {
         $this->getAllProductsForCustomer();
-        // include '/opt/src/pourpro/templates/custViewProducts.php';
+        // include '/opt/src/pourpro/frontend/templates/custViewProducts.php';
         include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/custViewProducts.php';
         // include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/custViewProducts.php';
     }
 
+    public function showCart() {
+        // include '/opt/src/pourpro/frontend/templates/cart.php';
+        include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/cart.php';
+        // include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/cart.php';
+    }
+    public function showCheckout() {
+        // include '/opt/src/pourpro/frontend/templates/checkout.php';
+        include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/checkout.php';
+        // include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/checkout.php';
+    }
     private function getProductDetails($product_id) {
         $details = $this->db->query("SELECT * from products WHERE product_id = $1", $product_id);
 
@@ -258,7 +285,7 @@ class PourProController {
                     $_SESSION["email"] = $res[0]["email"];
                     $_SESSION["type"] = $res[0]["type"];
                     if ($_SESSION["type"] === "admin") {
-                    header("Location: ?command=inventory");
+                        header("Location: ?command=inventory");
                     } else {
                         header("Location: ?command=custViewProducts");
                     }
@@ -298,7 +325,7 @@ class PourProController {
                 $_SESSION["email"] = $_POST["email"];
                 $_SESSION["type"] = "customer";
                 if ($_SESSION["type"] === "admin") {
-                header("Location: ?command=inventory");
+                    header("Location: ?command=inventory");
                 } else {
                     header("Location: ?command=custViewProducts");
                 }
@@ -362,7 +389,7 @@ class PourProController {
         } elseif (!is_numeric($input['supply_price']) || !preg_match('/^\d+(\.\d{2})$/', $input['supply_price'])) {
             $errors['supply_price'] = 'Supply price must be in valid numeric currency format';
         }
-        if(!isset($input['image_link'])||empty($input['image_link'])){
+        if (!isset($input['image_link']) || empty($input['image_link'])) {
             $errors['image_link'] = 'Image link is required';
         }
 
@@ -427,12 +454,12 @@ class PourProController {
 
     // Order more of existing product in database from Inventory View
     public function orderProduct() {
-    
+
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
+
             // Validate Form Input
             $errors = $this->isValidOrderProductInput($_POST);
-    
+
             // Check for validation errors
             if (!empty($errors)) {
                 // Return validation errors as JSON response
@@ -447,10 +474,10 @@ class PourProController {
                     intval($_POST["quantity_ordered"]),
                     intval($_POST["product_id"])
                 );
-    
+
                 // Return success message as JSON response
                 echo json_encode(array('success' => true));
-                
+
                 return;
             }
         } else {
@@ -498,7 +525,7 @@ class PourProController {
                     floatval($_POST["quantity_available"]),
                     intval($_POST["product_id"])
                 );
-                
+
                 // Return success message as JSON response
                 echo json_encode(array('success' => true));
                 return;
@@ -514,7 +541,7 @@ class PourProController {
 
     // Delete existing product in database from Inventory View
     public function deleteProduct() {
-        
+
         if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["product_id"])) {
             // Execute delete query
             $query = "DELETE FROM products WHERE product_id = $1";
@@ -530,12 +557,12 @@ class PourProController {
         }
     }
 
-    public function getAllProducts(){
+    public function getAllProducts() {
         $products = $this->db->query("select * from products");
         $_SESSION["products"] = $products;
         return $products;
     }
-    public function getAllProductsForCustomer(){
+    public function getAllProductsForCustomer() {
         $Custproducts = $this->db->query("SELECT * from products WHERE quantity_available > 0");
         $_SESSION["CustProducts"] = $Custproducts;
         return $Custproducts;
