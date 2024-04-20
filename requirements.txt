@@ -11,7 +11,22 @@ dateofPurchase: date,
 quantitySold: number,
 }]
 //Implementation method: Use a trigger on db side that on every product purchase, adds the quantities for that date of that product, and adds it to a seperate table that we will be requesting info as a json from
+=====================================================================
+
+Param:  flip/create some functions to arrow or anonymous
+        create checkout page
+        Use ajax to call a backend command(?=getprofileInfo) which returns as a json and then manipulates the dom on profile.php to display the user information
+        order list (both customer and admin) -- extra
+
+Dan:    cart and product page
+        andi and validation
+        go through reqs again to make sure everything is good
+        submit the project
+        do order if param doesn't finish
+
+
 Side notes: 
 //Make the UI of the app better in general
 //ensure ANDI & validation compliance stuff
+//ensure to put comments at the end
 //ensure mobile view
