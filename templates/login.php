@@ -27,7 +27,7 @@
     <nav class="navbar bg-light rounded-5">
       <div class="container">
         <div class="navbar-brand mb-0 h1">PourPro</div>
-        <ul class="navbar-nav"><li class="nav-item">Sign Up</li></ul>
+        <ul class="navbar-nav"><li class="nav-item"><a action="?command=signup">Sign Up</a></li></ul>
       </div>
     </nav>
     <!--Title-->
@@ -37,7 +37,7 @@
     <!--Sign In Form-->
     <?php if(!empty($_SESSION['email'])){$message;}?>
     <div class="form">
-      <form method="post" action="?command=login">
+      <form method="post" action="?command=logindb">
         <div class="form-group">
           <!-- <label for="exampleInputEmail1" class="text">Email address</label> -->
           <input

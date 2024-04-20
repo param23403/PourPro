@@ -13,63 +13,123 @@ class PourProController {
 
     public function run() {
         // Check if a specific command is set
-        $command = "inventory";
+        $command = "login";
 
         if (isset($this->input["command"]))
             $command = $this->input["command"];
 
-        if (!isset($_SESSION["email"]))
-            $command = "login";
 
         switch ($command) {
-            case 'login':
+            case 'logindb':
                 $this->loginDatabase();
+                break;
+            case 'login';
+                $this->showLogin();
                 break;
             case 'signupDatabase':
                 $this->signupDatabase();
                 break;
             case 'logout':
+                if (!isset($_SESSION["email"])){
+                    $this->showLogin();
+                    break;}
+                else{
                 $this->logout();
-                break;
+                break;}
             case 'signUp':
                 $this->showSignUp();
                 break;
             case 'detail':
-                $this->showDetail($_GET['product_id']);
-                break;
+                if (!isset($_SESSION["email"])) {
+                    $this->showLogin();
+                    break;
+                } else {
+                    $this->showDetail($_GET['product_id']);
+                    break;
+                }
             case 'navDetail':
-                $productId = $_GET['product_id'];
-                $this->clearErrorsAndOldInput();
-                header("Location: ?command=detail&product_id=$productId");
-                break;
+                if (!isset($_SESSION["email"])) {
+                    $this->showLogin();
+                    break;
+                } else {
+                    $productId = $_GET['product_id'];
+                    $this->clearErrorsAndOldInput();
+                    header("Location: ?command=detail&product_id=$productId");
+                    break;
+                }
             case 'navInventory':
-                $this->clearErrorsAndOldInput();
-                header("Location: ?command=inventory");
-                break;
+                if (!isset($_SESSION["email"])) {
+                    $this->showLogin();
+                    break;
+                } else {
+                    $this->clearErrorsAndOldInput();
+                    header("Location: ?command=inventory");
+                    break;
+                }
             case 'inventory':
-                $this->showInventory();
-                break;
+                if (!isset($_SESSION["email"])) {
+                    $this->showLogin();
+                    break;
+                } else {
+                    $this->showInventory();
+                    break;
+                }
             case 'addProduct':
-                $this->addProduct();
-                break;
+                if (!isset($_SESSION["email"])) {
+                    $this->showLogin();
+                    break;
+                } else {
+                    $this->addProduct();
+                    break;
+                }
             case 'profile':
-                $this->showProfile();
-                break;
+                if (!isset($_SESSION["email"])) {
+                    $this->showLogin();
+                    break;
+                } else {
+                    $this->showProfile();
+                    break;
+                }
             case 'productListToJson':
-                $this->showProductListJson();
-                break;
+                if (!isset($_SESSION["email"])) {
+                    $this->showLogin();
+                    break;
+                } else {
+                    $this->showProductListJson();
+                    break;
+                }
             case 'orderProduct':
-                $this->orderProduct();
-                break;
+                if (!isset($_SESSION["email"])) {
+                    $this->showLogin();
+                    break;
+                } else {
+                    $this->orderProduct();
+                    break;
+                }
             case 'updateProduct':
-                $this->updateProduct();
-                break;
+                if (!isset($_SESSION["email"])) {
+                    $this->showLogin();
+                    break;
+                } else {
+                    $this->updateProduct();
+                    break;
+                }
             case 'deleteProduct':
-                $this->deleteProduct();
-                break;
+                if (!isset($_SESSION["email"])) {
+                    $this->showLogin();
+                    break;
+                } else {
+                    $this->deleteProduct();
+                    break;
+                }
             case 'custViewProducts':
-                $this->showCustViewProducts();
-                break;
+                if (!isset($_SESSION["email"])) {
+                    $this->showLogin();
+                    break;
+                } else {
+                    $this->showCustViewProducts();
+                    break;
+                }
             default:
                 $this->showLogin();
         }
@@ -154,7 +214,7 @@ class PourProController {
                     $_SESSION["email"] = $res[0]["email"];
                     $_SESSION["type"] = $res[0]["type"];
                     // if ($_SESSION["type"] === "admin") {
-                        header("Location: ?command=inventory");
+                    header("Location: ?command=inventory");
                     // } else {
                     //     header("Location: ?command=custViewProducts");
                     // }
@@ -194,7 +254,7 @@ class PourProController {
                 $_SESSION["email"] = $_POST["email"];
                 $_SESSION["type"] = $_POST["type"];
                 // if ($_SESSION["type"] === "admin") {
-                    header("Location: ?command=inventory");
+                header("Location: ?command=inventory");
                 // } else {
                 //     header("Location: ?command=custViewProducts");
                 // }
