@@ -1,12 +1,10 @@
 For Sprint 4:
-1) Split out login and signup and check for user types where admin creation requires a password to create it and show appropriate views according to the user type(Param)
 2) Create customer view hitting whatever applicable for sprint reqs(Dan)
     - Card view of products
     - cart view
     - checkout view (dummy payment)
     - order history of that customer
     - Profile information if we store any
-3) Switch out client side form validation to AJAX and jquery(Dan)
 4) Consume a json for a product that contains following structure and display a line graph for it using chart.js on the product detail page(Param)
 JSON structure: [{
 dateofPurchase: date,

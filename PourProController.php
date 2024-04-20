@@ -396,7 +396,7 @@ class PourProController {
                 return;
             } else {
                 $this->db->query(
-                    "insert into products (product_name, category, brand, volume, unit_price, supply_price, quantity_available, imagelink) 
+                    "insert into products (product_name, category, brand, volume, unit_price, supply_price, quantity_available, image_link) 
                     values ($1, $2, $3, $4, $5,$6,$7,$8);",
                     $_POST["product_name"],
                     $_POST["category"],
@@ -405,7 +405,7 @@ class PourProController {
                     floatval($_POST["unit_price"]),
                     floatval($_POST["supply_price"]),
                     floatval($_POST["quantity_available"]),
-                    $_POST("image_link")
+                    $_POST["image_link"]
                 );
 
                 // Return success message as JSON response
