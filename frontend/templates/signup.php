@@ -70,17 +70,7 @@
             name="passwd"
           >
         </div>
-        <br >
-        <div class="form-group">
-          <!-- <label for="exampleInputPassword1" class="text">Password</label> -->
-          <input
-            type="type"
-            class="form-control"
-            id="exampleInputType1"
-            placeholder="Type"
-            name="type"
-          >
-        </div>
+        
         <br >
         <button
           type="submit"

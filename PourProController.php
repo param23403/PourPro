@@ -44,43 +44,66 @@ class PourProController {
                     $this->showLogin();
                     break;
                 } else {
+                    if ($_SESSION["type"] === "admin"){
                     $this->showDetail($_GET['product_id']);
-                    break;
+                    break;}
+                    else{
+                        $this->showCustViewProducts();
+                        break;
+                    }
                 }
             case 'navDetail':
                 if (!isset($_SESSION["email"])) {
                     $this->showLogin();
                     break;
                 } else {
+                    if ($_SESSION["type"] === "admin"){
                     $productId = $_GET['product_id'];
-                    $this->clearErrorsAndOldInput();
                     header("Location: ?command=detail&product_id=$productId");
-                    break;
+                    break;}
+                    else{
+                        $this->showCustViewProducts();
+                        break;
+                    }
                 }
             case 'navInventory':
                 if (!isset($_SESSION["email"])) {
                     $this->showLogin();
                     break;
                 } else {
-                    $this->clearErrorsAndOldInput();
+                    if ($_SESSION["type"] === "admin"){
                     header("Location: ?command=inventory");
-                    break;
+                    break;}
+                    else{
+                        $this->showCustViewProducts();
+                        break;
+                    }
                 }
             case 'inventory':
                 if (!isset($_SESSION["email"])) {
                     $this->showLogin();
                     break;
                 } else {
+                    if ($_SESSION["type"] === "admin"){
                     $this->showInventory();
-                    break;
+                    break;}
+                    else{
+                        $this->showCustViewProducts();
+                        break;
+                    }
                 }
             case 'addProduct':
                 if (!isset($_SESSION["email"])) {
                     $this->showLogin();
                     break;
                 } else {
+                    if ($_SESSION["type"] === "admin"){
                     $this->addProduct();
-                    break;
+                    break;}
+                    else{
+                        $this->showCustViewProducts();
+                        break;
+                    }
                 }
             case 'profile':
                 if (!isset($_SESSION["email"])) {
@@ -95,32 +118,52 @@ class PourProController {
                     $this->showLogin();
                     break;
                 } else {
+                    if ($_SESSION["type"] === "admin"){
                     $this->showProductListJson();
-                    break;
+                    break;}
+                    else{
+                        $this->showCustViewProducts();
+                        break;
+                    }
                 }
             case 'orderProduct':
                 if (!isset($_SESSION["email"])) {
                     $this->showLogin();
                     break;
                 } else {
+                    if ($_SESSION["type"] === "admin"){
                     $this->orderProduct();
-                    break;
+                    break;}
+                    else{
+                        $this->showCustViewProducts();
+                        break;
+                    }
                 }
             case 'updateProduct':
                 if (!isset($_SESSION["email"])) {
                     $this->showLogin();
                     break;
                 } else {
+                    if ($_SESSION["type"] === "admin"){
                     $this->updateProduct();
-                    break;
+                    break;}
+                    else{
+                        $this->showCustViewProducts();
+                        break;
+                    }
                 }
             case 'deleteProduct':
                 if (!isset($_SESSION["email"])) {
                     $this->showLogin();
                     break;
                 } else {
+                    if ($_SESSION["type"] === "admin"){
                     $this->deleteProduct();
-                    break;
+                    break;}
+                    else{
+                        $this->showCustViewProducts();
+                        break;
+                    }
                 }
             case 'custViewProducts':
                 if (!isset($_SESSION["email"])) {
@@ -213,11 +256,11 @@ class PourProController {
                     $_SESSION["name"] = $res[0]["name"];
                     $_SESSION["email"] = $res[0]["email"];
                     $_SESSION["type"] = $res[0]["type"];
-                    // if ($_SESSION["type"] === "admin") {
+                    if ($_SESSION["type"] === "admin") {
                     header("Location: ?command=inventory");
-                    // } else {
-                    //     header("Location: ?command=custViewProducts");
-                    // }
+                    } else {
+                        header("Location: ?command=custViewProducts");
+                    }
                     return;
                 } else {
                     // Password was incorrect
@@ -248,16 +291,16 @@ class PourProController {
                     $_POST["email"],
                     // Use the hashed password!
                     password_hash($_POST["passwd"], PASSWORD_DEFAULT),
-                    $_POST["type"]
+                    "customer"
                 );
                 $_SESSION["name"] = $_POST["fullname"];
                 $_SESSION["email"] = $_POST["email"];
-                $_SESSION["type"] = $_POST["type"];
-                // if ($_SESSION["type"] === "admin") {
+                $_SESSION["type"] = "customer";
+                if ($_SESSION["type"] === "admin") {
                 header("Location: ?command=inventory");
-                // } else {
-                //     header("Location: ?command=custViewProducts");
-                // }
+                } else {
+                    header("Location: ?command=custViewProducts");
+                }
                 return;
             } else {
                 // User was in the database, tell them that user exists and to login
