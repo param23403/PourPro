@@ -11,8 +11,18 @@ $products = $_SESSION['CustProducts'];
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>View Products</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/inventory.css">
 </head>
+
+<style>
+    .card-img-top {
+      height: 200px;
+      object-fit: scale-down;
+    }
+  </style>
 <body>
+<?php include __DIR__ . '/components/admin_navbar.php'; ?>
+
   <div class="container">
     <h1 class="my-4">View Products</h1>
     <div class="row">
@@ -35,8 +45,17 @@ $products = $_SESSION['CustProducts'];
       <?php endforeach; ?>
     </div>
 
-   
   </div>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+
+  <?php include __DIR__ . '/components/admin_footer.php'; ?>
+
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>
 </html>
