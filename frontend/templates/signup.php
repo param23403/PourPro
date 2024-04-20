@@ -12,7 +12,7 @@
     >
     <meta name="keywords" content="Liquor Store management software" >
 
-    <title>Login</title>
+    <title>SignUp</title>
 
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
@@ -20,24 +20,35 @@
       integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
       crossorigin="anonymous"
     >
-    <link rel="stylesheet" href="authentication.css" >
+    <link rel="stylesheet" href="css/authentication.css" >
   </head>
   <body>
     <!--Navbar-->
     <nav class="navbar bg-light rounded-5">
       <div class="container">
         <div class="navbar-brand mb-0 h1">PourPro</div>
-        <ul class="navbar-nav"><li class="nav-item"><a action="?command=signup">Sign Up</a></li></ul>
+        <ul class="navbar-nav"><li class="nav-item">Login</li></ul>
       </div>
     </nav>
     <!--Title-->
     <div class="title">
-      <b>Login</b>
+      <b>SignUp</b>
     </div>
     <!--Sign In Form-->
     <?php if(!empty($_SESSION['email'])){$message;}?>
     <div class="form">
-      <form method="post" action="?command=logindb">
+      <form method="post" action="?command=signupDatabase">
+      <div class="form-group">
+          <!-- <label for="exampleInputName1" class="text">Name</label> -->
+          <input
+            type="name"
+            class="form-control"
+            id="exampleInputName1"
+            placeholder="Enter Full Name"
+            name="fullname"
+          >
+        </div>
+        <br>
         <div class="form-group">
           <!-- <label for="exampleInputEmail1" class="text">Email address</label> -->
           <input
@@ -60,13 +71,23 @@
           >
         </div>
         <br >
-        
+        <div class="form-group">
+          <!-- <label for="exampleInputPassword1" class="text">Password</label> -->
+          <input
+            type="type"
+            class="form-control"
+            id="exampleInputType1"
+            placeholder="Type"
+            name="type"
+          >
+        </div>
+        <br >
         <button
           type="submit"
           class="btn btn-primary"
           style="background-color: #00848a"
         >
-          Sign In
+          Sign Up
         </button>
       </form>
     </div>
