@@ -25,6 +25,7 @@
       <?php echo $_SESSION["CustProducts"][$i]["category"] ?><br>
       <?php echo $_SESSION["CustProducts"][$i]["brand"] ?><br>
       <?php echo $_SESSION["CustProducts"][$i]["unit_price"] ?><br>
+      <?php echo $_SESSION["CustProducts"][$i]["imagelink"] ?><br>
     </p>
   <?php endfor; ?>
 </body>
