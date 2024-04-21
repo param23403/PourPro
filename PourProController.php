@@ -555,7 +555,7 @@ class PourProController {
                 echo "No cart exists or cart is empty";
                 return;
             }
-
+            
             foreach ($cart as $product) {
                 if (isset($product['quantity']) && isset($product['product_id'])) {
                     $query = "UPDATE products SET quantity_available = quantity_available - $1 WHERE product_id = $2";
