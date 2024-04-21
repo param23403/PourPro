@@ -215,8 +215,8 @@ class PourProController {
             $errorMessage = "<div class='alert alert-danger'>{$this->errorMessage}</div>";
         }
         // include '/opt/src/pourpro/frontend/templates/login.php';
-        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/login.php';
-        include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/login.php';
+        include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/login.php';
+        // include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/login.php';
     }
 
     public function showSignUp() {
@@ -225,21 +225,21 @@ class PourProController {
             $errorMessage = "<div class='alert alert-danger'>{$this->errorMessage}</div>";
         }
         // include '/opt/src/pourpro/templates/signup.php';
-        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/signup.php';
-        include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/signup.php';
+        include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/signup.php';
+        // include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/signup.php';
     }
 
     public function showProfile() {
         // include '/opt/src/pourpro/templates/profile.php';
-        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/profile.php';
-        include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/profile.php';
+        include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/profile.php';
+        // include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/profile.php';
     }
 
     public function showInventory() {
         $this->getAllProducts();
         // include '/opt/src/pourpro/frontend/templates/inventory.php';
-        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/inventory.php';
-        include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/inventory.php';
+        include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/inventory.php';
+        // include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/inventory.php';
     }
 
     public function showDetail($product_id) {
@@ -247,33 +247,33 @@ class PourProController {
         $_SESSION['product_details'] = $productDetails;
 
         // include '/opt/src/pourpro/frontend/templates/detail.php';
-        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/detail.php';
-        include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/detail.php';
+        include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/detail.php';
+        // include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/detail.php';
     }
 
     public function showCustViewProducts() {
         $this->getAllProductsForCustomer();
         // include '/opt/src/pourpro/frontend/templates/custViewProducts.php';
-        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/custViewProducts.php';
-        include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/custViewProducts.php';
+        include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/custViewProducts.php';
+        // include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/custViewProducts.php';
     }
 
     public function showCart() {
         // include '/opt/src/pourpro/frontend/templates/cart.php';
-        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/cart.php';
-        include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/cart.php';
+        include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/cart.php';
+        // include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/cart.php';
     }
     public function showCheckout() {
         // include '/opt/src/pourpro/frontend/templates/checkout.php';
-        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/checkout.php';
-        include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/checkout.php';
+        include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/checkout.php';
+        // include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/checkout.php';
     }
 
     public function showPastOrders() {
         $this->getAllPastOrders();
         // include '/opt/src/pourpro/frontend/templates/pastOrders.php';
-        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/pastOrders.php';
-        include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/pastOrders.php';
+        include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/pastOrders.php';
+        // include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/pastOrders.php';
     }
     private function getProductDetails($product_id) {
         $details = $this->db->query("SELECT * from products WHERE product_id = $1", $product_id);
@@ -304,6 +304,7 @@ class PourProController {
                     $_SESSION["name"] = $res[0]["name"];
                     $_SESSION["email"] = $res[0]["email"];
                     $_SESSION["type"] = $res[0]["type"];
+                    $_SESSION["customer_id"] = $res[0]["user_id"];
                     if ($_SESSION["type"] === "admin") {
                         header("Location: ?command=inventory");
                     } else {
@@ -344,6 +345,8 @@ class PourProController {
                 $_SESSION["name"] = $_POST["fullname"];
                 $_SESSION["email"] = $_POST["email"];
                 $_SESSION["type"] = "customer";
+                $res0 = $this->db->query("select * from users where email = $1;", $_POST["email"]);
+                $_SESSION["customer_id"] = $res0[0]["user_id"];
                 if ($_SESSION["type"] === "admin") {
                     header("Location: ?command=inventory");
                 } else {
@@ -541,7 +544,7 @@ class PourProController {
 
             $rawPostData = file_get_contents('php://input');
             $cart = json_decode($rawPostData, true);
-        
+
             if ($cart === null) {
                 http_response_code(400);
                 echo json_encode([
@@ -550,13 +553,13 @@ class PourProController {
                 ]);
                 return;
             }
-        
+
             if (empty($cart)) {
                 http_response_code(400);
                 echo json_encode(["error" => "Cart is empty."]);
                 return;
             }
-        
+
             foreach ($cart as $product) {
                 if (!isset($product['quantity']) || !isset($product['product_id'])) {
                     http_response_code(400);
@@ -564,26 +567,35 @@ class PourProController {
                     return;
                 }
             }
-        
+
             foreach ($cart as $product) {
                 $query = "UPDATE products SET quantity_available = quantity_available - $1 WHERE product_id = $2";
-                $this->db->query($query, 
-                    intval($product["quantity"]), 
+                $this->db->query(
+                    $query,
+                    intval($product["quantity"]),
                     intval($product["product_id"])
                 );
+                $pid = intval($product["product_id"]);
+                $product_price =  $this->db->query("select unit_price from products where product_id=$1", $pid);
+                $this->db->query(
+                    "INSERT INTO sales (product_id, quantity_sold, total_price, customer_id) VALUES ($1,$2,$3,$4);",
+                    $pid,
+                    intval($product["quantity"]),
+                    intval($product["quantity"])*floatval($product_price[0]["unit_price"]),
+                    $_SESSION["customer_id"]
+                );
             }
-    
+
             http_response_code(200);
             echo json_encode(["success" => "Checkout completed successfully."]);
             return;
-
         } else {
             http_response_code(405);
             echo json_encode(["error" => "Method Not Allowed. Only POST is accepted."]);
             return;
         }
     }
-    
+
 
     // Edit existing product in database from Inventory View
     public function updateProduct() {
