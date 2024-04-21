@@ -1,4 +1,3 @@
-<!-- cart.php -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,47 +7,70 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
   <link rel="stylesheet" href="css/inventory.css">
   <style>
-    .cart-row {
-      display: flex;
-      align-items: center;
-      padding: 10px 0;
-      border-bottom: 1px solid #ddd;
-      background-color: white;
-    }
+  .cart-container {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f8f9fa;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
 
-    .cart-image {
-      flex: 0 0 100px;
-      height: 100px;
-      object-fit: scale-down;
-      border-radius: 5px;
-      margin-right: 15px;
-    }
+  .cart-row {
+    display: flex;
+    align-items: center; 
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+}
 
-    .cart-info {
-      flex-grow: 1;
-    }
+.image-container {
+  flex: 0 0 40px; 
+  height: 40px; 
+  display: flex; 
+  justify-content: center; 
+  align-items: center;
+}
 
-    .cart-controls {
-      display: flex;
-      align-items: center;
-    }
+.cart-image {
+  max-width: 40px; 
+  height: auto; 
+  object-fit: contain; 
+  border-radius: 5px;
+}
 
-    .cart-quantity {
-      width: 50px;
-      text-align: center;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-    }
+.cart-info {
+  flex-grow: 1;
+  padding-left: 10px;
+}
 
-    .remove-from-cart {
-      color: #dc3545;
-      text-decoration: none;
-      margin-left: 10px;
-    }
+.cart-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-    .remove-from-cart:hover {
-      text-decoration: underline;
-    }
+.cart-quantity {
+  width: 50px; 
+  text-align: center;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+.remove-from-cart {
+  color: #dc3545;
+  text-decoration: none;
+}
+
+.remove-from-cart:hover {
+  text-decoration: underline;
+}
+
+.empty-cart-message {
+  font-size: 18px;
+  color: #888; 
+  text-align: center;
+}
+
   </style>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
@@ -56,13 +78,15 @@
 
 <?php include __DIR__ . '/components/customer_navbar.php'; ?>
 
-<div class="container">
-  <h1 class="my-4">Your Cart</h1>
+<div class="container my-4">
+  <div class="cart-container">
+    <h2 class="mb-4">Your Cart</h2> 
 
-  <div id="cart-items">
+    <div id="cart-items">
+    </div>
+
+    <p id="empty-cart-message" class="empty-cart-message" style="display: none;">Your cart is empty.</p>
   </div>
-
-  <p id="empty-cart-message" style="display: none;">Your cart is empty.</p>
 </div>
 
 <script>
@@ -83,15 +107,20 @@ function updateCartUI() {
   }
 
   cart.forEach((product) => {
-    
     const cartRowHtml = `
-      <div class="cart-row bg-white p-2" data-product-id="${product.product_id}">
-        <img src="${product.image_link}" class="cart-image" alt="${product.product_name}">
-        <div class="cart-info">
-          <h5>${product.product_name}</h5>
-          <p>Category: ${product.category} | Brand: ${product.brand} | Price: $${product.price}</p>
+      <div class="cart-row row" data-product-id="${product.product_id}">
+        <div class="col-auto"> <!-- Column for the image -->
+          <img src="${product.image_link}" class="cart-image" alt="${product.product_name}">
         </div>
-        <div class="cart-controls p-2">
+        <div class="col"> <!-- Column for product information -->
+          <h4><strong>${product.product_name}</strong></h4>
+          <p>
+            <strong>Category:</strong> ${product.category} |
+            <strong>Brand:</strong> ${product.brand} |
+            <strong>Price:</strong> $${product.price}
+          </p>
+        </div>
+        <div class="col-auto"> <!-- Column for controls -->
           <button class="btn btn-sm btn-outline-secondary decrease-quantity">-</button>
           <input type="text" value="${product.quantity}" class="cart-quantity" readonly>
           <button class="btn btn-sm btn-outline-secondary increase-quantity">+</button>
@@ -136,8 +165,7 @@ $(document).ready(() => {
 
   $("#cart-items").on("click", ".remove-from-cart", function (e) {
     e.preventDefault();
-    const productId = $(this).closest(".cart-row").data("product-id");
-    removeProductFromCart(productId);
+    removeProductFromCart($(this).closest(".cart-row").data("product-id"));
   });
 });
 </script>
