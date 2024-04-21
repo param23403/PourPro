@@ -543,19 +543,35 @@ class PourProController {
         $_SESSION["orders"] = $orders;
         return $orders;
     }
-    public function doCheckout(){
+    public function doCheckout() {
         if ($_SERVER["REQUEST_METHOD"] == "POST") {
-            
-        foreach($cart as $product){
-            $query = "UPDATE products SET quantity_available = quantity_available - $1 WHERE product_id = $2";
-            $this->db->query(
-                $query,
-                intval($product["quantity"]),
-                intval($product["product_id"])
-            );
-        }}
-        $this->showCustViewProducts();
-    }
+            // Use 'php://input' for raw data after HTTP headers https://stackoverflow.com/questions/8893574/php-php-input-vs-post
+            $rawPostData = file_get_contents('php://input');
+
+            $cart = json_decode($rawPostData, true);
+
+            if ($cart === null) {
+                http_response_code(400);
+                echo "No cart exists or cart is empty";
+                return;
+            }
+
+            foreach ($cart as $product) {
+                if (isset($product['quantity']) && isset($product['product_id'])) {
+                    $query = "UPDATE products SET quantity_available = quantity_available - $1 WHERE product_id = $2";
+                    $this->db->query(
+                        $query,
+                        [intval($product["quantity"]), intval($product["product_id"])]
+                    );
+                }
+            }
+
+            $this->showCustViewProducts();
+        } else {
+            // Invalid request
+            http_response_code(405);
+        }
+}
     // Edit existing product in database from Inventory View
     public function updateProduct() {
 

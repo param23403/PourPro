@@ -106,21 +106,28 @@
 
 <body>
   <script>
-   $('.checkout').on("click", function(event) {
+  $('.checkout').on("click", function(event) {
     event.preventDefault();
-      var jsonLocalStorageObj = JSON.stringify(localStorage);
-      console.log(jsonLocalStorageObj);
+    let cartData = localStorage.getItem("cart");
+
+    if (cartData) {
       $.ajax({
         url: "?command=performCheckout",
         type: "POST",
         dataType: 'json',
-        data: jsonLocalStorageObj,
+        data: cartData,
         contentType: "application/json; charset=utf-8",
-        success: function(result) {
-          console.log(result);
+        success: function(response) {
+          console.log(response);
+        },
+        error: function(xhr, status, error) {
+          console.error(xhr.responseText);
         }
       });
-   });
+    } else {
+      console.error("No cart data found in local storage");
+    }
+  });
   </script>
   <?php include __DIR__ . '/components/customer_navbar.php'; ?>
   <div class="title mt-5 mb-4">
