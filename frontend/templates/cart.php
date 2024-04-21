@@ -1,4 +1,3 @@
-<!-- cart.php -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,47 +7,71 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
   <link rel="stylesheet" href="css/inventory.css">
   <style>
-    .cart-row {
-      display: flex;
-      align-items: center;
-      padding: 10px 0;
-      border-bottom: 1px solid #ddd;
-      background-color: white;
-    }
+  .cart-container {
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #f8f9fa;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: relative; 
+    max-height: 90vh; 
+    overflow: hidden; 
+  }
 
-    .cart-image {
-      flex: 0 0 100px;
-      height: 100px;
-      object-fit: scale-down;
-      border-radius: 5px;
-      margin-right: 15px;
-    }
+  .cart-items {
+    overflow-y: auto;
+    max-height: 60vh; 
+    padding-right: 10px; 
+  }
 
-    .cart-info {
-      flex-grow: 1;
-    }
+  .cart-row {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+  }
 
-    .cart-controls {
-      display: flex;
-      align-items: center;
-    }
+  .cart-image {
+    max-width: 40px;
+    height: auto;
+    object-fit: contain;
+    border-radius: 5px;
+  }
 
-    .cart-quantity {
-      width: 50px;
-      text-align: center;
-      border: 1px solid #ddd;
-      border-radius: 5px;
-    }
+  .cart-quantity {
+    width: 50px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+  }
 
-    .remove-from-cart {
-      color: #dc3545;
-      text-decoration: none;
-      margin-left: 10px;
-    }
+  .remove-from-cart {
+    color: #dc3545;
+    text-decoration: none;
+  }
 
-    .remove-from-cart:hover {
-      text-decoration: underline;
-    }
+  .remove-from-cart:hover {
+    text-decoration: underline;
+  }
+
+  .cart-footer {
+    position: sticky;
+    bottom: 0;
+    background-color: #f8f9fa;
+    padding-top: 12px;
+    padding-bottom: 10px;
+    text-align: right;
+  }
+
+  .cart-total {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
+
+  .checkout-button {
+    margin-top: 10px;
+  }
   </style>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
@@ -56,13 +79,25 @@
 
 <?php include __DIR__ . '/components/customer_navbar.php'; ?>
 
-<div class="container">
-  <h1 class="my-4">Your Cart</h1>
+<div class="container my-4">
+  <div class="cart-container">
+    <h2 class="mb-4">Your Cart</h2>
 
-  <div id="cart-items">
+    <!-- Empty cart message -->
+    <p id="empty-cart-message" class="empty-cart-message" style="display: none;">Your cart is empty.</p>
+
+    <!-- Scrollable area for cart items -->
+    <div id="cart-items" class="cart-items">
+    </div>
+
+    <!-- Fixed footer for total and checkout -->
+    <div class="cart-footer">
+      <p class="cart-total">Total: $<span id="cart-total">0.00</span></p>
+      <div class="checkout-button">
+        <button class="btn btn-primary checkout">Checkout</button>
+      </div>
+    </div>
   </div>
-
-  <p id="empty-cart-message" style="display: none;">Your cart is empty.</p>
 </div>
 
 <script>
@@ -74,24 +109,31 @@ function updateCartUI() {
   const cart = loadCartFromLocalStorage();
   const $cartItems = $("#cart-items");
   $cartItems.empty();
+  let cartTotal = 0;
 
   if (cart.length === 0) {
     $("#empty-cart-message").show();
-    return;
   } else {
     $("#empty-cart-message").hide();
   }
 
   cart.forEach((product) => {
-    
+    cartTotal += product.quantity * product.price;
+
     const cartRowHtml = `
-      <div class="cart-row bg-white p-2" data-product-id="${product.product_id}">
-        <img src="${product.image_link}" class="cart-image" alt="${product.product_name}">
-        <div class="cart-info">
-          <h5>${product.product_name}</h5>
-          <p>Category: ${product.category} | Brand: ${product.brand} | Price: $${product.price}</p>
+      <div class="cart-row row" data-product-id="${product.product_id}">
+        <div class="col-auto"> <!-- Column for the image -->
+          <img src="${product.image_link}" class="cart-image" alt="${product.product_name}">
         </div>
-        <div class="cart-controls p-2">
+        <div class="col"> <!-- Column for product information -->
+          <h4><strong>${product.product_name}</strong></h4>
+          <p>
+            <strong>Category:</strong> ${product.category} |
+            <strong>Brand:</strong> ${product.brand} |
+            <strong>Price:</strong> $${product.price}
+          </p>
+        </div>
+        <div class="col-auto"> <!-- Column for controls -->
           <button class="btn btn-sm btn-outline-secondary decrease-quantity">-</button>
           <input type="text" value="${product.quantity}" class="cart-quantity" readonly>
           <button class="btn btn-sm btn-outline-secondary increase-quantity">+</button>
@@ -99,8 +141,11 @@ function updateCartUI() {
         </div>
       </div>
     `;
+
     $cartItems.append(cartRowHtml);
   });
+
+  $("#cart-total").text(cartTotal.toFixed(2));
 }
 
 function updateProductQuantity(productId, increment) {
@@ -121,6 +166,11 @@ function removeProductFromCart(productId) {
   updateCartUI();
 }
 
+function emptyCart() {
+  localStorage.removeItem("cart");
+  updateCartUI();
+}
+
 $(document).ready(() => {
   updateCartUI();
 
@@ -136,13 +186,45 @@ $(document).ready(() => {
 
   $("#cart-items").on("click", ".remove-from-cart", function (e) {
     e.preventDefault();
-    const productId = $(this).closest(".cart-row").data("product-id");
-    removeProductFromCart(productId);
+    removeProductFromCart($(this).closest(".cart-row").data("product-id"));
   });
- 
+
+  // Triggering the checkout AJAX call
+$('.checkout').on('click', function (event) {
+  event.preventDefault();
+
+  let cartDataStr = localStorage.getItem("cart"); 
+
+  if (cartDataStr) {
+      $.ajax({
+          url: "?command=performCheckout",
+          type: "POST",
+          dataType: 'json',
+          data: cartDataStr,
+          contentType: "application/json; charset=utf-8",
+          success: function (response) { 
+              console.log("Checkout successful:", response);
+              emptyCart();
+          },
+          error: function (xhr, status, error) { 
+              console.error("Checkout failed:", xhr.responseText);
+
+              let errorData;
+              try {
+                  errorData = JSON.parse(xhr.responseText);
+              } catch (e) {
+                  errorData = { error: "Unknown error occurred." };
+              }
+          }
+      });
+  } else {
+      console.error("No cart data found in local storage");
+  }
+});
+
+
 });
 </script>
-<a class="checkout btn btn-primary" href="?command=checkout">Checkout</a>
 
 </body>
 </html>
