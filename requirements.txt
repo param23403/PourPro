@@ -1,11 +1,6 @@
-4) Consume a json for a product that contains following structure and display a line graph for it using chart.js on the product detail page(Param)
-JSON structure: [{
-dateofPurchase: date,
-quantitySold: number,
-}]
-
-        - flip/create some functions anonymous
-        - Use ajax to call a backend command(?=getprofileInfo) which returns as a json and then manipulates the dom on profile.php to display the user information
+        (IMP)- flip/create some functions anonymous
+        (IMP)- Use ajax to call a backend command(?=getprofileInfo) which returns as a json and then manipulates the dom on profile.php to display the user information
+        - UI
         - andi and validation
 
         - go through reqs again to make sure everything is good
