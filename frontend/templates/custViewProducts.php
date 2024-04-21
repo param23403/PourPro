@@ -101,6 +101,13 @@ $products = $_SESSION['CustProducts'];
               <strong>Brand:</strong> <?php echo htmlspecialchars($product["brand"]); ?><br>
               <strong>Price:</strong> $<?php echo htmlspecialchars(number_format($product["unit_price"], 2)); ?>
             </p>
+            <div class="product-info">
+              <input type="hidden" class="product-image" value="<?php echo htmlspecialchars($product["image_link"]); ?>">
+              <input type="hidden" class="product-category" value="<?php echo htmlspecialchars($product["category"]); ?>">
+              <input type="hidden" class="product-brand" value="<?php echo htmlspecialchars($product["brand"]); ?>">
+              <input type="hidden" class="product-price" value="<?php echo htmlspecialchars(number_format($product["unit_price"], 2)); ?>">
+              <input type="hidden" class="product-quantity-available" value="<?php echo htmlspecialchars($product["quantity_available"]); ?>">
+            </div>
             <div class="d-flex justify-content-between align-items-center">
               <button class="btn btn-primary add-to-cart">Add to Cart</button>
               <div class="cart-info"> 
@@ -136,8 +143,10 @@ function addItemToCart(product) {
   let existingItem = findProductInCart(cart, product.product_id);
 
   if (existingItem) {
+
     existingItem.quantity += 1;
   } else {
+    // Set item quantity property
     product.quantity = 1;
     cart.push(product);
   }
@@ -181,7 +190,8 @@ $(document).ready(function() {
       category: card.find(".product-category").val(),
       brand: card.find(".product-brand").val(),
       price: parseFloat(card.find(".product-price").val()),
-      image_link: card.find(".product-image").val()
+      image_link: card.find(".product-image").val(),
+      quantity_available: card.find(".product-quantity-available").val()
     };
 
     addItemToCart(product);

@@ -13,64 +13,65 @@
     border-radius: 10px;
     background-color: #f8f9fa;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: relative; 
+    max-height: 90vh; 
+    overflow: hidden; 
+  }
+
+  .cart-items {
+    overflow-y: auto;
+    max-height: 60vh; 
+    padding-right: 10px; 
   }
 
   .cart-row {
     display: flex;
-    align-items: center; 
+    align-items: center;
     padding: 10px 0;
     border-bottom: 1px solid #ddd;
-}
+  }
 
-.image-container {
-  flex: 0 0 40px; 
-  height: 40px; 
-  display: flex; 
-  justify-content: center; 
-  align-items: center;
-}
+  .cart-image {
+    max-width: 40px;
+    height: auto;
+    object-fit: contain;
+    border-radius: 5px;
+  }
 
-.cart-image {
-  max-width: 40px; 
-  height: auto; 
-  object-fit: contain; 
-  border-radius: 5px;
-}
+  .cart-quantity {
+    width: 50px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+  }
 
-.cart-info {
-  flex-grow: 1;
-  padding-left: 10px;
-}
+  .remove-from-cart {
+    color: #dc3545;
+    text-decoration: none;
+  }
 
-.cart-controls {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
+  .remove-from-cart:hover {
+    text-decoration: underline;
+  }
 
-.cart-quantity {
-  width: 50px; 
-  text-align: center;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  background-color: #fff;
-}
+  .cart-footer {
+    position: sticky;
+    bottom: 0;
+    background-color: #f8f9fa;
+    padding-top: 12px;
+    padding-bottom: 10px;
+    text-align: right;
+  }
 
-.remove-from-cart {
-  color: #dc3545;
-  text-decoration: none;
-}
+  .cart-total {
+    font-size: 20px;
+    margin-bottom: 10px;
+  }
 
-.remove-from-cart:hover {
-  text-decoration: underline;
-}
-
-.empty-cart-message {
-  font-size: 18px;
-  color: #888; 
-  text-align: center;
-}
-
+  .checkout-button {
+    margin-top: 10px;
+  }
   </style>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
@@ -80,12 +81,22 @@
 
 <div class="container my-4">
   <div class="cart-container">
-    <h2 class="mb-4">Your Cart</h2> 
+    <h2 class="mb-4">Your Cart</h2>
 
-    <div id="cart-items">
+    <!-- Empty cart message -->
+    <p id="empty-cart-message" class="empty-cart-message" style="display: none;">Your cart is empty.</p>
+
+    <!-- Scrollable area for cart items -->
+    <div id="cart-items" class="cart-items">
     </div>
 
-    <p id="empty-cart-message" class="empty-cart-message" style="display: none;">Your cart is empty.</p>
+    <!-- Fixed footer for total and checkout -->
+    <div class="cart-footer">
+      <p class="cart-total">Total: $<span id="cart-total">0.00</span></p>
+      <div class="checkout-button">
+        <button class="btn btn-primary checkout">Checkout</button>
+      </div>
+    </div>
   </div>
 </div>
 
@@ -98,15 +109,17 @@ function updateCartUI() {
   const cart = loadCartFromLocalStorage();
   const $cartItems = $("#cart-items");
   $cartItems.empty();
+  let cartTotal = 0;
 
   if (cart.length === 0) {
     $("#empty-cart-message").show();
-    return;
   } else {
     $("#empty-cart-message").hide();
   }
 
   cart.forEach((product) => {
+    cartTotal += product.quantity * product.price;
+
     const cartRowHtml = `
       <div class="cart-row row" data-product-id="${product.product_id}">
         <div class="col-auto"> <!-- Column for the image -->
@@ -128,8 +141,11 @@ function updateCartUI() {
         </div>
       </div>
     `;
+
     $cartItems.append(cartRowHtml);
   });
+
+  $("#cart-total").text(cartTotal.toFixed(2));
 }
 
 function updateProductQuantity(productId, increment) {
@@ -150,6 +166,11 @@ function removeProductFromCart(productId) {
   updateCartUI();
 }
 
+function emptyCart() {
+  localStorage.removeItem("cart");
+  updateCartUI();
+}
+
 $(document).ready(() => {
   updateCartUI();
 
@@ -167,6 +188,41 @@ $(document).ready(() => {
     e.preventDefault();
     removeProductFromCart($(this).closest(".cart-row").data("product-id"));
   });
+
+  // Triggering the checkout AJAX call
+$('.checkout').on('click', function (event) {
+  event.preventDefault();
+
+  let cartDataStr = localStorage.getItem("cart"); 
+
+  if (cartDataStr) {
+      $.ajax({
+          url: "?command=performCheckout",
+          type: "POST",
+          dataType: 'json',
+          data: cartDataStr,
+          contentType: "application/json; charset=utf-8",
+          success: function (response) { 
+              console.log("Checkout successful:", response);
+              emptyCart();
+          },
+          error: function (xhr, status, error) { 
+              console.error("Checkout failed:", xhr.responseText);
+
+              let errorData;
+              try {
+                  errorData = JSON.parse(xhr.responseText);
+              } catch (e) {
+                  errorData = { error: "Unknown error occurred." };
+              }
+          }
+      });
+  } else {
+      console.error("No cart data found in local storage");
+  }
+});
+
+
 });
 </script>
 
