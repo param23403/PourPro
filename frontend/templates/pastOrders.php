@@ -81,6 +81,10 @@
                 </tbody>
             </table>
         <?php }; ?>
+        <br>
+        <br>
+        <br>
+        <br>
         <?php include __DIR__ . '/components/admin_footer.php'; ?>
 
 

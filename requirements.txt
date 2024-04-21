@@ -16,7 +16,8 @@ quantitySold: number,
 Param:  flip/create some functions to arrow or anonymous
         create checkout page
         Use ajax to call a backend command(?=getprofileInfo) which returns as a json and then manipulates the dom on profile.php to display the user information
-        order list (both customer and admin) -- extra
+        order list (both customer)
+        # and admin) -- extra
 
 Dan:    cart and product page
         andi and validation
