@@ -225,7 +225,6 @@ $('.checkout').on('click', function (event) {
 
 });
 </script>
-<a class="checkout btn btn-primary" href="?command=checkout">Checkout</a>
 
 </body>
 </html>
