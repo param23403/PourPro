@@ -13,7 +13,7 @@
             <a class="nav-link" href="?command=cart">Cart</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">Past Orders</a>
+            <a class="nav-link" href="?command=purchaseHistory">Purchase History</a>
           </li>
         </ul>
         <strong class="navbar-brand">PourPro</strong>

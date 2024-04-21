@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Past Orders</title>
+    <title>Purchase History</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     <link rel="stylesheet" href="css/inventory.css">
     <style>
@@ -48,33 +48,33 @@
 </head>
 
 <body>
-    <?php include __DIR__ . '/components/admin_navbar.php'; ?>
-    <?php $orders=$_SESSION["orders"];?>
-    <?php if (isset($_SESSION["orders"]) && !empty($_SESSION["orders"])) { ?>
+    <?php include __DIR__ . '/components/customer_navbar.php'; ?>
+    <?php $purchases=$_SESSION["purchases"];?>
+    <?php if (isset($_SESSION["purchases"]) && !empty($_SESSION["purchases"])) { ?>
         <div class="orders-list">
             <table>
                 <thead>
                     <tr>
-                        <th>Order Date</th>
+                        <th>Purchase Date</th>
                         <th>Product Name</th>
                         <th>Quantity Ordered</th>
                         <th>Total Cost</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($orders as $order) { ?>
+                    <?php foreach ($purchases as $purchase) { ?>
                         <tr>
                             <td>
-                                <?php echo $order["order_date"] ?>
+                                <?php echo $purchase["sales_date"] ?>
                             </td>
                             <td>
-                                <?php echo $order["product_name"] ?>
+                                <?php echo $purchase["product_name"] ?>
                             </td>
                             <td>
-                                <?php echo $order["quantity_ordered"] ?>
+                                <?php echo $purchase["quantity_sold"] ?>
                             </td>
                             <td>
-                                <?php echo $order["total_cost"] ?>
+                                <?php echo $purchase["total_price"] ?>
                             </td>
                         </tr>
                     <?php }; ?>
@@ -85,7 +85,7 @@
         <br>
         <br>
         <br>
-        <?php include __DIR__ . '/components/admin_footer.php'; ?>
+        <?php include __DIR__ . '/components/customer_footer.php'; ?>
 
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>

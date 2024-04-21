@@ -127,6 +127,22 @@ class PourProController {
                     $this->showProfile();
                     break;
                 }
+            case 'purchaseHistory':
+                if (!isset($_SESSION["email"])) {
+                    $this->showLogin();
+                    break;
+                } else {
+                    $this->showPurchaseHistory();
+                    break;
+                }
+            case 'spendAnalysis':
+                if (!isset($_SESSION["email"])) {
+                    $this->showLogin();
+                    break;
+                } else {
+                    $this->showSpendAnalysis();
+                    break;
+                }
             case 'productListToJson':
                 if (!isset($_SESSION["email"])) {
                     $this->showLogin();
@@ -274,6 +290,19 @@ class PourProController {
         // include '/opt/src/pourpro/frontend/templates/pastOrders.php';
         include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/pastOrders.php';
         // include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/pastOrders.php';
+    }
+    public function showPurchaseHistory() {
+        $this->getPurchaseHistory();
+        // include '/opt/src/pourpro/frontend/templates/purchaseHistory.php';
+        include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/purchaseHistory.php';
+        // include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/purchaseHistory.php';
+    }
+
+    public function showSpendAnalysis() {
+        $this->getSpendAnalysis();
+        // include '/opt/src/pourpro/frontend/templates/spendAnalysis.php';
+        include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/spendAnalysis.php';
+        // include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/spendAnalysis.php';
     }
     private function getProductDetails($product_id) {
         $details = $this->db->query("SELECT * from products WHERE product_id = $1", $product_id);
@@ -521,6 +550,24 @@ class PourProController {
             return;
         }
     }
+    public function getPurchaseHistory() {
+        $purchases = $this->db->query("SELECT * FROM sales WHERE customer_id=$1", $_SESSION["customer_id"]);
+        foreach ($purchases as $key => $purchase) {
+            $pid = $purchase["product_id"];
+            $pname =  $this->db->query("select product_name from products where product_id=$1", $pid);
+
+            if (!empty($pname)) {
+                $purchases[$key]["product_name"] = $pname[0]["product_name"];
+            } else {
+                $purchases[$key]["product_name"] = "Product name not found";
+            }
+        }
+        $_SESSION["purchases"] = $purchases;
+    }
+    public function getSpendAnalysis(){
+        $spend = $this->db->query("SELECT sales_date, SUM(quantity_sold) as quantity_bought, SUM(total_price) as total_amount FROM sales WHERE customer_id=$1 GROUP BY sales_date", $_SESSION["customer_id"]);
+        $_SESSION["spend"] = $spend;
+    }
     public function getAllPastOrders() {
         $orders = $this->db->query("select * from orders");
         foreach ($orders as $key => $order) {
@@ -581,7 +628,7 @@ class PourProController {
                     "INSERT INTO sales (product_id, quantity_sold, total_price, customer_id) VALUES ($1,$2,$3,$4);",
                     $pid,
                     intval($product["quantity"]),
-                    intval($product["quantity"])*floatval($product_price[0]["unit_price"]),
+                    intval($product["quantity"]) * floatval($product_price[0]["unit_price"]),
                     $_SESSION["customer_id"]
                 );
             }
