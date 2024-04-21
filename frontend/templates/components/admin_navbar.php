@@ -13,6 +13,9 @@
           <li class="nav-item">
             <a class="nav-link" href="?command=pastOrders">Past Orders</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link" href="?command=sales">Sales</a>
+          </li>
         </ul>
         <strong class="navbar-brand">PourPro</strong>
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">

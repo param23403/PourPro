@@ -195,6 +195,19 @@ class PourProController {
                         break;
                     }
                 }
+            case 'sales':
+                if (!isset($_SESSION["email"])) {
+                    $this->showLogin();
+                    break;
+                } else {
+                    if ($_SESSION["type"] === "admin") {
+                        $this->showSales();
+                        break;
+                    } else {
+                        $this->showCustViewProducts();
+                        break;
+                    }
+                }
             case 'custViewProducts':
                 if (!isset($_SESSION["email"])) {
                     $this->showLogin();
@@ -303,6 +316,12 @@ class PourProController {
         // include '/opt/src/pourpro/frontend/templates/spendAnalysis.php';
         include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/spendAnalysis.php';
         // include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/spendAnalysis.php';
+    }
+    public function showSales(){
+        $this->getSales();
+         // include '/opt/src/pourpro/frontend/templates/sales.php';
+         include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/sales.php';
+         // include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/sales.php';
     }
     private function getProductDetails($product_id) {
         $details = $this->db->query("SELECT * from products WHERE product_id = $1", $product_id);
@@ -564,9 +583,13 @@ class PourProController {
         }
         $_SESSION["purchases"] = $purchases;
     }
-    public function getSpendAnalysis(){
+    public function getSpendAnalysis() {
         $spend = $this->db->query("SELECT sales_date, SUM(quantity_sold) as quantity_bought, SUM(total_price) as total_amount FROM sales WHERE customer_id=$1 GROUP BY sales_date", $_SESSION["customer_id"]);
         $_SESSION["spend"] = $spend;
+    }
+    public function getSales(){
+        $sales = $this->db->query("SELECT sales_date, SUM(quantity_sold) as total_quantity_sold, SUM(total_price) as total_sales FROM sales GROUP BY sales_date");
+        $_SESSION["sales"] = $sales;
     }
     public function getAllPastOrders() {
         $orders = $this->db->query("select * from orders");
