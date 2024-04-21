@@ -67,19 +67,19 @@ class PourProController {
                         break;
                     }
                 }
-                case 'pastOrders':
-                    if (!isset($_SESSION["email"])) {
-                        $this->showLogin();
+            case 'pastOrders':
+                if (!isset($_SESSION["email"])) {
+                    $this->showLogin();
+                    break;
+                } else {
+                    if ($_SESSION["type"] === "admin") {
+                        $this->showPastOrders();
                         break;
                     } else {
-                        if ($_SESSION["type"] === "admin") {
-                            $this->showPastOrders();
-                            break;
-                        } else {
-                            $this->showCustViewProducts();
-                            break;
-                        }
+                        $this->showCustViewProducts();
+                        break;
                     }
+                }
             case 'navInventory':
                 if (!isset($_SESSION["email"])) {
                     $this->showLogin();
@@ -203,6 +203,14 @@ class PourProController {
                     $this->showCheckout();
                     break;
                 }
+            case 'performCheckout':
+                if (!isset($_SESSION["email"])) {
+                    $this->showLogin();
+                    break;
+                } else {
+                    $this->doCheckout();
+                    break;
+                }
             default:
                 $this->showLogin();
         }
@@ -269,7 +277,7 @@ class PourProController {
         // include '/students/xtz3mx/students/xtz3mx/private/pourpro/templates/checkout.php';
     }
 
-    public function showPastOrders(){
+    public function showPastOrders() {
         $this->getAllPastOrders();
         // include '/opt/src/pourpro/frontend/templates/pastOrders.php';
         include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/pastOrders.php';
@@ -493,16 +501,18 @@ class PourProController {
                     intval($_POST["quantity_ordered"]),
                     intval($_POST["product_id"])
                 );
-                
-                $pricequery = $this->db->query("SELECT supply_price FROM products WHERE product_id=$1",
+
+                $pricequery = $this->db->query(
+                    "SELECT supply_price FROM products WHERE product_id=$1",
                     intval($_POST["product_id"])
                 );
 
                 $price = $pricequery[0]["supply_price"];
-                $this->db->query("insert into orders (product_id, quantity_ordered, total_cost) values ($1,$2,$3);",
+                $this->db->query(
+                    "insert into orders (product_id, quantity_ordered, total_cost) values ($1,$2,$3);",
                     intval($_POST["product_id"]),
                     intval($_POST["quantity_ordered"]),
-                    floatval($price)*intval($_POST["quantity_ordered"])
+                    floatval($price) * intval($_POST["quantity_ordered"])
                 );
                 // Return success message as JSON response
                 echo json_encode(array('success' => true));
@@ -516,24 +526,36 @@ class PourProController {
             return;
         }
     }
-    public function getAllPastOrders(){
+    public function getAllPastOrders() {
         $orders = $this->db->query("select * from orders");
-        foreach($orders as $key => $order){
+        foreach ($orders as $key => $order) {
             $pid = $order["product_id"];
-            $pname =  $this->db->query("select product_name from products where product_id=$1",$pid);
-            
+            $pname =  $this->db->query("select product_name from products where product_id=$1", $pid);
+
             if (!empty($pname)) {
                 $orders[$key]["product_name"] = $pname[0]["product_name"];
             } else {
                 $orders[$key]["product_name"] = "Product name not found";
             }
         };
-        
+
         // Update the session variable with the modified orders
         $_SESSION["orders"] = $orders;
         return $orders;
     }
-
+    public function doCheckout(){
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            
+        foreach($cart as $product){
+            $query = "UPDATE products SET quantity_available = quantity_available - $1 WHERE product_id = $2";
+            $this->db->query(
+                $query,
+                intval($product["quantity"]),
+                intval($product["product_id"])
+            );
+        }}
+        $this->showCustViewProducts();
+    }
     // Edit existing product in database from Inventory View
     public function updateProduct() {
 

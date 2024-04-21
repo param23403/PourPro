@@ -181,6 +181,5 @@ $products = $_SESSION['CustProducts'];
     });
 
   </script>
-
 </body>
 </html>

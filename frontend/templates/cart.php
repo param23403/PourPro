@@ -139,8 +139,10 @@ $(document).ready(() => {
     const productId = $(this).closest(".cart-row").data("product-id");
     removeProductFromCart(productId);
   });
+ 
 });
 </script>
+<a class="checkout btn btn-primary" href="?command=checkout">Checkout</a>
 
 </body>
 </html>
