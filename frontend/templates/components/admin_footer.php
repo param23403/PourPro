@@ -18,7 +18,7 @@
               <a class="nav-link" href="?command=inventory">Inventory</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Past Order</a>
+              <a class="nav-link" href="?command=pastOrders">Past Order</a>
             </li>
           </ul>
         </div>
