@@ -325,7 +325,8 @@ class PourProController {
     }
     private function getProductDetails($product_id) {
         $details = $this->db->query("SELECT * from products WHERE product_id = $1", $product_id);
-
+        $productSales = $this->db->query("SELECT sales_date, SUM(quantity_sold) as date_quantity_sold, SUM(total_price) as total_sales FROM sales WHERE product_id = $1 GROUP BY sales_date",$product_id);
+        $_SESSION["productSales"] = $productSales;
         return $details[0];
     }
 

@@ -21,6 +21,43 @@
     >
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="css/detail.css">
+    <style>
+        .orders-list {
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .orders-list h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .orders-list table {
+            width: 100%;
+            border-collapse: collapse;
+            color: white;
+        }
+
+        .orders-list th,
+        .orders-list td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+            background-color: #333; 
+        }
+
+        .orders-list th {
+            background-color: #555;
+        }
+
+        .orders-list tr:nth-child(even) {
+            background-color:  #444;
+        }
+
+        .orders-list tr:hover {
+            background-color: #f9f9f9;
+        }
+    </style>
 </head>
 <body>
   <?php include __DIR__ . '/components/admin_navbar.php'; ?>
@@ -31,7 +68,7 @@
   </div>
   <!--Main Container-->
   <div class="container-fluid">
-    <!--Product Container-->
+    <!-- Product Container
     <div class="row product-container d-flex">
         <div class="col-md-6 d-flex align-items-end">
           <div class="card">
@@ -39,7 +76,8 @@
                 <img src="https://exceldashboardschool.com/wp-content/uploads/2013/10/sales-forecast-chart.png" class="product-img" alt="Sales Chart">
             </div>
             <div class="card-body">
-              <h2 class="card-title"><?php echo $_SESSION["product_details"]["product_name"] ?> Sales Analytics</h2>
+              <h2 class="card-title">
+              Sales Analytics</h2>
             </div>
           </div>
         </div>
@@ -47,11 +85,12 @@
             <div class="card">
                 <img src="https://media.istockphoto.com/id/940975334/photo/crate-full-of-beer-bottles-isolated-on-white-background.jpg?s=612x612&w=0&k=20&c=gf32SnHpdTiyj8rfyot_z1QFcylLIt3HHy_0RZ2K9Zw=" class="card-img-top product-img" alt="Product Image">
                 <div class="card-body">
-                    <h2 class="card-title"><?php echo $_SESSION["product_details"]["product_name"] ?> - $24.99</h2>
+                    <h2 class="card-title">
+                      - $24.99</h2>
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
     <!--Product Table Row Detail-->
     <div class="row mt-4">
@@ -90,6 +129,38 @@
         </div>
       </div>
     </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <?php $productSales=$_SESSION["productSales"];?>
+    <?php if (isset($_SESSION["productSales"]) && !empty($_SESSION["productSales"])) { ?>
+        <div class="orders-list">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Quantity Sold</th>
+                        <th>Total Sale Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($productSales as $productSale) { ?>
+                        <tr>
+                            <td>
+                                <?php echo $productSale["sales_date"] ?>
+                            </td>
+                            <td>
+                                <?php echo $productSale["date_quantity_sold"] ?>
+                            </td>
+                            <td>
+                                <?php echo $productSale["total_sales"] ?>
+                            </td>
+                        </tr>
+                    <?php }; ?>
+                </tbody>
+            </table>
+        <?php }; ?>
   </div>
 
   <?php include __DIR__ . '/components/admin_footer.php'; ?>
