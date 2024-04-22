@@ -15,7 +15,7 @@ $products = $_SESSION['CustProducts'];
       padding: 20px;
       border: 1px solid #ddd;
       border-radius: 10px;
-      background-color: #f8f9fa;
+      background-color: #444; 
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
     }
 
@@ -85,40 +85,48 @@ $products = $_SESSION['CustProducts'];
 
 <?php include __DIR__ . '/components/customer_navbar.php'; ?>
 
-<div class="container my-4 product-container">
-  <h2>Shop Products</h2> 
-  <div class="row">
-    <?php foreach ($products as $product): ?>
-      <div class="col-md-3 mb-4"> <!-- Card column -->
-        <div class="card" data-product-id="<?php echo htmlspecialchars($product["product_id"]); ?>">
-          <?php if (!empty($product["image_link"])): ?>
-            <img src="<?php echo htmlspecialchars($product["image_link"]); ?>" class="card-img-top" alt="<?php echo htmlspecialchars($product["product_name"]); ?>">
-          <?php endif; ?>
-          <div class="card-body"> 
-            <h5 class="card-title"><?php echo htmlspecialchars($product["product_name"]); ?></h5>
-            <p class="card-text">
-              <strong>Category:</strong> <?php echo htmlspecialchars($product["category"]); ?><br>
-              <strong>Brand:</strong> <?php echo htmlspecialchars($product["brand"]); ?><br>
-              <strong>Price:</strong> $<?php echo htmlspecialchars(number_format($product["unit_price"], 2)); ?>
-            </p>
-            <div class="product-info">
-              <input type="hidden" class="product-image" value="<?php echo htmlspecialchars($product["image_link"]); ?>">
-              <input type="hidden" class="product-category" value="<?php echo htmlspecialchars($product["category"]); ?>">
-              <input type="hidden" class="product-brand" value="<?php echo htmlspecialchars($product["brand"]); ?>">
-              <input type="hidden" class="product-price" value="<?php echo htmlspecialchars(number_format($product["unit_price"], 2)); ?>">
-              <input type="hidden" class="product-quantity-available" value="<?php echo htmlspecialchars($product["quantity_available"]); ?>">
-            </div>
-            <div class="d-flex justify-content-between align-items-center">
-              <button class="btn btn-primary add-to-cart">Add to Cart</button>
-              <div class="cart-info"> 
-                <span class="cart-quantity">Item in Cart</span>
-                <button class="btn btn-link remove-from-cart">Remove</button>
+<div class="container content">
+  <div class="header-row d-flex justify-content-between align-items-center">
+    <!-- Title -->
+    <div class="title">
+      <h1>Shop Products</h1>
+    </div>
+  </div>
+
+  <div class="product-container">
+    <div class="row">
+      <?php foreach ($products as $product): ?>
+        <div class="col-md-3 mb-4"> <!-- Card column -->
+          <div class="card" data-product-id="<?php echo htmlspecialchars($product["product_id"]); ?>">
+            <?php if (!empty($product["image_link"])): ?>
+              <img src="<?php echo htmlspecialchars($product["image_link"]); ?>" class="card-img-top" alt="<?php echo htmlspecialchars($product["product_name"]); ?>">
+            <?php endif; ?>
+            <div class="card-body"> 
+              <h5 class="card-title"><?php echo htmlspecialchars($product["product_name"]); ?></h5>
+              <p class="card-text">
+                <strong>Category:</strong> <?php echo htmlspecialchars($product["category"]); ?><br>
+                <strong>Brand:</strong> <?php echo htmlspecialchars($product["brand"]); ?><br>
+                <strong>Price:</strong> $<?php echo htmlspecialchars(number_format($product["unit_price"], 2)); ?>
+              </p>
+              <div class="product-info">
+                <input type="hidden" class="product-image" value="<?php echo htmlspecialchars($product["image_link"]); ?>">
+                <input type="hidden" class="product-category" value="<?php echo htmlspecialchars($product["category"]); ?>">
+                <input type="hidden" class="product-brand" value="<?php echo htmlspecialchars($product["brand"]); ?>">
+                <input type="hidden" class="product-price" value="<?php echo htmlspecialchars(number_format($product["unit_price"], 2)); ?>">
+                <input type="hidden" class="product-quantity-available" value="<?php echo htmlspecialchars($product["quantity_available"]); ?>">
+              </div>
+              <div class="d-flex justify-content-between align-items-center">
+                <button class="btn btn-primary add-to-cart">Add to Cart</button>
+                <div class="cart-info"> 
+                  <span class="cart-quantity">Item in Cart</span>
+                  <button class="btn btn-link remove-from-cart">Remove</button>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-    <?php endforeach; ?>
+      <?php endforeach; ?>
+    </div>
   </div>
 </div>
 
