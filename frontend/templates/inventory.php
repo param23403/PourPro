@@ -14,20 +14,25 @@
 
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
-  <link rel="stylesheet" href="css/inventory.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/table.css">
 </head>
 <body>
   <?php include __DIR__ . '/components/admin_navbar.php'; ?>
 
-  <!--Title-->
-  <div class="title mt-5 mb-4">
-    <h1 class="display-4">Inventory</h1>
-  </div>
-
   <!--Main Container-->
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col d-flex justify-content-end m-2">
+  <div class="container content">
+
+    <!-- Title Container with Buttons-->
+    <div class="header-row d-flex justify-content-between align-items-center">
+      <!-- Title -->
+      <div class="title">
+        <h1>Inventory</h1>
+      </div>
+
+      <!-- Buttons -->
+      <div>
         <button type="button" class="btn btn-success m-2" data-bs-toggle="modal" data-bs-target="#addProductModal">
           Add Product to Inventory
         </button>
@@ -35,54 +40,76 @@
           Export Product List
         </a>
       </div>
-      <div class="row">
-        <div class="col">
-          <!--Product Inventory Table-->
-          <div class="table-responsive">
-            <table class="table table-bordered">
-              <thead>
+    </div>
+
+      <div class="orders-list">
+        <!--Product Inventory Table-->
+        <div class="table-responsive">
+          <table class="table-striped table-hover">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Brand</th>
+                <th>Category</th>
+                <th>Supply Price</th>
+                <th>Unit Price</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php
+              $noOfProducts = count($_SESSION['products']);
+              // Used to sort products by id before rendering https://stackoverflow.com/questions/28721433/php-how-to-use-usort-with-anonymous-function
+              $products = $_SESSION['products'];
+              usort($products, function($a, $b) {
+                  return $a['product_id'] <=> $b['product_id'];
+              });
+              $_SESSION['products'] = $products;
+              for ($i = 0; $i < $noOfProducts; $i++) : ?>
                 <tr>
-                  <th scope="col">ID</th>
-                  <th scope="col">Product Name</th>
-                  <th scope="col">Category</th>
-                  <th scope="col">Brand</th>
-                  <th scope="col">Quantity</th>
-                  <th scope="col">Supply Price</th>
-                  <th scope="col">Actions</th>
+                  <td><?php echo $_SESSION["products"][$i]["product_id"]?></td>
+                  <td><?php echo $_SESSION["products"][$i]["product_name"]?></td>
+                  <td><?php echo $_SESSION["products"][$i]["quantity_available"]?></td>
+                  <td><?php echo $_SESSION["products"][$i]["brand"]?></td>
+                  <td><?php echo $_SESSION["products"][$i]["category"]?></td>
+                  <td><?php echo $_SESSION["products"][$i]["supply_price"]?></td>
+                  <td><?php echo $_SESSION["products"][$i]["unit_price"]?></td>
+                  <td>
+                    <!--Dropend from https://getbootstrap.com/docs/5.3/components/dropdowns/-->
+                    <div class="btn-group">
+                      <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      </button>
+                      <ul class="dropdown-menu">
+                        <li>
+                          <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#orderModal" data-product='<?php echo json_encode($_SESSION["products"][$i]); ?>'>Order</button>
+                        </li>
+                        <li>
+                          <a href="?command=detail&product_id=<?php echo $_SESSION["products"][$i]["product_id"]; ?>" class="dropdown-item">View</a>
+                        </li>
+                        <li>
+                          <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#updateProductModal" data-product='<?php echo json_encode($_SESSION["products"][$i]); ?>'>Edit</button>
+                        </li>
+                        <li>
+                          <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-product='<?php echo json_encode($_SESSION["products"][$i]); ?>'>Delete</button>
+                        </li>
+                      </ul>
+                    </div>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                <?php
-                $noOfProducts = count($_SESSION['products']);
-                for ($i = 0; $i < $noOfProducts; $i++) : ?>
-                  <tr>
-                    <td><?php echo $_SESSION["products"][$i]["product_id"]?></td>
-                    <td><?php echo $_SESSION["products"][$i]["product_name"]?></td>
-                    <td><?php echo $_SESSION["products"][$i]["category"]?></td>
-                    <td><?php echo $_SESSION["products"][$i]["brand"]?></td>
-                    <td><?php echo $_SESSION["products"][$i]["quantity_available"]?></td>
-                    <td><?php echo $_SESSION["products"][$i]["supply_price"]?></td>
-                    <td>
-                      <div class="d-flex justify-content-evenly">
-                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#orderModal" data-product='<?php echo json_encode($_SESSION["products"][$i]) ?>'>Order</button>
-                        <a href="?command=detail&product_id=<?php echo $_SESSION["products"][$i]["product_id"] ?>" class="btn btn-primary">View</a>
-                        <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#updateProductModal" data-product='<?php echo json_encode($_SESSION["products"][$i]); ?>'>Edit</button>
-                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-product='<?php echo json_encode($_SESSION["products"][$i]); ?>'>Delete</button>
-                      </div>
-                    </td>
-                  </tr>
-                <?php endfor; ?>
-              </tbody>
-            </table>
-          </div>
+              <?php endfor; ?>
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
   </div>
-<br>
-<br>
-<br>
-<br>
+  <br>
+  <br>
+  <br>
+  <br>
+  </div>
   <?php include __DIR__ . '/components/admin_footer.php'; ?>
 
   <!-- Modals -->

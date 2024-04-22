@@ -29,11 +29,13 @@
 
   <!-- Content Area -->
   <div class="container my-4">
-    <div class="title">
-      <b>Profile</b>
-      <p><?php echo "Name: "; echo $_SESSION["name"]; ?></p>
-      <p><?php echo "Email: "; echo $_SESSION["email"]; ?></p>
-      <p><?php echo "Type: "; echo $_SESSION["type"]; ?></p>
+    <div class="header-row">
+      <div class="title">
+        <b>Profile</b>
+        <p><?php echo "Name: "; echo $_SESSION["name"]; ?></p>
+        <p><?php echo "Email: "; echo $_SESSION["email"]; ?></p>
+        <p><?php echo "Type: "; echo $_SESSION["type"]; ?></p>
+      </div>
     </div>
   </div>
 
