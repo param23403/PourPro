@@ -149,7 +149,7 @@ class PourProController {
                     break;
                 } else {
                     if ($_SESSION["type"] === "admin") {
-                        $this->showProductListJson();
+                        $this->exportProductListJson();
                         break;
                     } else {
                         $this->showCustViewProducts();
@@ -223,6 +223,9 @@ class PourProController {
     
                 $this->getProductsJSON($page, $perPage);
                 break;
+            case 'getTotalProductCount':
+                $this->getTotalProductCount();
+                break;
             case 'cart':
                 if (!isset($_SESSION["email"])) {
                     $this->showLogin();
@@ -272,7 +275,7 @@ class PourProController {
     }
 
     public function showInventory() {
-        $this->getAllProducts();
+        $this->getAllProductsFromDatabase();
         // include '/opt/src/pourpro/frontend/templates/inventory.php';
         // include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/inventory.php';
         include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/inventory.php';
@@ -336,18 +339,35 @@ class PourProController {
         return $details[0];
     }
 
+
+    public function getTotalProductCount() {
+        $totalCount = $this->db->query("SELECT COUNT(*) as total FROM products WHERE quantity_available > 0");
+    
+        if ($totalCount) {
+            // Return the count
+            echo json_encode([
+                'status' => 'success',
+                'totalProducts' => $totalCount
+            ]);
+        } else {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Failed to retrieve product count.'
+            ]);
+        }
+    }
+
     public function getProductsJSON($page = 1, $perPage = 8) {
         
         header('Content-Type: application/json');
     
         // Call the method to get paginated products
-        $this->getPageProductsJSON($page, $perPage);
+        $this->getPageProductsJson($page, $perPage);
     }
 
     // Used to export all products in db as JSON object https://stackoverflow.com/questions/4064444/returning-json-from-a-php-script
-    public function showProductListJson() {
-        $products = $this->getAllProducts();
-        $_SESSION["CustProducts"] = $products;
+    public function exportProductListJson() {
+        $products = $this->getAllProductsFromDatabase();
         $jsonData = json_encode($products);
 
         header('Content-Type: application/json');
@@ -356,14 +376,13 @@ class PourProController {
         exit();
     }
 
-    
-    public function getAllProducts() {
+    public function getAllProductsFromDatabase() {
         $products = $this->db->query("select * from products");
         $_SESSION["products"] = $products;
         return $products;
     }
 
-    function getPageProductsJSON($page = 1, $perPage = 10) {
+    function getPageProductsJson($page = 1, $perPage = 8) {
         // Calculate offset for pagination
         $offset = ($page - 1) * $perPage;
     
@@ -383,6 +402,8 @@ class PourProController {
     
         return $products; 
     }
+
+
 
     public function loginDatabase() {
         if (

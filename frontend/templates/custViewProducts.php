@@ -111,85 +111,11 @@
 <?php include __DIR__ . '/components/customer_footer.php'; ?>
 
 <script>
-  // Load products by consuming JSON
-  function loadProducts(page, perPage) {
-    $.ajax({
-      url: '?command=getProductsJSON',
-      type: 'GET',
-      data: { page: page, perPage: perPage },
-      dataType: 'json',
-      success: function(products) {
-        console.log('Products:', products);
-        renderProducts(products);
-      },
-      error: function(error) {
-        console.error('Error loading products:', error);
-      }
-    });
-  }
 
-  function renderProductCard(product) {
-    let card = `
-      <div class="col-md-3 mb-4">
-        <div class="card" data-product-id="${product.product_id}">
-          <img src="${product.image_link}" class="card-img-top" alt="${product.product_name}">
-          <div class="card-body">
-            <h5 class="card-title">${product.product_name}</h5>
-            <p class="card-text">
-              <strong>Category:</strong> ${product.category}<br>
-              <strong>Brand:</strong> ${product.brand}<br>
-              <strong>Price:</strong> $${parseFloat(product.unit_price).toFixed(2)}
-            </p>
-            <input type="hidden" class="product-category" value="${product.category}" />
-            <input type="hidden" class="product-brand" value="${product.brand}" />
-            <input type="hidden" class="product-price" value="${parseFloat(product.unit_price).toFixed(2)}" />
-            <input type="hidden" class="product-image" value="${product.image_link}" />
-            <input type="hidden" class="product-quantity-available" value="${product.quantity_available}" />
-            <button class="btn btn-primary add-to-cart">Add to Cart</button>
-            <div class="cart-info" style="display: none;">
-              <span class="cart-quantity">Item in Cart</span>
-              <button class="btn btn-link remove-from-cart">Remove</button>
-            </div>
-          </div>
-        </div>
-      </div>`;
-    
-    return card;
-  }
-
-function renderProducts(products) {
-  let row = $(".product-container .row");
-  row.empty();
-  products.forEach(product => {
-    row.append(renderProductCard(product));
-  });
-  updateCartUI();
-}
-
-function updatePaginationControls() {
-  // Update the displayed current page
-  $("#current-page").text(currentPage);
-
-  // Disable previous button on the first page
-  if (currentPage <= 1) {
-    $("#prev-page").attr("disabled", true);
-  } else {
-    $("#prev-page").attr("disabled", false);
-  }
-
-  // You might want to enable/disable "Next" button based on whether there are more products to fetch
-  // This example assumes you know the total number of products/pages
-  // If you don't know, you'd need an endpoint to get this info
-  const totalProducts = 100; // For example, the total number of products
-  const totalPages = Math.ceil(totalProducts / itemsPerPage);
-
-  if (currentPage >= totalPages) {
-    $("#next-page").attr("disabled", true);
-  } else {
-    $("#next-page").attr("disabled", false);
-  }
-}
-
+let currentPage = 1;
+const itemsPerPage = 8;
+let totalProducts = 0;
+let totalPages = 0;
 
 
 // Manage cart in local storage
@@ -245,24 +171,133 @@ function updateCartUI() {
   });
 }
 
-$(document).ready(function() {
-  loadProducts();
+
+
+  // Load products by consuming JSON
+  function loadProducts(page, perPage) {
+    $.ajax({
+      url: '?command=getProductsJSON',
+      type: 'GET',
+      data: { page: page, perPage: perPage },
+      dataType: 'json',
+      success: function(products) {
+        console.log('Products:', products);
+        renderProducts(products);
+      },
+      error: function(error) {
+        console.error('Error loading products:', error);
+      }
+    });
+  }
+
+  function renderProductCard(product) {
+    let card = `
+      <div class="col-md-3 mb-4">
+        <div class="card" data-product-id="${product.product_id}">
+          <img src="${product.image_link}" class="card-img-top" alt="${product.product_name}">
+          <div class="card-body">
+            <h5 class="card-title">${product.product_name}</h5>
+            <p class="card-text">
+              <strong>Category:</strong> ${product.category}<br>
+              <strong>Brand:</strong> ${product.brand}<br>
+              <strong>Price:</strong> $${parseFloat(product.unit_price).toFixed(2)}
+            </p>
+            <input type="hidden" class="product-category" value="${product.category}" />
+            <input type="hidden" class="product-brand" value="${product.brand}" />
+            <input type="hidden" class="product-price" value="${parseFloat(product.unit_price).toFixed(2)}" />
+            <input type="hidden" class="product-image" value="${product.image_link}" />
+            <input type="hidden" class="product-quantity-available" value="${product.quantity_available}" />
+            <button class="btn btn-primary add-to-cart">Add to Cart</button>
+            <div class="cart-info" style="display: none;">
+              <span class="cart-quantity">Item in Cart</span>
+              <button class="btn btn-link remove-from-cart">Remove</button>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    
+    return card;
+  }
+
+function renderProducts(products) {
+  let row = $(".product-container .row");
+  row.empty();
+  products.forEach(product => {
+    row.append(renderProductCard(product));
+  });
   updateCartUI();
+}
+
+
+
+function loadTotalProductCount() {
+    $.ajax({
+        url: '?command=getTotalProductCount',
+        type: 'GET',
+        dataType: 'json',
+        success: function(data) {
+            totalProducts = data.totalProducts[0].total;
+            totalPages = Math.ceil(totalProducts / itemsPerPage);
+            updatePaginationControls();
+            console.log(totalProducts);
+        },
+        error: function(error) {
+            console.error('Error loading total product count:', error);
+        }
+    });
+}
+
+function updatePaginationControls() {
+    // Update the displayed current page
+    $("#current-page").text(currentPage);
+
+    // Disable "Previous" button on the first page
+    if (currentPage <= 1) {
+        $("#prev-page").attr("disabled", true);
+    } else {
+        $("#prev-page").attr("disabled", false);
+    }
+
+    // Disable "Next" button on the last page
+    if (currentPage >= totalPages) {
+        $("#next-page").attr("disabled", true);
+    } else {
+        $("#next-page").attr("disabled", false);
+    }
+}
+
+
+
+
+$(document).ready(function() {
+  loadProducts(currentPage, itemsPerPage);
+  updateCartUI();
+  loadTotalProductCount();
   updatePaginationControls();
 
-  $("#prev-page").click(function() {
-    if (currentPage > 1) {
-      currentPage--;
-      loadProducts(currentPage, itemsPerPage);
-      updatePaginationControls();
-    }
+  $(document).on("click", "#prev-page", function() {
+    console.log("Previous");
+      if (currentPage > 1) {
+          currentPage--;
+          loadProducts(currentPage, itemsPerPage);
+          updatePaginationControls();
+          console.log("Called load products on click");
+      }
   });
 
-  $("#next-page").click(function() {
-    currentPage++;
-    loadProducts(currentPage, itemsPerPage);
-    updatePaginationControls();
+  $(document).on("click", "#next-page", function() {
+    console.log("Current: " + currentPage);
+    console.log("Total: " + totalPages);
+
+    console.log("Next");
+      if (currentPage < totalPages) {
+          currentPage++;
+          loadProducts(currentPage, itemsPerPage);
+          updatePaginationControls();
+          console.log("Called load products on click");
+      }
   });
+
 
   // Attach event listener for add to cart button
   $(document).on("click", ".add-to-cart", function() {
