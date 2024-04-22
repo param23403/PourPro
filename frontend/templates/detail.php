@@ -20,54 +20,22 @@
       crossorigin="anonymous"
     >
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="css/detail.css">
-    <style>
-        .orders-list {
-            width: 100%;
-            margin: 0 auto;
-        }
+    <link rel="stylesheet" href="css/table.css">
 
-        .orders-list h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        
-        .orders-list table {
-            width: 100%;
-            border-collapse: collapse;
-            color: white;
-        }
-
-        .orders-list th,
-        .orders-list td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-            background-color: #333; 
-        }
-
-        .orders-list th {
-            background-color: #555;
-        }
-
-        .orders-list tr:nth-child(even) {
-            background-color:  #444;
-        }
-
-        .orders-list tr:hover {
-            background-color: #f9f9f9;
-        }
-    </style>
 </head>
 <body>
   <?php include __DIR__ . '/components/admin_navbar.php'; ?>
 
-  <!--Title-->
-  <div class="title">
-      <h1 class="display-4"><?php echo $_SESSION["product_details"]["product_name"] ?> Detail</h1>
-  </div>
   <!--Main Container-->
-  <div class="container-fluid">
+  <div class="container content">
+    <div class="header-row d-flex justify-content-between align-items-center">
+        <!-- Title -->
+        <div class="title">
+            <h1 class="display-4"><?php echo $_SESSION["product_details"]["product_name"] ?> Detail</h1>
+        </div>
+    </div>
     <!-- Product Container
     <div class="row product-container d-flex">
         <div class="col-md-6 d-flex align-items-end">
@@ -161,8 +129,8 @@
                 </tbody>
             </table>
         <?php }; ?>
-  </div>
-
+        </div>
+    </div>
   <?php include __DIR__ . '/components/admin_footer.php'; ?>
 
   <!-- Modals -->

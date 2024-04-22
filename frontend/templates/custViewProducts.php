@@ -1,7 +1,3 @@
-<?php
-$products = $_SESSION['CustProducts'];
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,7 +11,7 @@ $products = $_SESSION['CustProducts'];
       padding: 20px;
       border: 1px solid #ddd;
       border-radius: 10px;
-      background-color: #444; 
+      background-color: #555; 
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
     }
 
@@ -23,6 +19,7 @@ $products = $_SESSION['CustProducts'];
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
       transition: box-shadow 0.3s;
+      padding: 4px;
     }
 
     .card:hover {
@@ -37,16 +34,21 @@ $products = $_SESSION['CustProducts'];
     }
 
     .card-body {
+      color: white;
+      border-radius: 10px;
+      background-color: #444;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
     }
 
     .card-title {
+      color: white;
       white-space: nowrap;
       overflow: hidden; 
       text-overflow: ellipsis; 
       font-weight: bold; 
+      padding: 4px;
     }
 
     .cart-info {
@@ -91,41 +93,17 @@ $products = $_SESSION['CustProducts'];
     <div class="title">
       <h1>Shop Products</h1>
     </div>
+
+    <div class="pagination-controls text-center mt-4">
+      <button class="btn btn-secondary" id="prev-page" disabled>Previous</button>
+      <span>Page <span id="current-page"></span></span>
+      <button class="btn btn-secondary" id="next-page">Next</button>
+    </div>
   </div>
 
   <div class="product-container">
     <div class="row">
-      <?php foreach ($products as $product): ?>
-        <div class="col-md-3 mb-4"> <!-- Card column -->
-          <div class="card" data-product-id="<?php echo htmlspecialchars($product["product_id"]); ?>">
-            <?php if (!empty($product["image_link"])): ?>
-              <img src="<?php echo htmlspecialchars($product["image_link"]); ?>" class="card-img-top" alt="<?php echo htmlspecialchars($product["product_name"]); ?>">
-            <?php endif; ?>
-            <div class="card-body"> 
-              <h5 class="card-title"><?php echo htmlspecialchars($product["product_name"]); ?></h5>
-              <p class="card-text">
-                <strong>Category:</strong> <?php echo htmlspecialchars($product["category"]); ?><br>
-                <strong>Brand:</strong> <?php echo htmlspecialchars($product["brand"]); ?><br>
-                <strong>Price:</strong> $<?php echo htmlspecialchars(number_format($product["unit_price"], 2)); ?>
-              </p>
-              <div class="product-info">
-                <input type="hidden" class="product-image" value="<?php echo htmlspecialchars($product["image_link"]); ?>">
-                <input type="hidden" class="product-category" value="<?php echo htmlspecialchars($product["category"]); ?>">
-                <input type="hidden" class="product-brand" value="<?php echo htmlspecialchars($product["brand"]); ?>">
-                <input type="hidden" class="product-price" value="<?php echo htmlspecialchars(number_format($product["unit_price"], 2)); ?>">
-                <input type="hidden" class="product-quantity-available" value="<?php echo htmlspecialchars($product["quantity_available"]); ?>">
-              </div>
-              <div class="d-flex justify-content-between align-items-center">
-                <button class="btn btn-primary add-to-cart">Add to Cart</button>
-                <div class="cart-info"> 
-                  <span class="cart-quantity">Item in Cart</span>
-                  <button class="btn btn-link remove-from-cart">Remove</button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      <?php endforeach; ?>
+      <!--Product Cards get dynamically rendered here after page product JSON is fetched asynchronously-->
     </div>
   </div>
 </div>
@@ -133,6 +111,88 @@ $products = $_SESSION['CustProducts'];
 <?php include __DIR__ . '/components/customer_footer.php'; ?>
 
 <script>
+  // Load products by consuming JSON
+  function loadProducts(page, perPage) {
+    $.ajax({
+      url: '?command=getProductsJSON',
+      type: 'GET',
+      data: { page: page, perPage: perPage },
+      dataType: 'json',
+      success: function(products) {
+        console.log('Products:', products);
+        renderProducts(products);
+      },
+      error: function(error) {
+        console.error('Error loading products:', error);
+      }
+    });
+  }
+
+  function renderProductCard(product) {
+    let card = `
+      <div class="col-md-3 mb-4">
+        <div class="card" data-product-id="${product.product_id}">
+          <img src="${product.image_link}" class="card-img-top" alt="${product.product_name}">
+          <div class="card-body">
+            <h5 class="card-title">${product.product_name}</h5>
+            <p class="card-text">
+              <strong>Category:</strong> ${product.category}<br>
+              <strong>Brand:</strong> ${product.brand}<br>
+              <strong>Price:</strong> $${parseFloat(product.unit_price).toFixed(2)}
+            </p>
+            <input type="hidden" class="product-category" value="${product.category}" />
+            <input type="hidden" class="product-brand" value="${product.brand}" />
+            <input type="hidden" class="product-price" value="${parseFloat(product.unit_price).toFixed(2)}" />
+            <input type="hidden" class="product-image" value="${product.image_link}" />
+            <input type="hidden" class="product-quantity-available" value="${product.quantity_available}" />
+            <button class="btn btn-primary add-to-cart">Add to Cart</button>
+            <div class="cart-info" style="display: none;">
+              <span class="cart-quantity">Item in Cart</span>
+              <button class="btn btn-link remove-from-cart">Remove</button>
+            </div>
+          </div>
+        </div>
+      </div>`;
+    
+    return card;
+  }
+
+function renderProducts(products) {
+  let row = $(".product-container .row");
+  row.empty();
+  products.forEach(product => {
+    row.append(renderProductCard(product));
+  });
+  updateCartUI();
+}
+
+function updatePaginationControls() {
+  // Update the displayed current page
+  $("#current-page").text(currentPage);
+
+  // Disable previous button on the first page
+  if (currentPage <= 1) {
+    $("#prev-page").attr("disabled", true);
+  } else {
+    $("#prev-page").attr("disabled", false);
+  }
+
+  // You might want to enable/disable "Next" button based on whether there are more products to fetch
+  // This example assumes you know the total number of products/pages
+  // If you don't know, you'd need an endpoint to get this info
+  const totalProducts = 100; // For example, the total number of products
+  const totalPages = Math.ceil(totalProducts / itemsPerPage);
+
+  if (currentPage >= totalPages) {
+    $("#next-page").attr("disabled", true);
+  } else {
+    $("#next-page").attr("disabled", false);
+  }
+}
+
+
+
+// Manage cart in local storage
 function loadCartFromLocalStorage() {
   let cart = JSON.parse(localStorage.getItem('cart')) || [];
   return cart;
@@ -186,9 +246,26 @@ function updateCartUI() {
 }
 
 $(document).ready(function() {
+  loadProducts();
   updateCartUI();
+  updatePaginationControls();
 
-  $(".add-to-cart").click(function() {
+  $("#prev-page").click(function() {
+    if (currentPage > 1) {
+      currentPage--;
+      loadProducts(currentPage, itemsPerPage);
+      updatePaginationControls();
+    }
+  });
+
+  $("#next-page").click(function() {
+    currentPage++;
+    loadProducts(currentPage, itemsPerPage);
+    updatePaginationControls();
+  });
+
+  // Attach event listener for add to cart button
+  $(document).on("click", ".add-to-cart", function() {
     let card = $(this).closest(".card");
     let productId = card.data("product-id");
 
@@ -206,7 +283,8 @@ $(document).ready(function() {
     updateCartUI();
   });
 
-  $(".remove-from-cart").click(function() {
+  // Attach event listener for remove from cart button
+  $(document).on("click", ".remove-from-cart", function() {
     let productId = $(this).closest(".card").data("product-id");
     removeItemFromCart(productId);
     updateCartUI();

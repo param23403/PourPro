@@ -12,9 +12,13 @@
 </head>
 
 <body>
+
     <?php include __DIR__ . '/components/customer_navbar.php'; ?>
-    <?php $spend=$_SESSION["spend"];?>
-    <?php if (isset($_SESSION["spend"]) && !empty($_SESSION["spend"])) { ?>
+    
+    <div class="container content">
+
+        <?php $spend=$_SESSION["spend"];?>
+        <?php if (isset($_SESSION["spend"]) && !empty($_SESSION["spend"])) { ?>
         <div class="orders-list">
             <table>
                 <thead>
@@ -41,12 +45,14 @@
                 </tbody>
             </table>
         <?php }; ?>
-        <br>
-        <br>
-        <br>
-        <br>
-        <?php include __DIR__ . '/components/customer_footer.php'; ?>
+            <br>
+            <br>
+            <br>
+            <br>
+        </div>
+    </div>
 
+        <?php include __DIR__ . '/components/customer_footer.php'; ?>
 
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>

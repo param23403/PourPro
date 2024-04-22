@@ -8,47 +8,19 @@
     <title>Purchase History</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
     <link rel="stylesheet" href="css/common.css">
-    <style>
-        .orders-list {
-            width: 100%;
-            margin: 0 auto;
-        }
-
-        .orders-list h2 {
-            text-align: center;
-            margin-bottom: 20px;
-        }
-        
-        .orders-list table {
-            width: 100%;
-            border-collapse: collapse;
-            color: white;
-        }
-
-        .orders-list th,
-        .orders-list td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-            background-color: #333; 
-        }
-
-        .orders-list th {
-            background-color: #555;
-        }
-
-        .orders-list tr:nth-child(even) {
-            background-color:  #444;
-        }
-
-        .orders-list tr:hover {
-            background-color: #f9f9f9;
-        }
-    </style>
+    <link rel="stylesheet" href="css/table.css">
 </head>
 
 <body>
     <?php include __DIR__ . '/components/customer_navbar.php'; ?>
+    <div class="container content">
+        <div class="header-row d-flex justify-content-between align-items-center">
+            <!-- Title -->
+            <div class="title">
+                <h1>Purchase History</h1>
+            </div>
+        </div>
+
     <?php $purchases=$_SESSION["purchases"];?>
     <?php if (isset($_SESSION["purchases"]) && !empty($_SESSION["purchases"])) { ?>
         <div class="orders-list">
@@ -85,10 +57,11 @@
         <br>
         <br>
         <br>
-        <?php include __DIR__ . '/components/customer_footer.php'; ?>
+        </div>
+    </div>
+    <?php include __DIR__ . '/components/customer_footer.php'; ?>
 
-
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>
 
 </html>

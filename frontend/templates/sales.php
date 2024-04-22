@@ -16,10 +16,10 @@
 
     <div class="container content">
         <div class="header-row d-flex justify-content-between align-items-center">
-        <!-- Title -->
-        <div class="title">
-            <h1>Sales History</h1>
-        </div>
+            <!-- Title -->
+            <div class="title">
+                <h1>Sales History</h1>
+            </div>
         </div>
 
         <?php $sales=$_SESSION["sales"];?>

@@ -216,6 +216,13 @@ class PourProController {
                     $this->showCustViewProducts();
                     break;
                 }
+            case 'getProductsJSON':
+                // Get pagination parameters from input or default values
+                $page = isset($this->input['page']) ? intval($this->input['page']) : 1;
+                $perPage = isset($this->input['perPage']) ? intval($this->input['perPage']) : 8;
+    
+                $this->getProductsJSON($page, $perPage);
+                break;
             case 'cart':
                 if (!isset($_SESSION["email"])) {
                     $this->showLogin();
@@ -281,7 +288,6 @@ class PourProController {
     }
 
     public function showCustViewProducts() {
-        $this->getAllProductsForCustomer();
         // include '/opt/src/pourpro/frontend/templates/custViewProducts.php';
         // include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/custViewProducts.php';
         include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/custViewProducts.php';
@@ -330,9 +336,18 @@ class PourProController {
         return $details[0];
     }
 
-    // Used to output JSON object https://stackoverflow.com/questions/4064444/returning-json-from-a-php-script
+    public function getProductsJSON($page = 1, $perPage = 8) {
+        
+        header('Content-Type: application/json');
+    
+        // Call the method to get paginated products
+        $this->getPageProductsJSON($page, $perPage);
+    }
+
+    // Used to export all products in db as JSON object https://stackoverflow.com/questions/4064444/returning-json-from-a-php-script
     public function showProductListJson() {
         $products = $this->getAllProducts();
+        $_SESSION["CustProducts"] = $products;
         $jsonData = json_encode($products);
 
         header('Content-Type: application/json');
@@ -340,6 +355,35 @@ class PourProController {
         echo $jsonData;
         exit();
     }
+
+    
+    public function getAllProducts() {
+        $products = $this->db->query("select * from products");
+        $_SESSION["products"] = $products;
+        return $products;
+    }
+
+    function getPageProductsJSON($page = 1, $perPage = 10) {
+        // Calculate offset for pagination
+        $offset = ($page - 1) * $perPage;
+    
+        $query = "SELECT * FROM products WHERE quantity_available > 0 LIMIT $1 OFFSET $2";
+    
+        // Execute query with parameters
+        $products = $this->db->query($query, $perPage, $offset);
+
+        if ($products === false) {
+            http_response_code(500); 
+            echo json_encode(array("error" => "Failed to retrieve products"));
+            return;
+        }
+    
+        header('Content-Type: application/json');
+        echo json_encode($products);
+    
+        return $products; 
+    }
+
     public function loginDatabase() {
         if (
             isset($_POST["email"]) && !empty($_POST["email"]) &&
@@ -736,16 +780,7 @@ class PourProController {
         }
     }
 
-    public function getAllProducts() {
-        $products = $this->db->query("select * from products");
-        $_SESSION["products"] = $products;
-        return $products;
-    }
-    public function getAllProductsForCustomer() {
-        $Custproducts = $this->db->query("SELECT * from products WHERE quantity_available > 0");
-        $_SESSION["CustProducts"] = $Custproducts;
-        return $Custproducts;
-    }
+
     public function logout() {
         session_destroy();
         session_start();
