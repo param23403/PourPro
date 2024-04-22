@@ -92,6 +92,7 @@
     }
   </style>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
 <body>
 
@@ -106,9 +107,13 @@
         </div>
 
         <div class="pagination-controls text-center mt-4">
-          <button class="btn btn-secondary" id="prev-page" disabled>Previous</button>
-          <span>Page <span id="current-page"></span></span>
-          <button class="btn btn-secondary" id="next-page">Next</button>
+          <button class="btn btn-secondary" id="prev-page" disabled>
+            <i class="fas fa-arrow-left"></i>
+          </button>
+          <span>Page <span id="current-page">1</span></span>
+          <button class="btn btn-secondary" id="next-page">
+            <i class="fas fa-arrow-right"></i>
+          </button>
         </div>
       </div>
 
@@ -221,7 +226,7 @@ function updateCartUI() {
             <input type="hidden" class="product-image" value="${product.image_link}" />
             <input type="hidden" class="product-quantity-available" value="${product.quantity_available}" />
             <div class="cart-buttons">
-            <button class="btn btn-primary btn-block add-to-cart" style="width: 100%;">Add to Cart</button>
+            <button class="btn btn-block add-to-cart" style="width: 100%; background-color: #00848a;">Add to Cart</button>
             <div class="cart-info" style="display: none; text-align: center; width: 100%;">
               <span class="cart-quantity">Item in Cart</span>
               <button class="btn btn-outline-danger btn-sm remove-from-cart">Remove</button>

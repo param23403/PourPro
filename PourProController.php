@@ -37,7 +37,7 @@ class PourProController {
                     $this->logout();
                     break;
                 }
-            case 'signUp':
+            case 'signup':
                 $this->showSignUp();
                 break;
             case 'detail':
@@ -53,20 +53,6 @@ class PourProController {
                         break;
                     }
                 }
-            case 'navDetail':
-                if (!isset($_SESSION["email"])) {
-                    $this->showLogin();
-                    break;
-                } else {
-                    if ($_SESSION["type"] === "admin") {
-                        $productId = $_GET['product_id'];
-                        header("Location: ?command=detail&product_id=$productId");
-                        break;
-                    } else {
-                        $this->showCustViewProducts();
-                        break;
-                    }
-                }
             case 'pastOrders':
                 if (!isset($_SESSION["email"])) {
                     $this->showLogin();
@@ -74,19 +60,6 @@ class PourProController {
                 } else {
                     if ($_SESSION["type"] === "admin") {
                         $this->showPastOrders();
-                        break;
-                    } else {
-                        $this->showCustViewProducts();
-                        break;
-                    }
-                }
-            case 'navInventory':
-                if (!isset($_SESSION["email"])) {
-                    $this->showLogin();
-                    break;
-                } else {
-                    if ($_SESSION["type"] === "admin") {
-                        header("Location: ?command=inventory");
                         break;
                     } else {
                         $this->showCustViewProducts();

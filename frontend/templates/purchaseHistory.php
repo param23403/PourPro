@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <div class="wrapper>
+    <div class="wrapper">
         <?php include __DIR__ . '/components/customer_navbar.php'; ?>
         <div class="container content">
             <div class="header-row d-flex justify-content-between align-items-center">

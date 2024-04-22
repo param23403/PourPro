@@ -11,17 +11,18 @@
     padding: 20px;
     border: 1px solid #ddd;
     border-radius: 10px;
-    background-color: #f8f9fa;
+    background-color: #555; 
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     position: relative; 
     max-height: 90vh; 
-    overflow: hidden; 
   }
 
   .cart-items {
     overflow-y: auto;
     max-height: 60vh; 
-    padding-right: 10px; 
+    padding: 10px; 
+    border-radius: 10px;
+    border: solid white 2px;
   }
 
   .cart-row {
@@ -59,8 +60,7 @@
     position: sticky;
     bottom: 0;
     background-color: #f8f9fa;
-    padding-top: 12px;
-    padding-bottom: 10px;
+    padding: 10px;
     text-align: right;
   }
 
