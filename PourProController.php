@@ -149,7 +149,7 @@ class PourProController {
                     break;
                 } else {
                     if ($_SESSION["type"] === "admin") {
-                        $this->showProductListJson();
+                        $this->exportProductListJson();
                         break;
                     } else {
                         $this->showCustViewProducts();
@@ -216,6 +216,16 @@ class PourProController {
                     $this->showCustViewProducts();
                     break;
                 }
+            case 'getProductsJSON':
+                // Get pagination parameters from input or default values
+                $page = isset($this->input['page']) ? intval($this->input['page']) : 1;
+                $perPage = isset($this->input['perPage']) ? intval($this->input['perPage']) : 8;
+    
+                $this->getProductsJSON($page, $perPage);
+                break;
+            case 'getTotalProductCount':
+                $this->getTotalProductCount();
+                break;
             case 'cart':
                 if (!isset($_SESSION["email"])) {
                     $this->showLogin();
@@ -244,8 +254,8 @@ class PourProController {
             $errorMessage = "<div class='alert alert-danger'>{$this->errorMessage}</div>";
         }
         // include '/opt/src/pourpro/frontend/templates/login.php';
-        include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/login.php';
-        // include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/login.php';
+        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/login.php';
+        include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/login.php';
     }
 
     public function showSignUp() {
@@ -254,21 +264,21 @@ class PourProController {
             $errorMessage = "<div class='alert alert-danger'>{$this->errorMessage}</div>";
         }
         // include '/opt/src/pourpro/templates/signup.php';
-        include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/signup.php';
-        // include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/signup.php';
+        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/signup.php';
+        include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/signup.php';
     }
 
     public function showProfile() {
         // include '/opt/src/pourpro/templates/profile.php';
-        include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/profile.php';
-        // include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/profile.php';
+        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/profile.php';
+        include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/profile.php';
     }
 
     public function showInventory() {
-        $this->getAllProducts();
+        $this->getAllProductsFromDatabase();
         // include '/opt/src/pourpro/frontend/templates/inventory.php';
-        include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/inventory.php';
-        // include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/inventory.php';
+        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/inventory.php';
+        include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/inventory.php';
     }
 
     public function showDetail($product_id) {
@@ -276,52 +286,51 @@ class PourProController {
         $_SESSION['product_details'] = $productDetails;
 
         // include '/opt/src/pourpro/frontend/templates/detail.php';
-        include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/detail.php';
-        // include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/detail.php';
+        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/detail.php';
+        include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/detail.php';
     }
 
     public function showCustViewProducts() {
-        $this->getAllProductsForCustomer();
         // include '/opt/src/pourpro/frontend/templates/custViewProducts.php';
-        include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/custViewProducts.php';
-        // include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/custViewProducts.php';
+        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/custViewProducts.php';
+        include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/custViewProducts.php';
     }
 
     public function showCart() {
         // include '/opt/src/pourpro/frontend/templates/cart.php';
-        include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/cart.php';
-        // include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/cart.php';
+        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/cart.php';
+        include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/cart.php';
     }
     public function showCheckout() {
         // include '/opt/src/pourpro/frontend/templates/checkout.php';
-        include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/checkout.php';
-        // include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/checkout.php';
+        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/checkout.php';
+        include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/checkout.php';
     }
 
     public function showPastOrders() {
         $this->getAllPastOrders();
         // include '/opt/src/pourpro/frontend/templates/pastOrders.php';
-        include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/pastOrders.php';
-        // include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/pastOrders.php';
+        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/pastOrders.php';
+        include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/pastOrders.php';
     }
     public function showPurchaseHistory() {
         $this->getPurchaseHistory();
         // include '/opt/src/pourpro/frontend/templates/purchaseHistory.php';
-        include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/purchaseHistory.php';
-        // include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/purchaseHistory.php';
+        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/purchaseHistory.php';
+        include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/purchaseHistory.php';
     }
 
     public function showSpendAnalysis() {
         $this->getSpendAnalysis();
         // include '/opt/src/pourpro/frontend/templates/spendAnalysis.php';
-        include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/spendAnalysis.php';
-        // include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/spendAnalysis.php';
+        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/spendAnalysis.php';
+        include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/spendAnalysis.php';
     }
     public function showSales(){
         $this->getSales();
-         // include '/opt/src/pourpro/frontend/templates/sales.php';
-         include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/sales.php';
-         // include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/sales.php';
+        // include '/opt/src/pourpro/frontend/templates/sales.php';
+        //  include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/sales.php';
+        include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/sales.php';
     }
     private function getProductDetails($product_id) {
         $details = $this->db->query("SELECT * from products WHERE product_id = $1", $product_id);
@@ -330,9 +339,35 @@ class PourProController {
         return $details[0];
     }
 
-    // Used to output JSON object https://stackoverflow.com/questions/4064444/returning-json-from-a-php-script
-    public function showProductListJson() {
-        $products = $this->getAllProducts();
+
+    public function getTotalProductCount() {
+        $totalCount = $this->db->query("SELECT COUNT(*) as total FROM products WHERE quantity_available > 0");
+    
+        if ($totalCount) {
+            // Return the count
+            echo json_encode([
+                'status' => 'success',
+                'totalProducts' => $totalCount
+            ]);
+        } else {
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Failed to retrieve product count.'
+            ]);
+        }
+    }
+
+    public function getProductsJSON($page = 1, $perPage = 8) {
+        
+        header('Content-Type: application/json');
+    
+        // Call the method to get paginated products
+        $this->getPageProductsJson($page, $perPage);
+    }
+
+    // Used to export all products in db as JSON object https://stackoverflow.com/questions/4064444/returning-json-from-a-php-script
+    public function exportProductListJson() {
+        $products = $this->getAllProductsFromDatabase();
         $jsonData = json_encode($products);
 
         header('Content-Type: application/json');
@@ -340,6 +375,36 @@ class PourProController {
         echo $jsonData;
         exit();
     }
+
+    public function getAllProductsFromDatabase() {
+        $products = $this->db->query("select * from products");
+        $_SESSION["products"] = $products;
+        return $products;
+    }
+
+    function getPageProductsJson($page = 1, $perPage = 8) {
+        // Calculate offset for pagination
+        $offset = ($page - 1) * $perPage;
+    
+        $query = "SELECT * FROM products WHERE quantity_available > 0 LIMIT $1 OFFSET $2";
+    
+        // Execute query with parameters
+        $products = $this->db->query($query, $perPage, $offset);
+
+        if ($products === false) {
+            http_response_code(500); 
+            echo json_encode(array("error" => "Failed to retrieve products"));
+            return;
+        }
+    
+        header('Content-Type: application/json');
+        echo json_encode($products);
+    
+        return $products; 
+    }
+
+
+
     public function loginDatabase() {
         if (
             isset($_POST["email"]) && !empty($_POST["email"]) &&
@@ -736,16 +801,7 @@ class PourProController {
         }
     }
 
-    public function getAllProducts() {
-        $products = $this->db->query("select * from products");
-        $_SESSION["products"] = $products;
-        return $products;
-    }
-    public function getAllProductsForCustomer() {
-        $Custproducts = $this->db->query("SELECT * from products WHERE quantity_available > 0");
-        $_SESSION["CustProducts"] = $Custproducts;
-        return $Custproducts;
-    }
+
     public function logout() {
         session_destroy();
         session_start();
