@@ -19,104 +19,106 @@
   <link rel="stylesheet" href="css/table.css">
 </head>
 <body>
-  <?php include __DIR__ . '/components/admin_navbar.php'; ?>
+  <div class="wrapper">
+    <?php include __DIR__ . '/components/admin_navbar.php'; ?>
 
-  <!--Main Container-->
-  <div class="container content">
+    <!--Main Container-->
+    <div class="container content">
 
-    <!-- Title Container with Buttons-->
-    <div class="header-row d-flex justify-content-between align-items-center">
-      <!-- Title -->
-      <div class="title">
-        <h1>Inventory</h1>
+      <!-- Title Container with Buttons-->
+      <div class="header-row d-flex justify-content-between align-items-center">
+        <!-- Title -->
+        <div class="title">
+          <h1>Inventory</h1>
+        </div>
+
+        <!-- Buttons -->
+        <div>
+          <button type="button" class="btn btn-success m-2" data-bs-toggle="modal" data-bs-target="#addProductModal">
+            Add Product to Inventory
+          </button>
+          <a href="?command=productListToJson" class="btn btn-info m-2" role="button">
+            Export Product List
+          </a>
+        </div>
       </div>
 
-      <!-- Buttons -->
-      <div>
-        <button type="button" class="btn btn-success m-2" data-bs-toggle="modal" data-bs-target="#addProductModal">
-          Add Product to Inventory
-        </button>
-        <a href="?command=productListToJson" class="btn btn-info m-2" role="button">
-          Export Product List
-        </a>
-      </div>
-    </div>
-
-      <div class="orders-list">
-        <!--Product Inventory Table-->
-        <div class="table-responsive">
-          <table class="table-striped table-hover">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Product Name</th>
-                <th>Quantity</th>
-                <th>Brand</th>
-                <th>Category</th>
-                <th>Supply Price</th>
-                <th>Unit Price</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <?php
-              $noOfProducts = count($_SESSION['products']);
-              // Used to sort products by id before rendering https://stackoverflow.com/questions/28721433/php-how-to-use-usort-with-anonymous-function
-              $products = $_SESSION['products'];
-              usort($products, function($a, $b) {
-                  return $a['product_id'] <=> $b['product_id'];
-              });
-              $_SESSION['products'] = $products;
-              for ($i = 0; $i < $noOfProducts; $i++) : ?>
+        <div class="orders-list">
+          <!--Product Inventory Table-->
+          <div class="table-responsive">
+            <table class="table-striped table-hover">
+              <thead>
                 <tr>
-                  <td><?php echo $_SESSION["products"][$i]["product_id"]?></td>
-                  <td><?php echo $_SESSION["products"][$i]["product_name"]?></td>
-                  <td><?php echo $_SESSION["products"][$i]["quantity_available"]?></td>
-                  <td><?php echo $_SESSION["products"][$i]["brand"]?></td>
-                  <td><?php echo $_SESSION["products"][$i]["category"]?></td>
-                  <td><?php echo $_SESSION["products"][$i]["supply_price"]?></td>
-                  <td><?php echo $_SESSION["products"][$i]["unit_price"]?></td>
-                  <td>
-                    <!--Dropend from https://getbootstrap.com/docs/5.3/components/dropdowns/-->
-                    <div class="btn-group">
-                      <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                      </button>
-                      <ul class="dropdown-menu">
-                        <li>
-                          <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#orderModal" data-product='<?php echo json_encode($_SESSION["products"][$i]); ?>'>Order</button>
-                        </li>
-                        <li>
-                          <a href="?command=detail&product_id=<?php echo $_SESSION["products"][$i]["product_id"]; ?>" class="dropdown-item">View</a>
-                        </li>
-                        <li>
-                          <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#updateProductModal" data-product='<?php echo json_encode($_SESSION["products"][$i]); ?>'>Edit</button>
-                        </li>
-                        <li>
-                          <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-product='<?php echo json_encode($_SESSION["products"][$i]); ?>'>Delete</button>
-                        </li>
-                      </ul>
-                    </div>
-                  </td>
+                  <th>ID</th>
+                  <th>Product Name</th>
+                  <th>Quantity</th>
+                  <th>Brand</th>
+                  <th>Category</th>
+                  <th>Supply Price</th>
+                  <th>Unit Price</th>
+                  <th>Actions</th>
                 </tr>
-              <?php endfor; ?>
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                <?php
+                $noOfProducts = count($_SESSION['products']);
+                // Used to sort products by id before rendering https://stackoverflow.com/questions/28721433/php-how-to-use-usort-with-anonymous-function
+                $products = $_SESSION['products'];
+                usort($products, function($a, $b) {
+                    return $a['product_id'] <=> $b['product_id'];
+                });
+                $_SESSION['products'] = $products;
+                for ($i = 0; $i < $noOfProducts; $i++) : ?>
+                  <tr>
+                    <td><?php echo $_SESSION["products"][$i]["product_id"]?></td>
+                    <td><?php echo $_SESSION["products"][$i]["product_name"]?></td>
+                    <td><?php echo $_SESSION["products"][$i]["quantity_available"]?></td>
+                    <td><?php echo $_SESSION["products"][$i]["brand"]?></td>
+                    <td><?php echo $_SESSION["products"][$i]["category"]?></td>
+                    <td><?php echo $_SESSION["products"][$i]["supply_price"]?></td>
+                    <td><?php echo $_SESSION["products"][$i]["unit_price"]?></td>
+                    <td>
+                      <!--Dropend from https://getbootstrap.com/docs/5.3/components/dropdowns/-->
+                      <div class="btn-group">
+                        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        </button>
+                        <ul class="dropdown-menu">
+                          <li>
+                            <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#orderModal" data-product='<?php echo json_encode($_SESSION["products"][$i]); ?>'>Order</button>
+                          </li>
+                          <li>
+                            <a href="?command=detail&product_id=<?php echo $_SESSION["products"][$i]["product_id"]; ?>" class="dropdown-item">View</a>
+                          </li>
+                          <li>
+                            <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#updateProductModal" data-product='<?php echo json_encode($_SESSION["products"][$i]); ?>'>Edit</button>
+                          </li>
+                          <li>
+                            <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-product='<?php echo json_encode($_SESSION["products"][$i]); ?>'>Delete</button>
+                          </li>
+                        </ul>
+                      </div>
+                    </td>
+                  </tr>
+                <?php endfor; ?>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <br>
-  <br>
-  <br>
-  <br>
-  </div>
-  <?php include __DIR__ . '/components/admin_footer.php'; ?>
+    <br>
+    <br>
+    <br>
+    <br>
+    </div>
+    <?php include __DIR__ . '/components/admin_footer.php'; ?>
 
-  <!-- Modals -->
-  <?php include __DIR__ . '/admin_modals/add_product_modal.php'; ?>
-  <?php include __DIR__ . '/admin_modals/order_modal.php'; ?>
-  <?php include __DIR__ . '/admin_modals/update_product_modal.php'; ?>
-  <?php include __DIR__ . '/admin_modals/delete_modal.php'; ?>
+    <!-- Modals -->
+    <?php include __DIR__ . '/admin_modals/add_product_modal.php'; ?>
+    <?php include __DIR__ . '/admin_modals/order_modal.php'; ?>
+    <?php include __DIR__ . '/admin_modals/update_product_modal.php'; ?>
+    <?php include __DIR__ . '/admin_modals/delete_modal.php'; ?>
+  </div>
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <script src="js/inventory.js"></script>

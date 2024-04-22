@@ -20,30 +20,32 @@
     <link rel="stylesheet" href="css/common.css">
 </head>
 <body>
-  <!-- Navbar -->
-  <?php if ($_SESSION["type"] === "admin") {
-    include __DIR__ . '/components/admin_navbar.php';
-  } else {
-    include __DIR__ . '/components/customer_navbar.php';
-  }?>
+  <div class="wrapper">
+    <!-- Navbar -->
+    <?php if ($_SESSION["type"] === "admin") {
+      include __DIR__ . '/components/admin_navbar.php';
+    } else {
+      include __DIR__ . '/components/customer_navbar.php';
+    }?>
 
-  <!-- Content Area -->
-  <div class="container my-4">
-    <div class="header-row">
-      <div class="title">
-        <b>Profile</b>
-        <p><?php echo "Name: "; echo $_SESSION["name"]; ?></p>
-        <p><?php echo "Email: "; echo $_SESSION["email"]; ?></p>
-        <p><?php echo "Type: "; echo $_SESSION["type"]; ?></p>
+    <!-- Content Area -->
+    <div class="container content">
+      <div class="header-row">
+        <div class="title">
+          <b>Profile</b>
+          <p><?php echo "Name: "; echo $_SESSION["name"]; ?></p>
+          <p><?php echo "Email: "; echo $_SESSION["email"]; ?></p>
+          <p><?php echo "Type: "; echo $_SESSION["type"]; ?></p>
+        </div>
       </div>
     </div>
-  </div>
 
-  <!-- Footer -->
-  <?php if ($_SESSION["type"] === "admin") {
-    include __DIR__ . '/components/admin_footer.php';
-  } else {
-    include __DIR__ . '/components/customer_footer.php';
-  }?>
+    <!-- Footer -->
+    <?php if ($_SESSION["type"] === "admin") {
+      include __DIR__ . '/components/admin_footer.php';
+    } else {
+      include __DIR__ . '/components/customer_footer.php';
+    }?>
+  </div>
 </body>
 </html>

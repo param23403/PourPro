@@ -12,49 +12,50 @@
 </head>
 
 <body>
+    <div class="wrapper">
 
-    <?php include __DIR__ . '/components/customer_navbar.php'; ?>
-    
-    <div class="container content">
-
-        <?php $spend=$_SESSION["spend"];?>
-        <?php if (isset($_SESSION["spend"]) && !empty($_SESSION["spend"])) { ?>
-        <div class="orders-list">
-            <table>
-                <thead>
-                    <tr>
-                        <th>Purchase Date</th>
-                        <th>Total Units ordered</th>
-                        <th>Total Money Spent</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($spend as $i) { ?>
+        <?php include __DIR__ . '/components/customer_navbar.php'; ?>
+        
+        <div class="container content">
+            <?php $spend=$_SESSION["spend"];?>
+            <?php if (isset($_SESSION["spend"]) && !empty($_SESSION["spend"])) { ?>
+            <div class="orders-list">
+                <table>
+                    <thead>
                         <tr>
-                            <td>
-                                <?php echo $i["sales_date"] ?>
-                            </td>
-                            <td>
-                                <?php echo $i["quantity_bought"] ?>
-                            </td>
-                            <td>
-                                <?php echo $i["total_amount"] ?>
-                            </td>
+                            <th>Purchase Date</th>
+                            <th>Total Units ordered</th>
+                            <th>Total Money Spent</th>
                         </tr>
-                    <?php }; ?>
-                </tbody>
-            </table>
-        <?php }; ?>
-            <br>
-            <br>
-            <br>
-            <br>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($spend as $i) { ?>
+                            <tr>
+                                <td>
+                                    <?php echo $i["sales_date"] ?>
+                                </td>
+                                <td>
+                                    <?php echo $i["quantity_bought"] ?>
+                                </td>
+                                <td>
+                                    <?php echo $i["total_amount"] ?>
+                                </td>
+                            </tr>
+                        <?php }; ?>
+                    </tbody>
+                </table>
+            <?php }; ?>
+                <br>
+                <br>
+                <br>
+                <br>
+            </div>
         </div>
-    </div>
 
         <?php include __DIR__ . '/components/customer_footer.php'; ?>
+    </div>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>
 
 </html>

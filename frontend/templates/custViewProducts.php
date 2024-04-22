@@ -51,12 +51,22 @@
       padding: 4px;
     }
 
+    .cart-buttons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
+
+    .cart-buttons button {
+      width: 100%;
+      margin-top: 8px;
+    }
+
     .cart-info {
       display: none;
-      background-color: #f9f9f9; 
-      border: 1px solid #ddd; 
-      border-radius: 10px;
-      padding: 4px;
+      align-items: center;
+      justify-content: center;
     }
 
     .remove-from-cart {
@@ -85,31 +95,34 @@
 </head>
 <body>
 
-<?php include __DIR__ . '/components/customer_navbar.php'; ?>
+  <div class="wrapper">
+    <?php include __DIR__ . '/components/customer_navbar.php'; ?>
 
-<div class="container content">
-  <div class="header-row d-flex justify-content-between align-items-center">
-    <!-- Title -->
-    <div class="title">
-      <h1>Shop Products</h1>
+    <div class="container content">
+      <div class="header-row d-flex justify-content-between align-items-center">
+        <!-- Title -->
+        <div class="title">
+          <h1>Shop Products</h1>
+        </div>
+
+        <div class="pagination-controls text-center mt-4">
+          <button class="btn btn-secondary" id="prev-page" disabled>Previous</button>
+          <span>Page <span id="current-page"></span></span>
+          <button class="btn btn-secondary" id="next-page">Next</button>
+        </div>
+      </div>
+
+      <div class="product-container">
+        <div class="row">
+          <!--Product Cards get dynamically rendered here after page product JSON is fetched asynchronously-->
+        </div>
+      </div>
     </div>
 
-    <div class="pagination-controls text-center mt-4">
-      <button class="btn btn-secondary" id="prev-page" disabled>Previous</button>
-      <span>Page <span id="current-page"></span></span>
-      <button class="btn btn-secondary" id="next-page">Next</button>
-    </div>
+    <?php include __DIR__ . '/components/customer_footer.php'; ?>
   </div>
 
-  <div class="product-container">
-    <div class="row">
-      <!--Product Cards get dynamically rendered here after page product JSON is fetched asynchronously-->
-    </div>
-  </div>
-</div>
-
-<?php include __DIR__ . '/components/customer_footer.php'; ?>
-
+</body>
 <script>
 
 let currentPage = 1;
@@ -207,11 +220,14 @@ function updateCartUI() {
             <input type="hidden" class="product-price" value="${parseFloat(product.unit_price).toFixed(2)}" />
             <input type="hidden" class="product-image" value="${product.image_link}" />
             <input type="hidden" class="product-quantity-available" value="${product.quantity_available}" />
-            <button class="btn btn-primary add-to-cart">Add to Cart</button>
-            <div class="cart-info" style="display: none;">
+            <div class="cart-buttons">
+            <button class="btn btn-primary btn-block add-to-cart" style="width: 100%;">Add to Cart</button>
+            <div class="cart-info" style="display: none; text-align: center; width: 100%;">
               <span class="cart-quantity">Item in Cart</span>
-              <button class="btn btn-link remove-from-cart">Remove</button>
+              <button class="btn btn-outline-danger btn-sm remove-from-cart">Remove</button>
             </div>
+          </div>
+          </div>
           </div>
         </div>
       </div>`;
