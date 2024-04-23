@@ -41,13 +41,6 @@
     </div>
   </nav>
 
-  <!-- Sign Up Form -->
-  <?php if (!empty($_SESSION['email'])): ?>
-    <div class="alert alert-info">
-      <?= htmlspecialchars($message) ?>
-    </div>
-  <?php endif; ?>
-
   <div class="login-container">
     <div class="login-form">
       <div class="login-title">
