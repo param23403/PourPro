@@ -31,6 +31,20 @@
   .dropdown-menu .dropdown-item:hover {
     background-color: #00848a
   }
+
+  #notification {
+      position: fixed; 
+      top: 50%;
+      left: 50%; 
+      transform: translate(-50%, -50%);
+      z-index: 1000; 
+      width: 300px; 
+      padding: 10px; 
+      text-align: center; 
+      font-size: 14px;
+      border-radius: 5px; 
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
 </style>
 <body>
   <div class="wrapper">

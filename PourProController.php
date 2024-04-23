@@ -728,8 +728,9 @@ class PourProController {
                 volume = $4,
                 unit_price = $5,
                 supply_price = $6,
-                quantity_available = $7
-                WHERE product_id = $8";
+                quantity_available = $7,
+                image_link = $8
+                WHERE product_id = $9";
 
                 $this->db->query(
                     $query,
@@ -740,6 +741,7 @@ class PourProController {
                     floatval($_POST["unit_price"]),
                     floatval($_POST["supply_price"]),
                     floatval($_POST["quantity_available"]),
+                    $_POST["image_link"],
                     intval($_POST["product_id"])
                 );
 

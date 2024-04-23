@@ -130,7 +130,7 @@
       </div>
 
       <div class="row my-2">
-        <p id="empty-cart-message" class="empty-cart-message mt-2 p-4" style="display: none;">Your cart is empty.</p>
+        <p id="empty-cart-message" class="empty-cart-message mt-2 p-4" style="display: none; color:white">Your cart is empty.</p>
 
         <div id="cart-items" class="cart-items">
         </div>

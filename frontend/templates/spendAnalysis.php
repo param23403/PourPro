@@ -20,7 +20,7 @@
             <div class="header-row d-flex justify-content-between align-items-center">
                 <!-- Title -->
                 <div class="title">
-                    <h1>Spending Analysis</h1>
+                    <h1><b>Spending Analysis</b></h1>
                 </div>
             </div>
             

@@ -61,12 +61,12 @@
         </div>
         <div class="form-group mb-3">
           <label for="email" class="form-label">Email</label>
-          <input type="email" class="form-control" id="email" placeholder="Enter your email" name="email" required>
+          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter your email" name="email" required>
         </div>
 
         <div class="form-group mb-3">
           <label for="password" class="form-label">Password</label>
-          <input type="password" class="form-control" id="password" placeholder="Enter your password" name="passwd" required>
+          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter your password" name="passwd" required>
         </div>
         <div class="form-group text-end">
           <button type="submit" class="btn btn-primary" style="background-color: #00848a;">
