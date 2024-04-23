@@ -18,6 +18,34 @@
   <link rel="stylesheet" href="css/common.css">
   <link rel="stylesheet" href="css/table.css">
 </head>
+<style>
+  .inventory-controls .btn {
+    background-color: #00848a;
+  }
+
+  .inventory-controls .btn:hover {
+    background-color: #6ddbff;
+    color: #37474f;
+  }
+
+  .dropdown-menu .dropdown-item:hover {
+    background-color: #00848a
+  }
+
+  #notification {
+      position: fixed; 
+      top: 50%;
+      left: 50%; 
+      transform: translate(-50%, -50%);
+      z-index: 1000; 
+      width: 300px; 
+      padding: 10px; 
+      text-align: center; 
+      font-size: 14px;
+      border-radius: 5px; 
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+</style>
 <body>
   <div class="wrapper">
     <?php include __DIR__ . '/components/admin_navbar.php'; ?>
@@ -25,19 +53,22 @@
     <!--Main Container-->
     <div class="container content">
 
+      <!-- Notification Element -->
+      <div id="notification" class="alert" style="display: none;"></div>
+
       <!-- Title Container with Buttons-->
       <div class="header-row d-flex justify-content-between align-items-center">
         <!-- Title -->
         <div class="title">
-          <h1>Inventory</h1>
+          <h1><b>Inventory</b></h1>
         </div>
 
         <!-- Buttons -->
-        <div>
-          <button type="button" class="btn btn-success m-2" data-bs-toggle="modal" data-bs-target="#addProductModal">
+        <div class="inventory-controls">
+          <button type="button" class="btn m-2" data-bs-toggle="modal" data-bs-target="#addProductModal">
             Add Product to Inventory
           </button>
-          <a href="?command=productListToJson" class="btn btn-info m-2" role="button">
+          <a href="?command=productListToJson" class="btn m-2" role="button">
             Export Product List
           </a>
         </div>
@@ -84,16 +115,16 @@
                         </button>
                         <ul class="dropdown-menu">
                           <li>
-                            <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#orderModal" data-product='<?php echo json_encode($_SESSION["products"][$i]); ?>'>Order</button>
+                            <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#orderModal" data-product='<?php echo json_encode($_SESSION["products"][$i]); ?>'>Order</a>
                           </li>
                           <li>
                             <a href="?command=detail&product_id=<?php echo $_SESSION["products"][$i]["product_id"]; ?>" class="dropdown-item">View</a>
                           </li>
                           <li>
-                            <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#updateProductModal" data-product='<?php echo json_encode($_SESSION["products"][$i]); ?>'>Edit</button>
+                            <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#updateProductModal" data-product='<?php echo json_encode($_SESSION["products"][$i]); ?>'>Edit</a>
                           </li>
                           <li>
-                            <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-product='<?php echo json_encode($_SESSION["products"][$i]); ?>'>Delete</button>
+                            <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-product='<?php echo json_encode($_SESSION["products"][$i]); ?>'>Delete</a>
                           </li>
                         </ul>
                       </div>

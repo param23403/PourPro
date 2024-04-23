@@ -5,37 +5,61 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Your Cart</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <link rel="stylesheet" href="css/common.css">
   <style>
+
   .cart-container {
     padding: 20px;
-    border: 1px solid #ddd;
+    border: 1px solid #e0e0e0;
     border-radius: 10px;
-    background-color: #f8f9fa;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    position: relative; 
-    max-height: 90vh; 
-    overflow: hidden; 
+    background-color: #222831;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    max-height: 90vh;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 10px;
+    border-bottom: solid white 2px;
+    padding: 15px;
+    color: white;
   }
 
   .cart-items {
     overflow-y: auto;
-    max-height: 60vh; 
-    padding-right: 10px; 
+    max-height: 60vh;
+    padding: 10px;
+    border-radius: 10px;
   }
 
   .cart-row {
+    background-color: #f1f1f1;
     display: flex;
     align-items: center;
-    padding: 10px 0;
-    border-bottom: 1px solid #ddd;
+    padding: 15px 0;
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s;
+    margin: 5px;
   }
 
   .cart-image {
-    max-width: 40px;
+    max-width: 50px;
     height: auto;
     object-fit: contain;
     border-radius: 5px;
+    margin-right: 15px;
+  }
+
+  .cart-info {
+    flex-grow: 1;
+    color: #222831;
   }
 
   .cart-quantity {
@@ -49,55 +73,80 @@
   .remove-from-cart {
     color: #dc3545;
     text-decoration: none;
+    transition: color 0.3s ease;
   }
 
   .remove-from-cart:hover {
+    color: #a71d2a;
     text-decoration: underline;
   }
 
   .cart-footer {
     position: sticky;
     bottom: 0;
-    background-color: #f8f9fa;
-    padding-top: 12px;
-    padding-bottom: 10px;
+    border-radius: 10px;
+    border-top: solid white 2px;
+    padding: 20px;
     text-align: right;
+    color: white;
+    background-color: #222831;;
   }
 
   .cart-total {
-    font-size: 20px;
+    font-size: 24px;
+    font-weight: bold;
     margin-bottom: 10px;
   }
 
   .checkout-button {
     margin-top: 10px;
   }
+
+  .checkout-button .btn {
+    background-color: #00848a;
+  }
+
+  .btn {
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  .btn:hover {
+    background-color: #0056b3;
+    color: #fff;
+  }
+
   </style>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
 
-<?php include __DIR__ . '/components/customer_navbar.php'; ?>
+<div class="wrapper">
+  <?php include __DIR__ . '/components/customer_navbar.php'; ?>
 
-<div class="container my-4">
-  <div class="cart-container">
-    <h2 class="mb-4">Your Cart</h2>
+  <div class="container content">
+    <div class="cart-container">
+      <div class="cart-header row mb-2">
+        <h2><b>Your Cart</b></h2>
+      </div>
 
-    <!-- Empty cart message -->
-    <p id="empty-cart-message" class="empty-cart-message" style="display: none;">Your cart is empty.</p>
+      <div class="row my-2">
+        <p id="empty-cart-message" class="empty-cart-message mt-2 p-4" style="display: none; color:white">Your cart is empty.</p>
 
-    <!-- Scrollable area for cart items -->
-    <div id="cart-items" class="cart-items">
-    </div>
+        <div id="cart-items" class="cart-items">
+        </div>
+      </div>
 
-    <!-- Fixed footer for total and checkout -->
-    <div class="cart-footer">
-      <p class="cart-total">Total: $<span id="cart-total">0.00</span></p>
-      <div class="checkout-button">
-        <button class="btn btn-primary checkout">Checkout</button>
+      <div class="cart-footer row my-2">
+        <span>
+        <p class="cart-total">Total: $<span id="cart-total">0.00</span></p>
+        <div class="checkout-button">
+          <button class="btn checkout">Checkout</button>
+        </div>
       </div>
     </div>
   </div>
+
+  <?php include __DIR__ . '/components/customer_footer.php'; ?>
 </div>
 
 <script>
@@ -122,22 +171,29 @@ function updateCartUI() {
 
     const cartRowHtml = `
       <div class="cart-row row" data-product-id="${product.product_id}">
-        <div class="col-auto"> <!-- Column for the image -->
+        <div class="col-auto">
           <img src="${product.image_link}" class="cart-image" alt="${product.product_name}">
         </div>
-        <div class="col"> <!-- Column for product information -->
-          <h4><strong>${product.product_name}</strong></h4>
+        <div class="col cart-info">
+          <strong>${product.product_name}</strong>
           <p>
             <strong>Category:</strong> ${product.category} |
             <strong>Brand:</strong> ${product.brand} |
             <strong>Price:</strong> $${product.price}
           </p>
         </div>
-        <div class="col-auto"> <!-- Column for controls -->
-          <button class="btn btn-sm btn-outline-secondary decrease-quantity">-</button>
+        <div class="col-auto p-4">
+          <a href="#" class="remove-from-cart mx-2">
+            <i class="fas fa-trash"></i> Remove
+          </a>
+          <button class="btn btn-sm btn-outline-secondary btn-icon decrease-quantity">
+            <i class="fas fa-minus"></i>
+          </button>
           <input type="text" value="${product.quantity}" class="cart-quantity" readonly>
-          <button class="btn btn-sm btn-outline-secondary increase-quantity">+</button>
-          <a href="#" class="remove-from-cart">Remove</a>
+          <button class="btn btn-sm btn-outline-secondary btn-icon increase-quantity">
+            <i class="fas fa-plus"></i>
+          </button>
+
         </div>
       </div>
     `;
@@ -189,40 +245,36 @@ $(document).ready(() => {
     removeProductFromCart($(this).closest(".cart-row").data("product-id"));
   });
 
-  // Triggering the checkout AJAX call
-$('.checkout').on('click', function (event) {
-  event.preventDefault();
+  $('.checkout').on('click', function (event) {
+    event.preventDefault();
 
-  let cartDataStr = localStorage.getItem("cart"); 
+    let cartDataStr = localStorage.getItem("cart"); 
 
-  if (cartDataStr) {
+    if (cartDataStr) {
       $.ajax({
-          url: "?command=performCheckout",
-          type: "POST",
-          dataType: 'json',
-          data: cartDataStr,
-          contentType: "application/json; charset=utf-8",
-          success: function (response) { 
-              console.log("Checkout successful:", response);
-              emptyCart();
-          },
-          error: function (xhr, status, error) { 
-              console.error("Checkout failed:", xhr.responseText);
-
-              let errorData;
-              try {
-                  errorData = JSON.parse(xhr.responseText);
-              } catch (e) {
-                  errorData = { error: "Unknown error occurred." };
-              }
+        url: "?command=performCheckout",
+        type: "POST",
+        dataType: 'json',
+        data: cartDataStr,
+        contentType: "application/json; charset=utf-8",
+        success: function (response) {
+          console.log("Checkout successful:", response);
+          emptyCart();
+        },
+        error: function (xhr, status, error) {
+          console.error("Checkout failed:", xhr.responseText);
+          let errorData;
+          try {
+            errorData = JSON.parse(xhr.responseText);
+          } catch (e) {
+            errorData = { error: "Unknown error occurred." };
           }
+        }
       });
-  } else {
+    } else {
       console.error("No cart data found in local storage");
-  }
-});
-
-
+    }
+  });
 });
 </script>
 

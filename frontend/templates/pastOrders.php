@@ -20,41 +20,43 @@
         <div class="header-row d-flex justify-content-between align-items-center">
         <!-- Title -->
         <div class="title">
-            <h1>Past Orders</h1>
+            <h1><b>Past Orders</b></h1>
         </div>
         </div>
 
         <?php $orders=$_SESSION["orders"];?>
         <?php if (isset($_SESSION["orders"]) && !empty($_SESSION["orders"])) { ?>
             <div class="orders-list">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Order Date</th>
-                            <th>Product Name</th>
-                            <th>Quantity Ordered</th>
-                            <th>Total Cost</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($orders as $order) { ?>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
                             <tr>
-                                <td>
-                                    <?php echo $order["order_date"] ?>
-                                </td>
-                                <td>
-                                    <?php echo $order["product_name"] ?>
-                                </td>
-                                <td>
-                                    <?php echo $order["quantity_ordered"] ?>
-                                </td>
-                                <td>
-                                    <?php echo $order["total_cost"] ?>
-                                </td>
+                                <th>Order Date</th>
+                                <th>Product Name</th>
+                                <th>Quantity Ordered</th>
+                                <th>Total Cost</th>
                             </tr>
-                        <?php }; ?>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($orders as $order) { ?>
+                                <tr>
+                                    <td>
+                                        <?php echo $order["order_date"] ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $order["product_name"] ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $order["quantity_ordered"] ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $order["total_cost"] ?>
+                                    </td>
+                                </tr>
+                            <?php }; ?>
+                        </tbody>
+                    </table>
+                </div>
                 <?php }; ?>
                 <br>
                 <br>

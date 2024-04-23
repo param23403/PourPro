@@ -7,91 +7,138 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous">
   <link rel="stylesheet" href="css/common.css">
   <style>
-    .product-container {
-      padding: 20px;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      background-color: #555; 
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); 
+  .product-container {
+    padding: 20px;
+    border: 2px solid #00848a;
+    border-radius: 10px;
+    background-color: #ffffff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+
+  .card {
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s;
+    padding: 4px;
+  }
+
+  .card:hover {
+    box-shadow: 0 8px 20px rgba(0, 123, 255, 0.5);
+  }
+
+  .card-img-top {
+    height: 200px;
+    object-fit: contain;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+
+  .card-body {
+    color: #333333;
+    border-radius: 10px;
+    background-color: #f5f5f5; 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .card-title {
+    color: #222831;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    font-weight: bold;
+    padding: 4px;
+  }
+
+  .cart-buttons {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  .cart-buttons button {
+    width: 100%;
+    margin-top: 8px;
+    background-color: #00848a; 
+    color: white;
+    border: none;
+    transition: background-color 0.3s;
+  }
+
+  .cart-buttons button:hover {
+    background-color: #1e88e5;
+  }
+
+  .cart-info {
+    display: none;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .remove-from-cart {
+    color: #e57373; 
+    text-decoration: none;
+  }
+
+  .remove-from-cart:hover {
+    color: #d32f2f; 
+    text-decoration: underline;
+  }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: space-between;
+  }
+
+  .col-md-3 {
+    flex: 1 0 22%;
+    min-width: 250px;
+    max-width: 22%;
+  }
+
+  .pagination-controls {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; 
+  }
+
+    .pagination-controls button {
+      padding: 8px 16px;
     }
 
-    .card {
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      transition: box-shadow 0.3s;
-      padding: 4px;
+  @media (max-width: 576px) { 
+    .pagination-controls {
+      flex-direction: column; 
     }
 
-    .card:hover {
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    }
+  }
 
-    .card-img-top {
-      height: 200px;
-      object-fit: contain; 
-      border-top-left-radius: 10px;
-      border-top-right-radius: 10px;
-    }
-
-    .card-body {
-      color: white;
-      border-radius: 10px;
-      background-color: #444;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-
-    .card-title {
-      color: white;
-      white-space: nowrap;
-      overflow: hidden; 
-      text-overflow: ellipsis; 
-      font-weight: bold; 
-      padding: 4px;
-    }
-
-    .cart-buttons {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-    }
-
-    .cart-buttons button {
-      width: 100%;
-      margin-top: 8px;
-    }
-
-    .cart-info {
-      display: none;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .remove-from-cart {
-      color: #dc3545;
-      text-decoration: none;
-    }
-
-    .remove-from-cart:hover {
-      text-decoration: underline;
-    }
-
+  @media (max-width: 767px) {
     .row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem; 
-      justify-content: space-between;
+      justify-content: center;
     }
+  }
 
-    .col-md-3 {
-      flex: 1 0 22%; 
-      min-width: 250px;
-      max-width: 22%; 
-    }
-  </style>
+  .pagination-controls span {
+    color: #222831
+  }
+
+  .pagination-controls button {
+    background-color: #00848a;;
+  }
+
+  .pagination-controls button:hover {
+    background-color: #00c4cc;
+  }
+</style>
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 </head>
 <body>
 
@@ -102,13 +149,17 @@
       <div class="header-row d-flex justify-content-between align-items-center">
         <!-- Title -->
         <div class="title">
-          <h1>Shop Products</h1>
+          <h1><b>Shop Products</b></h1>
         </div>
 
-        <div class="pagination-controls text-center mt-4">
-          <button class="btn btn-secondary" id="prev-page" disabled>Previous</button>
-          <span>Page <span id="current-page"></span></span>
-          <button class="btn btn-secondary" id="next-page">Next</button>
+        <div class="pagination-controls text-center">
+          <button class="btn btn-secondary" id="prev-page" disabled>
+            <i class="fas fa-arrow-left"></i>
+          </button>
+          <span>Page <span id="current-page">1</span></span>
+          <button class="btn btn-secondary" id="next-page">
+            <i class="fas fa-arrow-right"></i>
+          </button>
         </div>
       </div>
 
@@ -221,7 +272,7 @@ function updateCartUI() {
             <input type="hidden" class="product-image" value="${product.image_link}" />
             <input type="hidden" class="product-quantity-available" value="${product.quantity_available}" />
             <div class="cart-buttons">
-            <button class="btn btn-primary btn-block add-to-cart" style="width: 100%;">Add to Cart</button>
+            <button class="btn btn-block add-to-cart" style="width: 100%; background-color: #00848a;">Add to Cart</button>
             <div class="cart-info" style="display: none; text-align: center; width: 100%;">
               <span class="cart-quantity">Item in Cart</span>
               <button class="btn btn-outline-danger btn-sm remove-from-cart">Remove</button>

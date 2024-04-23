@@ -37,7 +37,7 @@ class PourProController {
                     $this->logout();
                     break;
                 }
-            case 'signUp':
+            case 'signup':
                 $this->showSignUp();
                 break;
             case 'detail':
@@ -53,20 +53,6 @@ class PourProController {
                         break;
                     }
                 }
-            case 'navDetail':
-                if (!isset($_SESSION["email"])) {
-                    $this->showLogin();
-                    break;
-                } else {
-                    if ($_SESSION["type"] === "admin") {
-                        $productId = $_GET['product_id'];
-                        header("Location: ?command=detail&product_id=$productId");
-                        break;
-                    } else {
-                        $this->showCustViewProducts();
-                        break;
-                    }
-                }
             case 'pastOrders':
                 if (!isset($_SESSION["email"])) {
                     $this->showLogin();
@@ -74,19 +60,6 @@ class PourProController {
                 } else {
                     if ($_SESSION["type"] === "admin") {
                         $this->showPastOrders();
-                        break;
-                    } else {
-                        $this->showCustViewProducts();
-                        break;
-                    }
-                }
-            case 'navInventory':
-                if (!isset($_SESSION["email"])) {
-                    $this->showLogin();
-                    break;
-                } else {
-                    if ($_SESSION["type"] === "admin") {
-                        header("Location: ?command=inventory");
                         break;
                     } else {
                         $this->showCustViewProducts();
@@ -755,8 +728,9 @@ class PourProController {
                 volume = $4,
                 unit_price = $5,
                 supply_price = $6,
-                quantity_available = $7
-                WHERE product_id = $8";
+                quantity_available = $7,
+                image_link = $8
+                WHERE product_id = $9";
 
                 $this->db->query(
                     $query,
@@ -767,6 +741,7 @@ class PourProController {
                     floatval($_POST["unit_price"]),
                     floatval($_POST["supply_price"]),
                     floatval($_POST["quantity_available"]),
+                    $_POST["image_link"],
                     intval($_POST["product_id"])
                 );
 
