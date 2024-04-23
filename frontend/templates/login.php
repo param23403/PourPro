@@ -24,10 +24,6 @@
     <link rel="stylesheet" href="css/common.css" >
     <link rel="stylesheet" href="css/authentication.css" >
   </head>
-
-  <style>
-
-  </style>
   <body>
   
   <div class="wrapper">
