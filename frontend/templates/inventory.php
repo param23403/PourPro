@@ -39,11 +39,14 @@
     <!--Main Container-->
     <div class="container content">
 
+      <!-- Notification Element -->
+      <div id="notification" class="alert" style="display: none;"></div>
+
       <!-- Title Container with Buttons-->
       <div class="header-row d-flex justify-content-between align-items-center">
         <!-- Title -->
         <div class="title">
-          <h1>Inventory</h1>
+          <h1><b>Inventory</b></h1>
         </div>
 
         <!-- Buttons -->

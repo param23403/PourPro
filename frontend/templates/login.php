@@ -22,113 +22,62 @@
     >
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/common.css" >
+    <link rel="stylesheet" href="css/authentication.css" >
   </head>
+
+  <style>
+
+  </style>
   <body>
+  
   <div class="wrapper">
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow-lg" style="border-bottom: 2px solid #673ab7;">
-      <div class="container">
-        <a class="navbar-brand" href="#">
-          <i class="fas fa-cocktail" style="font-size: 1.5rem;"></i>
-          PourPro
-        </a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarContent">
-          <ul class="navbar-nav ms-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="?command=signup">Sign Up</a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </nav>
-
-    <!-- Main Content -->
-    <div class="container content">
-      <!-- Title -->
-      <div class="row mb-4 d-flex justify-content-center">
-        <!-- Title -->
-        <div class="col title text-center">
-          <h1>Login</h1>
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col">
-          <!-- Sign In Form -->
-          <?php if (!empty($_SESSION['email'])): ?>
-            <div class="alert alert-info">
-              <?= htmlspecialchars($message) ?>
-            </div>
-          <?php endif; ?>
-          
-          <div class="form">
-            <form method="post" action="?command=logindb">
-              <div class="form-group">
-                <input type="email" class="form-control" placeholder="Enter Email" name="email" required>
-              </div>
-
-              <div class="form-group mt-3">
-                <input type="password" class="form-control" placeholder="Password" name="passwd" required>
-              </div>
-
-              <button type="submit" class="btn btn-primary mt-3" style="background-color: #00848a;">
-                Sign In
-              </button>
-            </form>
-          </div>
-        </div>
-      </div>
+  <!-- Navbar -->
+  <nav class="navbar navbar-dark bg-dark shadow-lg" style="border-bottom: 2px solid #673ab7;">
+    <div class="container">
+      <a class="navbar-brand" href="#">
+        <i class="fas fa-cocktail" style="font-size: 1.5rem;"></i>
+        PourPro
+      </a>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="?command=signup">Sign Up</a>
+        </li>
+      </ul>
     </div>
+  </nav>
 
-    <!--Footer-->
-    <!-- Footer -->
-    <nav class="footer navbar navbar-expand-lg navbar-dark bg-light shadow-lg" style="border-top: 2px solid #673ab7;">
-      <div class="container">
-        <!-- Content and layout -->
-        <div class="row w-100 d-flex align-items-center">
-          
-          <!-- Left Section: Branding and Copyright -->
-          <div class="col-md-3 d-flex flex-column">
-            <a href="/" class="navbar-brand"><strong>PourPro</strong></a>
-            <span class="text-muted">&copy; 2024 PourPro. All rights reserved.</span>
-          </div>
+  <!-- Sign In Form -->
+  <?php if (!empty($_SESSION['email'])): ?>
+    <div class="alert alert-info">
+      <?= htmlspecialchars($message) ?>
+    </div>
+  <?php endif; ?>
 
-          <!-- Middle Section: Company Links -->
-          <div class="col-md-3">
-            <h6 class="text-uppercase">Company</h6>
-            <ul class="navbar-nav flex-column">
-              <li class="nav-item"><a href="#" class="nav-link text-muted">About</a></li>
-              <li class="nav-item"><a href="#" class="nav-link text-muted">Careers</a></li>
-              <li class="nav-item"><a href="#" class="nav-link text-muted">Newsroom</a></li>
-            </ul>
-          </div>
-
-          <!-- Middle Section: Product Categories -->
-          <div class="col-md-3">
-            <h6 class="text-uppercase">Categories</h6>
-            <ul class="navbar-nav flex-column">
-              <li class="nav-item"><a href="#" class="nav-link text-muted">Whiskey</a></li>
-              <li class="nav-item"><a href="#" class="nav-link text-muted">Vodka</a></li>
-              <li class="nav-item"><a href="#" class="nav-link text-muted">Gin</a></li>
-            </ul>
-          </div>
-
-          <!-- Right Section: Social Media Links -->
-          <div class="col-md-3">
-            <h6 class="text-uppercase">Social</h6>
-            <ul class="navbar-nav flex-column">
-              <li class="nav-item"><a href="#" class="nav-link text-muted">Twitter</a></li>
-              <li class="nav-item"><a href="#" class="nav-link text-muted">Instagram</a></li>
-              <li class="nav-item"><a href="#" class="nav-link text-muted">Threads</a></li>
-            </ul>
-          </div>
-
-        </div>
+  <div class="login-container">
+    <div class="login-form">
+      <div class="login-title">
+        <h1>Login</h1>
       </div>
-    </nav>
+
+      <form method="post" action="?command=logindb">
+        <div class="form-group mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" id="email" placeholder="Enter your email" name="email" required>
+        </div>
+
+        <div class="form-group mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" class="form-control" id="password" placeholder="Enter your password" name="passwd" required>
+        </div>
+
+        <div class="form-group text-end">
+          <button type="submit" class="btn btn-primary" style="background-color: #00848a;">
+            Sign In
+          </button>
+        </div>
+      </form>
+    </div>
   </div>
+
 </body>
 </html>

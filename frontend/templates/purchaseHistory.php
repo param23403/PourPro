@@ -18,41 +18,43 @@
             <div class="header-row d-flex justify-content-between align-items-center">
                 <!-- Title -->
                 <div class="title">
-                    <h1>Purchase History</h1>
+                    <h1><b>Purchase History</b></h1>
                 </div>
             </div>
 
         <?php $purchases=$_SESSION["purchases"];?>
         <?php if (isset($_SESSION["purchases"]) && !empty($_SESSION["purchases"])) { ?>
             <div class="orders-list">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Purchase Date</th>
-                            <th>Product Name</th>
-                            <th>Quantity Ordered</th>
-                            <th>Total Cost</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach ($purchases as $purchase) { ?>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
                             <tr>
-                                <td>
-                                    <?php echo $purchase["sales_date"] ?>
-                                </td>
-                                <td>
-                                    <?php echo $purchase["product_name"] ?>
-                                </td>
-                                <td>
-                                    <?php echo $purchase["quantity_sold"] ?>
-                                </td>
-                                <td>
-                                    <?php echo $purchase["total_price"] ?>
-                                </td>
+                                <th>Purchase Date</th>
+                                <th>Product Name</th>
+                                <th>Quantity Ordered</th>
+                                <th>Total Cost</th>
                             </tr>
-                        <?php }; ?>
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($purchases as $purchase) { ?>
+                                <tr>
+                                    <td>
+                                        <?php echo $purchase["sales_date"] ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $purchase["product_name"] ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $purchase["quantity_sold"] ?>
+                                    </td>
+                                    <td>
+                                        <?php echo $purchase["total_price"] ?>
+                                    </td>
+                                </tr>
+                            <?php }; ?>
+                        </tbody>
+                    </table>
+                </div>
             <?php }; ?>
             <br>
             <br>
