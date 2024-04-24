@@ -157,11 +157,11 @@
         </div>
 
         <div class="pagination-controls text-center">
-          <button class="btn btn-secondary" id="prev-page" disabled>
+          <button class="btn btn-secondary" id="prev-page" disabled aria-label="Previous Page">
             <i class="fas fa-arrow-left"></i>
           </button>
           <span>Page <span id="current-page">1</span></span>
-          <button class="btn btn-secondary" id="next-page">
+          <button class="btn btn-secondary" id="next-page" aria-label="Next Page">
             <i class="fas fa-arrow-right"></i>
           </button>
         </div>
