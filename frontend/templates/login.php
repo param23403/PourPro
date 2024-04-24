@@ -24,10 +24,6 @@
     <link rel="stylesheet" href="css/common.css" >
     <link rel="stylesheet" href="css/authentication.css" >
   </head>
-
-  <style>
-
-  </style>
   <body>
   
   <div class="wrapper">
@@ -45,13 +41,6 @@
       </ul>
     </div>
   </nav>
-
-  <!-- Sign In Form -->
-  <?php if (!empty($_SESSION['email'])): ?>
-    <div class="alert alert-info">
-      <?= htmlspecialchars($message) ?>
-    </div>
-  <?php endif; ?>
 
   <div class="login-container">
     <div class="login-form">

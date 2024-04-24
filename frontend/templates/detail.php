@@ -20,8 +20,49 @@
       crossorigin="anonymous"
     >
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns"></script>
     <link rel="stylesheet" href="css/common.css">
     <link rel="stylesheet" href="css/table.css">
+
+    <style>
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s;
+            padding: 4px;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 20px rgba(0, 123, 255, 0.5);
+        }
+
+        .card-img-top {
+            max-height: 35vh;
+            width: 100%;
+            object-fit: scale-down;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+
+        .card-body {
+            color: #333333;
+            border-radius: 10px;
+            background-color: #f5f5f5; 
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-title {
+            color: #222831;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-weight: bold;
+            padding: 4px;
+        }
+    </style>
 
 </head>
 <body>
@@ -37,29 +78,26 @@
               <h1><b><?php echo $_SESSION["product_details"]["product_name"] ?> - Detail</b></h1>
           </div>
       </div>
-      <!-- Product Container
+      <!-- Product Container -->
       <div class="row product-container d-flex">
-          <div class="col-md-6 d-flex align-items-end">
+          <div class="col md-6 my-2">
             <div class="card">
-              <div class="img-container">
-                  <img src="https://exceldashboardschool.com/wp-content/uploads/2013/10/sales-forecast-chart.png" class="product-img" alt="Sales Chart">
-              </div>
+                <canvas id="salesChart" width="100%"></canvas>
               <div class="card-body">
-                <h2 class="card-title">
-                Sales Analytics</h2>
+                <h2><b>Sales Analytics</b></h2>
               </div>
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-6 my-2">
               <div class="card">
-                  <img src="https://media.istockphoto.com/id/940975334/photo/crate-full-of-beer-bottles-isolated-on-white-background.jpg?s=612x612&w=0&k=20&c=gf32SnHpdTiyj8rfyot_z1QFcylLIt3HHy_0RZ2K9Zw=" class="card-img-top product-img" alt="Product Image">
+                  <img src="<?php echo $_SESSION["product_details"]["image_link"] ?>" class="card-img-top product-img" alt="Product Image">
                   <div class="card-body">
                       <h2 class="card-title">
-                        - $24.99</h2>
+                        <?php echo $_SESSION["product_details"]["product_name"]?> - $<?php echo $_SESSION["product_details"]["unit_price"]?></h2>
                   </div>
               </div>
           </div>
-      </div> -->
+      </div>
 
       <!--Product Table Row Detail-->
       <div class="row mt-4">
@@ -100,13 +138,11 @@
         </div>
         </div>
       </div>
-      <br>
-      <br>
-      <br>
-      <br>
-      <?php $productSales=$_SESSION["productSales"];?>
+
+      <!--Product Sales Table-->
+      <?php $productSales= $_SESSION["productSales"];?>
       <?php if (isset($_SESSION["productSales"]) && !empty($_SESSION["productSales"])) { ?>
-          <div class="orders-list">
+          <div class="orders-list mt-4">
               <table>
                   <thead>
                       <tr>
@@ -136,15 +172,82 @@
       </div>
     <?php include __DIR__ . '/components/admin_footer.php'; ?>
 
+    <?php
+        // Intialize to empty
+        $salesDates = [];
+        $salesQuantities = [];
+
+        if (isset($_SESSION["productSales"]) && !empty($_SESSION["productSales"])) { 
+            $productSales = $_SESSION["productSales"];        
+
+            // Sort by sales date
+            usort($productSales, function($a, $b) {
+                $dateA = strtotime($a["sales_date"]);
+                $dateB = strtotime($b["sales_date"]);
+                return $dateA - $dateB;
+            });
+            
+            // Get sales dates and quantities after sorting
+            $salesDates = array_map(function($sale) { return $sale["sales_date"]; }, $productSales);
+            $salesQuantities = array_map(function($sale) { return $sale["date_quantity_sold"]; }, $productSales);
+        }
+    ?>
+
+
     <!-- Modals -->
     <?php include __DIR__ . '/admin_modals/add_product_modal.php'; ?>
     <?php include __DIR__ . '/admin_modals/order_modal.php'; ?>
     <?php include __DIR__ . '/admin_modals/update_product_modal.php'; ?>
     <?php include __DIR__ . '/admin_modals/delete_modal.php'; ?>
+
   </div>
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <script src="js/inventory.js"></script>
+
+
+<script>
+$(document).ready(function() {
+    let ctx = $("#salesChart")[0].getContext('2d');
+
+    // Initialize the chart
+    let salesChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: <?php echo json_encode($salesDates); ?>, 
+            datasets: [{
+                label: 'Quantity Sold', 
+                data: <?php echo json_encode($salesQuantities); ?>,
+                borderColor: 'rgba(75, 192, 192, 1)', 
+                backgroundColor: 'rgba(75, 192, 192, 0.2)', 
+                borderWidth: 2 
+            }]
+        },
+        options: {
+            scales: {
+                x: {
+                    type: 'time', 
+                    time: {
+                        unit: 'day' 
+                    },
+                    title: {
+                        display: true,
+                        text: 'Sales Dates'
+                    }
+                },
+                y: {
+                    beginAtZero: true, 
+                    title: {
+                        display: true,
+                        text: 'Quantity Sold' 
+                    }
+                }
+            }
+        }
+    });
+});
+</script>
+
 
 </body>
 </html>

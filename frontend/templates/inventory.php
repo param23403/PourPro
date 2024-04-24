@@ -24,27 +24,15 @@
   }
 
   .inventory-controls .btn:hover {
-    background-color: #6ddbff;
-    color: #37474f;
+    background-color: #00c4cc; 
+    color: #222831; /* Dark gray for hover text */
   }
 
   .dropdown-menu .dropdown-item:hover {
-    background-color: #00848a
+    background-color: #00c4cc;
   }
 
-  #notification {
-      position: fixed; 
-      top: 50%;
-      left: 50%; 
-      transform: translate(-50%, -50%);
-      z-index: 1000; 
-      width: 300px; 
-      padding: 10px; 
-      text-align: center; 
-      font-size: 14px;
-      border-radius: 5px; 
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
+
 </style>
 <body>
   <div class="wrapper">
@@ -57,20 +45,22 @@
       <div id="notification" class="alert" style="display: none;"></div>
 
       <!-- Title Container with Buttons-->
-      <div class="header-row d-flex justify-content-between align-items-center">
-        <!-- Title -->
-        <div class="title">
-          <h1><b>Inventory</b></h1>
-        </div>
+      <div class="header-row">
+        <div class="row">
+          <!-- Title -->
+          <div class="col-md-6 title">
+            <h1><b>Inventory</b></h1>
+          </div>
 
-        <!-- Buttons -->
-        <div class="inventory-controls">
-          <button type="button" class="btn m-2" data-bs-toggle="modal" data-bs-target="#addProductModal">
-            Add Product to Inventory
-          </button>
-          <a href="?command=productListToJson" class="btn m-2" role="button">
-            Export Product List
-          </a>
+          <!-- Buttons -->
+          <div class="col-md-6 d-flex justify-content-end inventory-controls">
+            <button type="button" class="btn m-2" data-bs-toggle="modal" data-bs-target="#addProductModal">
+              Add Product to Inventory
+            </button>
+            <a href="?command=productListToJson" class="btn m-2" role="button">
+              Export Product List
+            </a>
+          </div>
         </div>
       </div>
 

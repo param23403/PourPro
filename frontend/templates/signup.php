@@ -41,13 +41,6 @@
     </div>
   </nav>
 
-  <!-- Sign Up Form -->
-  <?php if (!empty($_SESSION['email'])): ?>
-    <div class="alert alert-info">
-      <?= htmlspecialchars($message) ?>
-    </div>
-  <?php endif; ?>
-
   <div class="login-container">
     <div class="login-form">
       <div class="login-title">
@@ -56,17 +49,17 @@
       
       <form method="post" action="?command=signupDatabase">
         <div class="form-group mb-3">
-          <label for="name" class="form-label">Name</label>
-          <input type="name" class="form-control"id="exampleInputName1" placeholder="Enter Full Name" name="fullname">
+          <label for="fullname" class="form-label">Name</label>
+          <input type="name" class="form-control"id="fullname" placeholder="Enter Full Name" name="fullname">
         </div>
         <div class="form-group mb-3">
           <label for="email" class="form-label">Email</label>
-          <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter your email" name="email" required>
+          <input type="email" class="form-control" id="email" placeholder="Enter your email" name="email" required>
         </div>
 
         <div class="form-group mb-3">
-          <label for="password" class="form-label">Password</label>
-          <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Enter your password" name="passwd" required>
+          <label for="passwd" class="form-label">Password</label>
+          <input type="password" class="form-control" id="passwd" placeholder="Enter your password" name="passwd" required>
         </div>
         <div class="form-group text-end">
           <button type="submit" class="btn btn-primary" style="background-color: #00848a;">

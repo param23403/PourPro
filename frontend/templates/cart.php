@@ -103,6 +103,7 @@
   }
 
   .checkout-button .btn {
+    color: white;
     background-color: #00848a;
   }
 
@@ -111,8 +112,9 @@
   }
 
   .btn:hover {
-    background-color: #0056b3;
-    color: #fff;
+    background-color: #00c4cc; /* Light blue for hover */
+    color: #222831; /* Dark gray for hover text */
+    text-decoration: underline;
   }
 
   </style>
@@ -124,6 +126,9 @@
   <?php include __DIR__ . '/components/customer_navbar.php'; ?>
 
   <div class="container content">
+
+    <div id="notification" class="alert" style="display: none;"></div>
+
     <div class="cart-container">
       <div class="cart-header row mb-2">
         <h2><b>Your Cart</b></h2>
@@ -227,6 +232,33 @@ function emptyCart() {
   updateCartUI();
 }
 
+// Display notification indicating success or failure of operation
+function showNotification(message, isSuccess) {
+  const $notification = $('#notification');
+  
+  $notification.text(message);
+  $notification.removeClass('alert-success alert-danger');
+
+  if (isSuccess) {
+    $notification.addClass('alert-success');
+  } else {
+    $notification.addClass('alert-danger');
+  }
+
+  // Display success/failure notification
+  $notification.fadeIn();
+
+  const timeout = setTimeout(() => {
+    $notification.fadeOut();
+  }, 3000);
+
+  // Allow the notification to be dismissed when clicked
+  $notification.off('click').on('click', function() {
+    clearTimeout(timeout); 
+    $notification.fadeOut(); 
+  });
+}
+
 $(document).ready(() => {
   updateCartUI();
 
@@ -260,19 +292,23 @@ $(document).ready(() => {
         success: function (response) {
           console.log("Checkout successful:", response);
           emptyCart();
+          showNotification('Checkout successful. Thank you for your purchase!', true);
         },
         error: function (xhr, status, error) {
           console.error("Checkout failed:", xhr.responseText);
+          showNotification('Checkout failed', false);
           let errorData;
           try {
             errorData = JSON.parse(xhr.responseText);
           } catch (e) {
             errorData = { error: "Unknown error occurred." };
+            showNotification('An error occurred during checkout', false);
           }
         }
       });
     } else {
       console.error("No cart data found in local storage");
+      showNotification('You do not have any items in your cart', false);
     }
   });
 });
