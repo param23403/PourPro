@@ -768,11 +768,17 @@ class PourProController {
 
             // Ensure query was executed
             if ($res !== false) {
-                header("Location: ?command=inventory");
-                exit();
+                // Return success message as JSON response
+                echo json_encode(array('success' => true));
+                return;
             } else {
-                $_SESSION['db_errors'] = ['Failed to delete product'];
+                echo json_encode(array('success' => false));
             }
+        } else {
+            // Invalid request method
+            http_response_code(405); // Method Not Allowed
+            echo json_encode(array('error' => 'Invalid request method'));
+            return;
         }
     }
 
