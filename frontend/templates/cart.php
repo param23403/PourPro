@@ -160,18 +160,22 @@ function loadCartFromLocalStorage() {
 }
 
 function updateCartUI() {
+  // Get cart from local storage
   const cart = loadCartFromLocalStorage();
   const $cartItems = $("#cart-items");
   $cartItems.empty();
   let cartTotal = 0;
 
+  // Show empty cart message if length of cart list is 0
   if (cart.length === 0) {
     $("#empty-cart-message").show();
   } else {
     $("#empty-cart-message").hide();
   }
 
+  // Construct html row for each cart and add to container
   cart.forEach((product) => {
+    // Sum unit prices of each item in the cart
     cartTotal += product.quantity * product.price;
 
     const cartRowHtml = `
@@ -206,9 +210,11 @@ function updateCartUI() {
     $cartItems.append(cartRowHtml);
   });
 
+  // Set cart total value
   $("#cart-total").text(cartTotal.toFixed(2));
 }
 
+// Increment/decrement product quantity in cart
 function updateProductQuantity(productId, increment) {
   const cart = loadCartFromLocalStorage();
   const product = cart.find((item) => item.product_id === productId);
@@ -220,6 +226,7 @@ function updateProductQuantity(productId, increment) {
   }
 }
 
+// Remove item from cart
 function removeProductFromCart(productId) {
   let cart = loadCartFromLocalStorage();
   cart = cart.filter((item) => item.product_id !== productId);
@@ -227,6 +234,7 @@ function removeProductFromCart(productId) {
   updateCartUI();
 }
 
+// Remove cart from local storage
 function emptyCart() {
   localStorage.removeItem("cart");
   updateCartUI();
@@ -260,28 +268,34 @@ function showNotification(message, isSuccess) {
 }
 
 $(document).ready(() => {
+  // Get cart from local storage and construct html rows
   updateCartUI();
 
+  // Event listener for increment button
   $("#cart-items").on("click", ".decrease-quantity", function () {
     const productId = $(this).closest(".cart-row").data("product-id");
     updateProductQuantity(productId, -1);
   });
 
+  // Event listener for decrement button
   $("#cart-items").on("click", ".increase-quantity", function () {
     const productId = $(this).closest(".cart-row").data("product-id");
     updateProductQuantity(productId, 1);
   });
 
+  // Event listener for remove from cart button
   $("#cart-items").on("click", ".remove-from-cart", function (e) {
     e.preventDefault();
     removeProductFromCart($(this).closest(".cart-row").data("product-id"));
   });
 
+  // Event listener fro checkout button
   $('.checkout').on('click', function (event) {
     event.preventDefault();
 
     let cartDataStr = localStorage.getItem("cart"); 
 
+    // AJAX request to checkout items/update their quantities in database and 
     if (cartDataStr) {
       $.ajax({
         url: "?command=performCheckout",

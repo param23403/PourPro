@@ -17,15 +17,17 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
   <link rel="stylesheet" href="css/common.css">
   <link rel="stylesheet" href="css/table.css">
+  <link rel="stylesheet" href="css/light.css">
 </head>
 <style>
   .inventory-controls .btn {
     background-color: #00848a;
+    color: white;
   }
 
   .inventory-controls .btn:hover {
     background-color: #00c4cc; 
-    color: #222831; /* Dark gray for hover text */
+    color: #222831;
   }
 
   .dropdown-menu .dropdown-item:hover {
@@ -54,6 +56,7 @@
 
           <!-- Buttons -->
           <div class="col-md-6 d-flex justify-content-end inventory-controls">
+            <button id="theme-toggle" class="btn m-2">Switch Theme</button>
             <button type="button" class="btn m-2" data-bs-toggle="modal" data-bs-target="#addProductModal">
               Add Product to Inventory
             </button>
@@ -143,6 +146,7 @@
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
   <script src="js/inventory.js"></script>
+  <script src="js/theme.js"></script>
 
 </body>
 </html>
