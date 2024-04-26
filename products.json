@@ -1,0 +1,172 @@
+[
+  {
+    "product_name": "Heineken Lager",
+    "category": "Beer",
+    "brand": "Heineken",
+    "volume": "330ml",
+    "unit_price": 3.49,
+    "supply_price": 2.50,
+    "quantity_available": 250,
+    "image_link": "https://m.media-amazon.com/images/I/71Xgo6FmNPL._AC_SX522_.jpg"
+  },
+  {
+    "product_name": "Stella Artois",
+    "category": "Beer",
+    "brand": "Stella Artois",
+    "volume": "330ml",
+    "unit_price": 3.29,
+    "supply_price": 2.30,
+    "quantity_available": 300,
+    "image_link": "https://m.media-amazon.com/images/I/91omP9uo9YL._AC_SX522_.jpg"
+  },
+  {
+    "product_name": "Budweiser",
+    "category": "Beer",
+    "brand": "Budweiser",
+    "volume": "330ml",
+    "unit_price": 3.19,
+    "supply_price": 2.20,
+    "quantity_available": 350,
+    "image_link": "https://m.media-amazon.com/images/I/71vUhw9ou0L._AC_SX522_.jpg"
+  },
+  {
+    "product_name": "Corona Extra",
+    "category": "Beer",
+    "brand": "Corona",
+    "volume": "330ml",
+    "unit_price": 3.39,
+    "supply_price": 2.40,
+    "quantity_available": 270,
+    "image_link": "https://m.media-amazon.com/images/I/716JqPh1z4L._AC_SX522_.jpg"
+  },
+  {
+    "product_name": "Jameson Irish Whiskey",
+    "category": "Whiskey",
+    "brand": "Jameson",
+    "volume": "750ml",
+    "unit_price": 27.99,
+    "supply_price": 24.50,
+    "quantity_available": 220,
+    "image_link": "https://m.media-amazon.com/images/I/81PeRPXNnGL._AC_SX522_.jpg"
+  },
+  {
+    "product_name": "Jack Daniel's Old No. 7",
+    "category": "Whiskey",
+    "brand": "Jack Daniel's",
+    "volume": "750ml",
+    "unit_price": 25.99,
+    "supply_price": 21.50,
+    "quantity_available": 200,
+    "image_link": "https://m.media-amazon.com/images/I/81re97k7N7L._AC_SX522_.jpg"
+  },
+  {
+    "product_name": "Johnnie Walker Black Label",
+    "category": "Whiskey",
+    "brand": "Johnnie Walker",
+    "volume": "750ml",
+    "unit_price": 39.99,
+    "supply_price": 35.00,
+    "quantity_available": 140,
+    "image_link": "https://m.media-amazon.com/images/I/81kpwuEGoPL._AC_SX522_.jpg"
+  },
+  {
+    "product_name": "Ketel One Vodka",
+    "category": "Vodka",
+    "brand": "Ketel One",
+    "volume": "1L",
+    "unit_price": 29.99,
+    "supply_price": 25.00,
+    "quantity_available": 180,
+    "image_link": "https://m.media-amazon.com/images/I/81X7z72Xt3L._AC_SX522_.jpg"
+  },
+  {
+    "product_name": "Belvedere Vodka",
+    "category": "Vodka",
+    "brand": "Belvedere",
+    "volume": "1L",
+    "unit_price": 49.99,
+    "supply_price": 40.00,
+    "quantity_available": 150,
+    "image_link": "https://m.media-amazon.com/images/I/81FbFg1zHSL._AC_SX522_.jpg"
+  },
+  {
+    "product_name": "Grey Goose Vodka",
+    "category": "Vodka",
+    "brand": "Grey Goose",
+    "volume": "1L",
+    "unit_price": 42.99,
+    "supply_price": 35.00,
+    "quantity_available": 170,
+    "image_link": "https://m.media-amazon.com/images/I/71y3X67NQHL._AC_SX522_.jpg"
+  },
+  {
+    "product_name": "Ciroc Vodka",
+    "category": "Vodka",
+    "brand": "Ciroc",
+    "volume": "1L",
+    "unit_price": 44.99,
+    "supply_price": 38.00,
+    "quantity_available": 160,
+    "image_link": "https://m.media-amazon.com/images/I/81dAKqPA1wL._AC_SX522_.jpg"
+  },
+  {
+    "product_name": "Absolut Vodka",
+    "category": "Vodka",
+    "brand": "Absolut",
+    "volume": "1L",
+    "unit_price": 29.99,
+    "supply_price": 25.00,
+    "quantity_available": 190,
+    "image_link": "https://m.media-amazon.com/images/I/81l4lbN4TIL._AC_SX522_.jpg"
+  },
+  {
+    "product_name": "Chivas Regal 12 Year Old",
+    "category": "Whiskey",
+    "brand": "Chivas Regal",
+    "volume": "750ml",
+    "unit_price": 34.99,
+    "supply_price": 30.00,
+    "quantity_available": 150,
+    "image_link": "https://m.media-amazon.com/images/I/71xDRIVqPIL._AC_SX522_.jpg"
+  },
+  {
+    "product_name": "Johnnie Walker Red Label",
+    "category": "Whiskey",
+    "brand": "Johnnie Walker",
+    "volume": "750ml",
+    "unit_price": 27.99,
+    "supply_price": 24.00,
+    "quantity_available": 220,
+    "image_link": "https://m.media-amazon.com/images/I/71cRA1BfP6L._AC_SX522_.jpg"
+  },
+  {
+    "product_name": "Carlsberg Lager",
+    "category": "Beer",
+    "brand": "Carlsberg",
+    "volume": "330ml",
+    "unit_price": 3.29,
+    "supply_price": 2.30,
+    "quantity_available": 260,
+    "image_link": "https://m.media-amazon.com/images/I/81myYeyx5ZL._AC_SX522_.jpg"
+  },
+  {
+    "product_name": "Svedka Vodka",
+    "category": "Vodka",
+    "brand": "Svedka",
+    "volume": "1L",
+    "unit_price": 24.99,
+    "supply_price": 21.00,
+    "quantity_available": 200,
+    "image_link": "https://m.media-amazon.com/images/I/81vYaNnlnkL._AC_SX522_.jpg"
+  },
+  {
+    "product_name": "Macallan 12 Year Old Sherry Oak",
+    "category": "Whiskey",
+    "brand": "Macallan",
+    "volume": "750ml",
+    "unit_price": 72.99,
+    "supply_price": 60.00,
+    "quantity_available": 90,
+    "image_link": "https://m.media-amazon.com/images/I/61bqLHPfqJL._AC_SX522_.jpg"
+  }
+]
