@@ -77,7 +77,7 @@
                   <th>Product Name</th>
                   <th>Quantity</th>
                   <th>Brand</th>
-                  <th>Category</th>
+                  <th>Barcode</th>
                   <th>Supply Price</th>
                   <th>Unit Price</th>
                   <th>Actions</th>
@@ -98,7 +98,7 @@
                     <td><?php echo $_SESSION["products"][$i]["product_name"]?></td>
                     <td><?php echo $_SESSION["products"][$i]["quantity_available"]?></td>
                     <td><?php echo $_SESSION["products"][$i]["brand"]?></td>
-                    <td><?php echo $_SESSION["products"][$i]["category"]?></td>
+                    <td><?php echo $_SESSION["products"][$i]["barcode"]?></td>
                     <td><?php echo $_SESSION["products"][$i]["supply_price"]?></td>
                     <td><?php echo $_SESSION["products"][$i]["unit_price"]?></td>
                     <td>

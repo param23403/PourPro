@@ -53,6 +53,9 @@ class PourProController {
                         break;
                     }
                 }
+            case 'increment-product-on-scan':
+                $this->incrementProductOnScan();
+                break;
             case 'pastOrders':
                 if (!isset($_SESSION["email"])) {
                     $this->showLogin();
@@ -220,15 +223,47 @@ class PourProController {
         }
     }
 
+    public function incrementProductOnScan() {
+        
+        if ($_SERVER["REQUEST_METHOD"] == "POST") {
+            // Validate Form Input
+            $errors = "";
+
+            if(!isset($_POST["barcode"]) || empty($_POST["barcode"])) {
+                $errors = "Barcode is unset or empty";
+            }
+
+            // Check for validation errors
+            if (!empty($errors)) {
+                // Return validation errors as JSON response
+                http_response_code(200);
+                echo json_encode(array('errors' => $errors));
+                return;
+            } else {
+                // Update quantity available for specified product
+                $query = "UPDATE products SET quantity_available = quantity_available + $1 WHERE barcode = $2";
+                $this->db->query(
+                    $query,
+                    intval(1),
+                    intval($_POST["barcode"])
+                );
+            }
+        } else {
+            // Invalid request method
+            http_response_code(405);
+            echo json_encode(array('error' => 'Invalid request method'));
+            return;
+        }
+    }
+
 
     public function showLogin() {
         $errorMessage = "";
         if (!empty($this->errorMessage)) {
             $errorMessage = "<div class='alert alert-danger'>{$this->errorMessage}</div>";
         }
-        // include '/opt/src/pourpro/frontend/templates/login.php';
-        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/login.php';
-        include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/login.php';
+        // include '/opt/src/pourpro-test/frontend/templates/login.php';
+        include '/students/xtz3mx/students/xtz3mx/private/pourpro-test/frontend/templates/login.php';
     }
 
     public function showSignUp() {
@@ -236,74 +271,73 @@ class PourProController {
         if (!empty($this->errorMessage)) {
             $errorMessage = "<div class='alert alert-danger'>{$this->errorMessage}</div>";
         }
-        // include '/opt/src/pourpro/templates/signup.php';
-        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/signup.php';
-        include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/signup.php';
+        // include '/opt/src/pourpro-test/templates/signup.php';
+        include '/students/xtz3mx/students/xtz3mx/private/pourpro-test/frontend/templates/signup.php';
     }
 
     public function showProfile() {
-        // include '/opt/src/pourpro/templates/profile.php';
-        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/profile.php';
-        include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/profile.php';
+        // include '/opt/src/pourpro-test/templates/profile.php';
+        // include '/students/jpg5wq/students/jpg5wq/private/pourpro-test/frontend/templates/profile.php';
+        include '/students/xtz3mx/students/xtz3mx/private/pourpro-test/frontend/templates/profile.php';
     }
 
     public function showInventory() {
         $this->getAllProductsFromDatabase();
-        // include '/opt/src/pourpro/frontend/templates/inventory.php';
-        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/inventory.php';
-        include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/inventory.php';
+        // include '/opt/src/pourpro-test/frontend/templates/inventory.php';
+        // include '/students/jpg5wq/students/jpg5wq/private/pourpro-test/frontend/templates/inventory.php';
+        include '/students/xtz3mx/students/xtz3mx/private/pourpro-test/frontend/templates/inventory.php';
     }
 
     public function showDetail($product_id) {
         $productDetails = $this->getProductDetails($product_id);
         $_SESSION['product_details'] = $productDetails;
 
-        // include '/opt/src/pourpro/frontend/templates/detail.php';
-        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/detail.php';
-        include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/detail.php';
+        // include '/opt/src/pourpro-test/frontend/templates/detail.php';
+        // include '/students/jpg5wq/students/jpg5wq/private/pourpro-test/frontend/templates/detail.php';
+        include '/students/xtz3mx/students/xtz3mx/private/pourpro-test/frontend/templates/detail.php';
     }
 
     public function showCustViewProducts() {
-        // include '/opt/src/pourpro/frontend/templates/custViewProducts.php';
-        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/custViewProducts.php';
-        include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/custViewProducts.php';
+        // include '/opt/src/pourpro-test/frontend/templates/custViewProducts.php';
+        // include '/students/jpg5wq/students/jpg5wq/private/pourpro-test/frontend/templates/custViewProducts.php';
+        include '/students/xtz3mx/students/xtz3mx/private/pourpro-test/frontend/templates/custViewProducts.php';
     }
 
     public function showCart() {
-        // include '/opt/src/pourpro/frontend/templates/cart.php';
-        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/cart.php';
-        include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/cart.php';
+        // include '/opt/src/pourpro-test/frontend/templates/cart.php';
+        // include '/students/jpg5wq/students/jpg5wq/private/pourpro-test/frontend/templates/cart.php';
+        include '/students/xtz3mx/students/xtz3mx/private/pourpro-test/frontend/templates/cart.php';
     }
     public function showCheckout() {
-        // include '/opt/src/pourpro/frontend/templates/checkout.php';
-        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/checkout.php';
-        include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/checkout.php';
+        // include '/opt/src/pourpro-test/frontend/templates/checkout.php';
+        // include '/students/jpg5wq/students/jpg5wq/private/pourpro-test/frontend/templates/checkout.php';
+        include '/students/xtz3mx/students/xtz3mx/private/pourpro-test/frontend/templates/checkout.php';
     }
 
     public function showPastOrders() {
         $this->getAllPastOrders();
-        // include '/opt/src/pourpro/frontend/templates/pastOrders.php';
-        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/pastOrders.php';
-        include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/pastOrders.php';
+        // include '/opt/src/pourpro-test/frontend/templates/pastOrders.php';
+        // include '/students/jpg5wq/students/jpg5wq/private/pourpro-test/frontend/templates/pastOrders.php';
+        include '/students/xtz3mx/students/xtz3mx/private/pourpro-test/frontend/templates/pastOrders.php';
     }
     public function showPurchaseHistory() {
         $this->getPurchaseHistory();
-        // include '/opt/src/pourpro/frontend/templates/purchaseHistory.php';
-        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/purchaseHistory.php';
-        include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/purchaseHistory.php';
+        // include '/opt/src/pourpro-test/frontend/templates/purchaseHistory.php';
+        // include '/students/jpg5wq/students/jpg5wq/private/pourpro-test/frontend/templates/purchaseHistory.php';
+        include '/students/xtz3mx/students/xtz3mx/private/pourpro-test/frontend/templates/purchaseHistory.php';
     }
 
     public function showSpendAnalysis() {
         $this->getSpendAnalysis();
-        // include '/opt/src/pourpro/frontend/templates/spendAnalysis.php';
-        // include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/spendAnalysis.php';
-        include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/spendAnalysis.php';
+        // include '/opt/src/pourpro-test/frontend/templates/spendAnalysis.php';
+        // include '/students/jpg5wq/students/jpg5wq/private/pourpro-test/frontend/templates/spendAnalysis.php';
+        include '/students/xtz3mx/students/xtz3mx/private/pourpro-test/frontend/templates/spendAnalysis.php';
     }
     public function showSales(){
         $this->getSales();
-        // include '/opt/src/pourpro/frontend/templates/sales.php';
-        //  include '/students/jpg5wq/students/jpg5wq/private/pourpro/frontend/templates/sales.php';
-        include '/students/xtz3mx/students/xtz3mx/private/pourpro/frontend/templates/sales.php';
+        // include '/opt/src/pourpro-test/frontend/templates/sales.php';
+        //  include '/students/jpg5wq/students/jpg5wq/private/pourpro-test/frontend/templates/sales.php';
+        include '/students/xtz3mx/students/xtz3mx/private/pourpro-test/frontend/templates/sales.php';
     }
     private function getProductDetails($product_id) {
         $details = $this->db->query("SELECT * from products WHERE product_id = $1", $product_id);
@@ -536,8 +570,8 @@ class PourProController {
                 return;
             } else {
                 $this->db->query(
-                    "insert into products (product_name, category, brand, volume, unit_price, supply_price, quantity_available, image_link) 
-                    values ($1, $2, $3, $4, $5,$6,$7,$8);",
+                    "insert into products (product_name, category, brand, volume, unit_price, supply_price, quantity_available, barcode, image_link) 
+                    values ($1, $2, $3, $4, $5,$6,$7,$8, $9);",
                     $_POST["product_name"],
                     $_POST["category"],
                     $_POST["brand"],
@@ -545,6 +579,7 @@ class PourProController {
                     floatval($_POST["unit_price"]),
                     floatval($_POST["supply_price"]),
                     floatval($_POST["quantity_available"]),
+                    $_POST["barcode"],
                     $_POST["image_link"]
                 );
                 // Return success message as JSON response
@@ -729,8 +764,9 @@ class PourProController {
                 unit_price = $5,
                 supply_price = $6,
                 quantity_available = $7,
-                image_link = $8
-                WHERE product_id = $9";
+                image_link = $8,
+                barcode = $9
+                WHERE product_id = $10";
 
                 $this->db->query(
                     $query,
@@ -742,6 +778,7 @@ class PourProController {
                     floatval($_POST["supply_price"]),
                     floatval($_POST["quantity_available"]),
                     $_POST["image_link"],
+                    $_POST["barcode"],
                     intval($_POST["product_id"])
                 );
 

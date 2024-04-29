@@ -62,8 +62,21 @@
             font-weight: bold;
             padding: 4px;
         }
-    </style>
 
+        .inventory-controls .btn {
+            background-color: #00848a;
+            color: white;
+        }
+
+        .inventory-controls .btn:hover {
+            background-color: #00c4cc; 
+            color: #222831;
+        }
+
+        .dropdown-menu .dropdown-item:hover {
+            background-color: #00c4cc;
+        }
+    </style>
 </head>
 <body>
   <div class="wrapper">
@@ -109,7 +122,7 @@
                     <tr>
                       <th>ID</th>
                       <th>Product Name</th>
-                      <th>Category</th>
+                      <th>Barcode</th>
                       <th>Brand</th>
                       <th>Quantity</th>
                       <th>Supply Price</th>
@@ -120,16 +133,29 @@
                     <tr>
                         <td><?php echo $_SESSION["product_details"]["product_id"]?></td>
                         <td><?php echo $_SESSION["product_details"]["product_name"] ?></td>
-                        <td><?php echo $_SESSION["product_details"]["category"] ?></td>
+                        <td><?php echo $_SESSION["product_details"]["barcode"] ?></td>
                         <td><?php echo $_SESSION["product_details"]["brand"] ?></td>
                         <td><?php echo $_SESSION["product_details"]["quantity_available"] ?></td>
                         <td><?php echo $_SESSION["product_details"]["supply_price"] ?></td>
                         <td>
-                          <div class="d-flex justify-content-evenly">
-                            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#orderModal" data-product='<?php echo json_encode($_SESSION["product_details"]); ?>'>Order</button>
-                            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#updateProductModal" data-product='<?php echo json_encode($_SESSION["product_details"]); ?>'>Edit</button>
-                            <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-product='<?php echo json_encode($_SESSION["product_details"]); ?>'>Delete</button>
-                          </div>
+                            <div class="btn-group">
+                                <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                </button>
+                                <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#orderModal" data-product='<?php echo json_encode($_SESSION["products"][$i]); ?>'>Order</a>
+                                </li>
+                                <li>
+                                    <a href="?command=detail&product_id=<?php echo $_SESSION["products"][$i]["product_id"]; ?>" class="dropdown-item">View</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#updateProductModal" data-product='<?php echo json_encode($_SESSION["products"][$i]); ?>'>Edit</a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteConfirmationModal" data-product='<?php echo json_encode($_SESSION["products"][$i]); ?>'>Delete</a>
+                                </li>
+                                </ul>
+                            </div>
                         </td>
                     </tr>
                 </tbody>

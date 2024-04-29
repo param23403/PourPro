@@ -62,22 +62,46 @@
               </div>
             </div>
 
-            <div class="form-group mb-4">
-              <label class="form-label" for="id_unit_price">Unit Price</label>
-              <input type="text" id="id_unit_price" class="form-control modal-input" name="unit_price">
+            <div class="row">
+              <div class="col-md-6">
+                <!-- Unit Price -->
+                <div class="form-group mb-4">
+                  <label class="form-label" for="id_unit_price">Unit Price</label>
+                  <input type="text" id="id_unit_price" class="form-control modal-input" name="unit_price" data-default-value="">
                   <span class="text-danger unit_price_error"></span>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <!-- Supply Price -->
+                <div class="form-group mb-4">
+                  <label class="form-label" for="id_supply_price">Supply Price</label>
+                  <input type="text" id="id_supply_price" class="form-control modal-input" name="supply_price" data-default-value="">
+                  <span class="text-danger supply_price_error"></span>
+                </div>
+              </div>
             </div>
 
-            <!-- Field-->
-            <div class="form-group mb-4">
-              <label class="form-label" for="id_supply_price">Supply Price</label>
-              <input type="text" id="id_supply_price" class="form-control modal-input" name="supply_price">
-                <span class="text-danger supply_price_error"></span>
+            <div class="row">
+              <div class="col">
+                <!--Barcode-->
+                <div class="form-group mb-4">
+                  <label class="form-label" for="id_barcode">Barcode</label>
+                  <input type="text" id="id_barcode" class="form-control modal-input" name="barcode" data-default-value="">
+                  <span class="text-danger barcode_error"></span>
+                </div>
+              </div>
             </div>
-            <div class="form-group mb-4">
-              <label class="form-label" for="id_image_link">Image Link</label>
-              <input type="text" id="id_image_link" class="form-control modal-input" name="image_link">
-                <span class="text-danger image_link_error"></span>
+
+            <div class="row">
+              <div class="col">
+                <!--Image Link-->
+                <div class="form-group mb-4">
+                  <label class="form-label" for="id_image_link">Image link</label>
+                  <input type="text" id="id_image_link" class="form-control modal-input" name="image_link" data-default-value="">
+                  <span class="text-danger image_link_error"></span>
+                </div>
+              </div>
             </div>
 
             <div class="modal-footer">
